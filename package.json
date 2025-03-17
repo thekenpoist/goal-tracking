@@ -1,0 +1,25 @@
+{
+  "name": "goal-tracking",
+  "version": "1.0.0",
+  "description": "Goal tracking and productivity app",
+  "main": "app.js",
+  "scripts": {
+    "test": "node test.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thekenpoist/goal-tracking.git"
+  },
+  "author": "Steve Hull",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/thekenpoist/goal-tracking/issues"
+  },
+  "homepage": "https://github.com/thekenpoist/goal-tracking#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "nodemon": "^3.1.9"
+  }
+}
