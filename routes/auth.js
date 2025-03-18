@@ -14,4 +14,8 @@ router.post('/auth/logout', (req, res, next) => {
     res.redirect('/');
 });
 
+router.post('/auth/forgot-password', (req, res, next) => {
+    res.redirect('/');
+});
+
 module.exports = router;
