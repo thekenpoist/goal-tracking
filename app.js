@@ -1,16 +1,13 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
 
-app.use('/user', (req, res, next) => {
-    console.log('User middleware');
-    res.send('<h1>User page!</h1>');
-});
+const authRoutes = require('./routes/auth');
 
-app.use('/', (req, res, next) => {
-    console.log('Home middleware!');
-    res.send('<h1>Home page!</h1>');
-});
+app.use(bodyParser.urlencoded({extended: false}));
+
+app.use(authRoutes);
 
 app.listen(3000)
 
