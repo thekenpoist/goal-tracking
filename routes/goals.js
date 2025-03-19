@@ -7,7 +7,7 @@ router.get('/goals', (req, res, next) => {
 });
 
 router.post('/goals', (req, res, next) => {
-    res.redirect('/');
+    res.send('<h1>This is the create a new goal page</h1>');
 });
 
 module.exports = router;

@@ -3,19 +3,23 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const authRoutes = require('./routes/auth');
-const goalsRoutes = require('./routes/goals');
-const userRoutes = require('./routes/user');
+const authRouter = require('./routes/auth');
+const goalsRouter = require('./routes/goals');
+const userRouter = require('./routes/user');
+const indexRouter = require('./routes/index');
+
+app.use('/auth', authRouter);
+app.use('/goals', goalsRouter);
+app.use('/user', userRouter);
+app.use('/', indexRouter);
 
 app.use(bodyParser.urlencoded({extended: false}));
-
-app.use(authRoutes);
-app.use(goalsRoutes);
-app.use(userRoutes);
 
 app.use((req, res, next) => {
     res.status(404).send('<h1>Page not found</h1>');
 });
 
-app.listen(3000)
+
+
+app.listen(3000);
 
