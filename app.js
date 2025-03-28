@@ -5,7 +5,7 @@ const app = express();
 
 const authRouter = require('./routes/auth');
 const goalsRouter = require('./routes/goals');
-const userRouter = require('./routes/user');
+const userRouter = require('./routes/users');
 const indexRouter = require('./routes/index');
 
 app.use('/auth', authRouter);
