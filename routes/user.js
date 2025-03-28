@@ -3,15 +3,15 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/profile', (req, res, next) => {
-    res.send('<h1>This will be the profile page</h1>');
+    res.status(200).json({ message: 'This will be the profile page' });
 });
 
 router.put('/profile', (req, res, next) => {
-    res.send('<h1>This will display the updated profile page</h1>');
+    res.status(200).json({ message: 'This will display the updated profile page' });
 });
 
 router.delete('/account', (req, res, next) => {
-    res.send('<h1>Account deletion process will go here</h1>');
+    res.status(200).json({ message: 'Account deletion process will go here' });
 });
 
 module.exports = router;
