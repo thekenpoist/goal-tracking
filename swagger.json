@@ -1,0 +1,19 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "Goal Tracker API",
+      "version": "1.0.0"
+    },
+    "paths": {
+      "/goals": {
+        "get": {
+          "summary": "Retrieve all goals",
+          "responses": {
+            "200": {
+              "description": "A list of goals"
+            }
+          }
+        }
+      }
+    }
+  }
