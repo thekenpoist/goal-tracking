@@ -10,13 +10,13 @@ const indexRouter = require('./routes/index');
 
 app.use('/auth', authRouter);
 app.use('/goals', goalsRouter);
-app.use('/user', userRouter);
+app.use('/users', userRouter);
 app.use('/', indexRouter);
 
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use((req, res, next) => {
-    res.status(404).send('<h1>Page not found</h1>');
+    res.status(404).json({ error: 'Page not found' });
 });
 
 
