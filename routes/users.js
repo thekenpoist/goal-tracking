@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/profile', (req, res, next) => {
-    res.status(200).json({ message: 'This will be the profile page' });
+    res.render( 'profile', { title: 'Profile', currentPage: 'profile' });
 });
 
 router.put('/profile', (req, res, next) => {

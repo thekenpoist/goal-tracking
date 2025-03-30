@@ -4,14 +4,12 @@ header(class="bg-red-100 text-gray-900 shadow p-4 mb-6")
   nav.mt-2
     ul.flex.space-x-4
       li
-        //a(class="text-black hover:text-yellow-700 transition" href="/") Home
         a(class=(currentPage === 'home' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition') href="/") Home
       li
-        //a(class="text-black hover:text-yellow-700 transition" href="/goals") Goals
         a(class=(currentPage === 'goals' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition') href="/goals") Goals
       li
         //a(class="text-black hover:text-yellow-700 transition" href="/users/profile") Profile
-        a(class=(currentPage === 'home' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition') href="/") Home
+        a(class=(currentPage === 'profile' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition') href="/users/profile") Profile
       li
         //a(class="text-black hover:text-yellow-700 transition" href="/auth/login") Login
         a(class=(currentPage === 'home' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition') href="/") Home

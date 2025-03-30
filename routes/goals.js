@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-    res.render('goals', { title: 'goals', currentPage: 'goals'});
+    res.render('goals', { title: 'Goals', currentPage: 'goals'});
 });
 
 router.post('/', (req, res, next) => {
