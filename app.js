@@ -5,10 +5,10 @@ const path = require('path');
 
 const app = express();
 
-const authRouter = require('./routes/auth');
-const goalsRouter = require('./routes/goals');
-const userRouter = require('./routes/users');
-const indexRouter = require('./routes/index');
+//const authRouter = require('./routes/auth');
+//const goalsRouter = require('./routes/goals');
+//const userRouter = require('./routes/users');
+const homeRouter = require('./routes/index');
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
