@@ -32,7 +32,7 @@ module.exports = class User {
         this.updatedAt = updatedAt || new Date().toISOString();
         this.goals = goals || [];
     }
-    save() {
+    saveUsers() {
         getUsersFromFile(users => {
             users.push(this);
             fs.writeFile(p, JSON.stringify(users), err => {
@@ -44,7 +44,7 @@ module.exports = class User {
         getUsersFromFile(cb);
     }
 
-    static getUserByID(IdleDeadline, cb) {
+    static getUserByID(id, cb) {
         getUsersFromFile(users => {
             const user = users.find(u => u.uuid === id);
             cb(user);
