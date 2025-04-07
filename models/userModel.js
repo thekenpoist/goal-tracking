@@ -3,6 +3,22 @@ const path = require('path');
 
 const p = path.join(__dirname, '..', 'data', 'users.json');
 
+const getUsersFromFile = (cb) => {
+    fs.readFile(p, (err, fileContent) => {
+        if (err) {
+            return cb([]);
+        }
+        try {
+            const users = JSON.parse(fileContent);
+            cb(users);
+        } catch(e) {
+            console.error('Invalid JSON, returning empty array');
+            cb([]);
+        }
+    });
+};
+
+
 module.exports = class User {
     constructor(id, username, email, passwordHash, realName, avatar, createdAt, updatedAt, goals) {
         this.id = id;
