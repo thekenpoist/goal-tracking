@@ -1,7 +1,9 @@
 const fs = require('fs');
 const path = require('path');
+const { randomUUID } = require('crypto');
 
 const p = path.join(__dirname, '..', 'data', 'users.json');
+
 
 const getUsersFromFile = (cb) => {
     fs.readFile(p, (err, fileContent) => {
@@ -19,16 +21,16 @@ const getUsersFromFile = (cb) => {
 };
 
 module.exports = class User {
-    constructor(id, username, email, passwordHash, realName, avatar, createdAt, updatedAt, goals) {
-        this.id = id;
+    constructor(uuid, username, email, passwordHash, realName, avatar, createdAt, updatedAt, goals) {
+        this.uuid = uuid || randomUUID();
         this.username = username;
         this.email = email;
         this.passwordHash = passwordHash;
         this.realName = realName;
         this.avatar = avatar;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.goals = goals;
+        this.createdAt = createdAt || new Date().toISOString();
+        this.updatedAt = updatedAt || new Date().toISOString();
+        this.goals = goals || [];
     }
     save() {
         getUsersFromFile(users => {
@@ -42,4 +44,14 @@ module.exports = class User {
         getUsersFromFile(cb);
     }
 
+    static getUserByID(IdleDeadline, cb) {
+        getUsersFromFile(users => {
+            const user = users.find(u => u.uuid === id);
+            cb(user);
+        });
+    }
+
 };
+
+
+
