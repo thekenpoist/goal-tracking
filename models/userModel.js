@@ -32,6 +32,7 @@ module.exports = class User {
         this.updatedAt = updatedAt || new Date().toISOString();
         this.goals = goals || [];
     }
+
     saveUsers() {
         getUsersFromFile(users => {
             users.push(this);
@@ -40,6 +41,7 @@ module.exports = class User {
             });
         });
     }
+
     static fetchAll(cb) {
         getUsersFromFile(cb);
     }
@@ -47,6 +49,13 @@ module.exports = class User {
     static getUserByID(id, cb) {
         getUsersFromFile(users => {
             const user = users.find(u => u.uuid === id);
+            cb(user);
+        });
+    }
+
+    static getUserByUserName(username, cb) {
+        getUsersFromFile(users => {
+            const user = users.find(un => un.username === username);
             cb(user);
         });
     }
