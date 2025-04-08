@@ -80,6 +80,43 @@ module.exports = class User {
         return newUser;
     }
 
+    static async updateUser(id, updatedFields) {
+        const users = await getUsersFromFile();
+        
+        const userIndex = users.findIndex(u => u.uuid === id);
+        if (userIndex === -1) {
+            return null;
+        }
+
+        const duplicate = users.some(u => u.uuid !== id && (
+            (updatedFields.username && u.username === updatedFields.username) ||
+            (updatedFields.email && u.email === updatedFields.email)
+        ));
+
+        if (duplicate) {
+            throw new Error('Username or email already in use by another user.');
+        }
+
+        const { uuid, createdAt, updatedAt, ...safeFields } = updatedFields;
+
+        const existingUser = users[userIndex];
+        const updatedUser = {
+            ...existingUser,
+            ...safeFields,
+            updatedAt: new Date().toISOString()
+        };
+
+        users[userIndex] = updatedUser;
+
+        try {
+            await fsPromises.writeFile(p, JSON.stringify(users, null, 2));
+            return updatedUser;
+        } catch (err) {
+            console.error('Write error during updateUser', err);
+            throw err;
+        }
+    }
+
 };
 
 
