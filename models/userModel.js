@@ -1,25 +1,20 @@
-const fs = require('fs');
+const fsPromises = require('fs').promises;
 const path = require('path');
 const { randomUUID } = require('crypto');
 
 const p = path.join(__dirname, '..', 'data', 'users.json');
 
 
-const getUsersFromFile = (cb) => {
-    fs.readFile(p, (err, fileContent) => {
-        if (err) {
-            return cb([]);
-        }
-        try {
-            const users = JSON.parse(fileContent);
-            cb(users);
-        } catch(e) {
-            console.error('Invalid JSON, returning empty array');
-            cb([]);
-        }
-    });
+const getUsersFromFile = async () => {
+    try {
+        const fileContent = await fsPromises.readFile(p, 'utf-8');
+        return JSON.parse(fileContent);
+    } catch (err) {
+        console.warn('Error reading users.json, returning empty array');
+        return [];
+    }
 };
-
+   
 module.exports = class User {
     constructor(uuid, username, email, passwordHash, realName, avatar, createdAt, updatedAt, goals) {
         this.uuid = uuid || randomUUID();
@@ -33,31 +28,28 @@ module.exports = class User {
         this.goals = goals || [];
     }
 
-    saveUsers() {
-        getUsersFromFile(users => {
-            users.push(this);
-            fs.writeFile(p, JSON.stringify(users), err => {
-                if (err) console.log(err);
-            });
-        });
+    async saveUsers() {
+        const users = await getUsersFromFile();
+        users.push(this);
+        try {
+            await fsPromises.writeFile(p, JSON.stringify(users, null, 2));
+        } catch (err) {
+            console.error('Write error', err);
+        }
     }
 
-    static fetchAll(cb) {
-        getUsersFromFile(cb);
+    static async fetchAll() {
+        return getUsersFromFile();
     }
 
-    static getUserByID(id, cb) {
-        getUsersFromFile(users => {
-            const user = users.find(u => u.uuid === id);
-            cb(user);
-        });
+    static async getUserByID(id) {
+        const users = await getUsersFromFile();
+        return users.find(u => u.uuid === id);
     }
 
-    static getUserByUserName(username, cb) {
-        getUsersFromFile(users => {
-            const user = users.find(un => un.username === username);
-            cb(user);
-        });
+    static async getUserByUsername(username) {
+        const users = await getUsersFromFile();
+        return users.find(u => u.username === username);
     }
 
 };
