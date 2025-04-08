@@ -1,6 +1,7 @@
 const fsPromises = require('fs').promises;
 const path = require('path');
 const { randomUUID } = require('crypto');
+const { error } = require('console');
 
 const p = path.join(__dirname, '..', 'data', 'users.json');
 
@@ -50,6 +51,33 @@ module.exports = class User {
     static async getUserByUsername(username) {
         const users = await getUsersFromFile();
         return users.find(u => u.username === username);
+    }
+
+    static addUser(userData) {
+
+    }
+
+    static async addUser({ username, email, passwordHash, realName, avatar}) {
+        const users = await getUsersFromFile();
+
+        const usernameTaken = users.some(u => u.username === username);
+        const emailTaken = users.some(u => u.email === email);
+
+        if (usernameTaken || emailTaken) {
+            throw new Error('Username or email already exists');
+        }
+
+        const newUser = new User(
+            null,
+            username,
+            email,
+            passwordHash,
+            realName,
+            avatar
+        );
+
+        await newUser.saveUsers();
+        return newUser;
     }
 
 };
