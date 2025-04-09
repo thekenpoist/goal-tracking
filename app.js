@@ -8,6 +8,8 @@ const expressLayouts = require('express-ejs-layouts');
 //const authRouter = require('./routes/auth');
 //const goalsRouter = require('./routes/goals');
 //const userRouter = require('./routes/users');
+
+const errorController = require('./controllers/errorController');
 const homeRouter = require('./routes/homeRoutes');
 const { error } = require('console');
 
