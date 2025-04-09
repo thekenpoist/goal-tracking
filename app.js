@@ -9,6 +9,7 @@ const expressLayouts = require('express-ejs-layouts');
 //const goalsRouter = require('./routes/goals');
 //const userRouter = require('./routes/users');
 const homeRouter = require('./routes/homeRoutes');
+const { error } = require('console');
 
 const app = express();
 
@@ -34,11 +35,7 @@ app.use('/', homeRouter);
 
 app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 
-
-app.use((req, res, next) => {
-    res.status(404).json({ error: 'Page not found' });
-});
-
+app.use(errorController.get404);
 
 app.listen(3000);
 
