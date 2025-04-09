@@ -117,6 +117,25 @@ module.exports = class User {
         }
     }
 
+    static async deleteUser(id) {
+        const users = await getUsersFromFile();
+
+        const userIndex = users.findIndex(u => u.uuid === id);
+        if (userIndex === -1) {
+            return false;
+        }
+
+        users.splice(userIndex, 1);
+
+        try {
+            await fsPromises.writeFile(p, JSON.stringify(users, null, 2));
+            return true;
+        } catch (err) {
+            console.error('Write error during deleteUser:', err);
+            throw err;
+        }
+    }
+
 };
 
 
