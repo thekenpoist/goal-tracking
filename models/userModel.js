@@ -53,10 +53,6 @@ module.exports = class User {
         return users.find(u => u.username === username);
     }
 
-    static addUser(userData) {
-
-    }
-
     static async addUser({ username, email, passwordHash, realName, avatar}) {
         const users = await getUsersFromFile();
 
