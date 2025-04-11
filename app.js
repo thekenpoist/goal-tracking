@@ -4,13 +4,10 @@ const swaggerui = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const expressLayouts = require('express-ejs-layouts');
 
-
-//const authRouter = require('./routes/auth');
-//const goalsRouter = require('./routes/goals');
-//const userRouter = require('./routes/users');
-
 const errorController = require('./controllers/errorController');
 const homeRouter = require('./routes/homeRoutes');
+const userRouter = require('./routes/userRoutes');
+
 const { error } = require('console');
 
 const app = express();
@@ -30,9 +27,7 @@ app.use((req, res, next) => {
     next();
 });
 
-//app.use('/auth', authRouter);
-//app.use('/goals', goalsRouter);
-//app.use('/users', userRouter);
+app.use('/profiles', userRouter);
 app.use('/', homeRouter);
 
 app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));

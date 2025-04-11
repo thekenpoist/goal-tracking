@@ -7,3 +7,14 @@ exports.getUserById = (req, res, next) => {
         res.render('users/profile', { user });
     });
 };
+
+exports.getAddUser = (req, res, next) => {
+    res.render('profiles/new-profile', {
+        pageTitle: "Create Profile"
+    });
+};
+
+exports.postAddUser = (req, res, next) => {
+    console.log(req.body);
+    res.redirect('/');
+};
