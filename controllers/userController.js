@@ -27,7 +27,7 @@ exports.postAddUser = async (req, res, next) => {
             avatar
         });
 
-        res.redirect('/');
+        res.redirect('/profiles/${newUser.uuid)');
     } catch (err) {
         console.error('Error adding user:', err);
         res.status(500).send('Failed to create user');
