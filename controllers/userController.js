@@ -16,6 +16,13 @@ exports.getAddUser = (req, res, next) => {
 };
 
 exports.postAddUser = (req, res, next) => {
-    console.log(req.body);
+    const username = req.body.username;
+    const email = req.body.email;
+    const password = req.body.password;
+    const realName = req.body.realName;
+    const avatar = req.body.avatar;
+
+    const user = new User(null, username, email, password, realName, avatar);
+    user.saveUsers();
     res.redirect('/');
 };
