@@ -1,10 +1,10 @@
 <h1 class="text-2xl font-bold mb-4">
-    <%= user.realName && user.realName.trim() !== '' ? user.realName : 'Unamed User' %>'s Profile</h1>
+    <%= user.realName?.trim() !== '' ? user.realName : 'Unnamed User' %>'s Profile</h1>
 
 <div class="space-y-2">
     <p><strong>Username:</strong> <%= user.username %></p>
     <p><stromg>Email:</stromg> <%= user.email %></p>
-    <p><strong>Avatar:</strong></p> <% if (user.avatar && user.avatart.trim() !== '') { %>
+    <p><strong>Avatar:</strong></p> <% if (user.avatar && user.avatar.trim() !== '') { %>
     <img src="<%= user.avatar %>" alt="User Avatar" class="w-32 h-32 rounded-full" />
     <% } else { %>
         <p><em>No avatar provided</em></p>
