@@ -29,8 +29,13 @@ exports.postAddUser = async (req, res, next) => {
 
         res.redirect(`/profiles/${newUser.uuid}`);
     } catch (err) {
-        console.error('Error adding user:', err);
-        res.status(500).send('Failed to create user');
+        console.error('Error adding user:', err.message);
+        res.status(400).render('profiles/new-profile', {
+            pageTitle: 'Create Profile',
+            currentPage: 'profile',
+            errorMessage: err.message,
+            formData: req.body
+        });
     }
 
 };
