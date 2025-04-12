@@ -1,4 +1,5 @@
-<h1 class="text-2xl font-bold mb-4"><%= user.realName %>'s Profile</h1>
+<h1 class="text-2xl font-bold mb-4">
+    <%= user.realName && user.realName.trim() !== '' ? user.realName : 'Unamed User' %>'s Profile</h1>
 
 <div class="space-y-2">
     <p><strong>Username:</strong> <%= user.username %></p>
