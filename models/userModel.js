@@ -43,7 +43,7 @@ module.exports = class User {
         return getUsersFromFile();
     }
 
-    static async getUserByID(id) {
+    static async getUserById(id) {
         const users = await getUsersFromFile();
         return users.find(u => u.uuid === id);
     }

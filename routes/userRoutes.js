@@ -9,5 +9,7 @@ router.get('/new-profile', userController.getAddUser);
 
 router.post('/', userController.postAddUser);
 
+router.get('/:userId', userController.getUserById)
+
 
 module.exports = router;

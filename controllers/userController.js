@@ -34,3 +34,24 @@ exports.postAddUser = async (req, res, next) => {
     }
 
 };
+
+exports.getUserById = async (req, res, next) => {
+    const userID = req.params.userID;
+
+    try {
+        const user = await User.getUserById(userID);
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        res.render('profiles/show-profile', {
+            pageTitle: 'User Profile',
+            user,
+            currentPage: 'profile'
+        });
+    } catch (err) {
+        console.error('Error fetching user by ID:', err);
+        res.status(500).send('Server error');
+    }
+};
