@@ -15,14 +15,22 @@ exports.getAddUser = (req, res, next) => {
     });
 };
 
-exports.postAddUser = (req, res, next) => {
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-    const realName = req.body.realName;
-    const avatar = req.body.avatar;
+exports.postAddUser = async (req, res, next) => {
+    const { username, email, password, realName, avatar } = req.body;
 
-    const user = new User(null, username, email, password, realName, avatar);
-    user.saveUsers();
-    res.redirect('/');
+    try {
+        await User.addUser({
+            username,
+            email,
+            passwordHash: password,
+            realName,
+            avatar
+        });
+
+        res.redirect('/');
+    } catch (err) {
+        console.error('Error adding user:', err);
+        res.status(500).send('Failed to create user');
+    }
+
 };
