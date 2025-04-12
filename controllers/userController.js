@@ -26,8 +26,6 @@ exports.postAddUser = async (req, res, next) => {
             realName,
             avatar
         });
-        console.log('Saving user with UUID:', newUser.uuid); //delete
-        console.log('[postAddUser] Redirecting to UUID:', newUser.uuid); //delete
 
         res.redirect(`/profiles/${newUser.uuid}`);
     } catch (err) {
@@ -39,7 +37,6 @@ exports.postAddUser = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
     const userId = req.params.userId;
-    console.log('[getUserById] Looking for user ID:', userId); //delete
 
     try {
         const user = await User.getUserById(userId);
@@ -53,7 +50,6 @@ exports.getUserById = async (req, res, next) => {
             user,
             currentPage: 'profile'
         });
-        console.log('Looking for user with ID:', userId); //delete
     } catch (err) {
         console.error('Error fetching user by ID:', err);
         res.status(500).send('Server error');

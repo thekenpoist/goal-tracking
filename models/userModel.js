@@ -32,8 +32,6 @@ module.exports = class User {
     async saveUsers() {
         const users = await getUsersFromFile();
         users.push(this);
-        console.log('[saveUsers] Saving user:', this.username); //delete
-        console.log('[saveUsers] Final user list length:', users.length); //delete
         try {
             await fsPromises.writeFile(p, JSON.stringify(users, null, 2));
         } catch (err) {
@@ -58,12 +56,6 @@ module.exports = class User {
     static async addUser({ username, email, passwordHash, realName, avatar}) {
         const users = await getUsersFromFile();
 
-        console.log('[addUser] Checking for existing username/email...'); //delete
-        console.log('[addUser] Current usernames:', users.map(u => u.username)); //delete
-        console.log('[addUser] Current emails:', users.map(u => u.email)); //delete
-
-
-
         const usernameTaken = users.some(u => u.username === username);
         const emailTaken = users.some(u => u.email === email);
 
@@ -79,7 +71,6 @@ module.exports = class User {
             realName,
             avatar
         );
-        console.log('[addUser] New user created with UUID:', newUser.uuid); //delete
 
         await newUser.saveUsers();
         return newUser;

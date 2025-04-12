@@ -130,5 +130,16 @@
     "createdAt": "2025-04-12T17:28:21.651Z",
     "updatedAt": "2025-04-12T17:28:21.651Z",
     "goals": []
+  },
+  {
+    "uuid": "8702cee1-9b58-4723-8e60-f376879fcbbf",
+    "username": "goot",
+    "email": "goot@goot.com",
+    "passwordHash": "afadsfgsdfgfdgh",
+    "realName": "gooty",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:36:58.145Z",
+    "updatedAt": "2025-04-12T17:36:58.145Z",
+    "goals": []
   }
 ]
