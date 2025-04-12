@@ -1,14 +1,19 @@
 <h1 class="text-2xl font-bold mb-4">Create New Profile</h1>
+<% if (errorMessage) { %>
+    <div class="text-red-600 bg-red-100 border border-red-400 p-4 rounded mb-6">
+        <%= errorMessage %>
+    </div>
+<% } %>
 <form action="/profiles" method="POST" class="space-y-4">
     <div class="mb-4">
         <label for="username" class="block text-gray-700 font-semibold mb-2">Username</label>
-        <input type="text" id="username" name="username" required
+        <input type="text" id="username" name="username" required value="<%= formData?.username || '' %>"
              class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
         />  
     </div>
     <div class="mb-4">
         <label for="email" class="block text-gray-700 font-semibold mb-2">Email Address</label>
-        <input type="email" id="email" name="email" required
+        <input type="email" id="email" name="email" required value="<%= formData?.email || '' %>"
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
         />
     </div>
@@ -20,13 +25,13 @@
     </div>
     <div class="mb-4">
         <label for="realName" class="block text-gray-700 font-semibold mb-2">Full Name</label>
-        <input type="text" id="realName" name="realName" autocomplete="name"
+        <input type="text" id="realName" name="realName" autocomplete="name" value="<%= formData?.realName || '' %>"
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
         />
     </div>
     <div class="mb-4">
         <label for="avatar" class="block text-gray-700 font-semibold mb-2">Avatar</label>
-        <input type="url" id="avatar" name="avatar" placeholder="https://example.com/my_avatar.jpg"
+        <input type="url" id="avatar" name="avatar" placeholder="https://example.com/my_avatar.jpg" value="<%= formData?.avatar || '' %>"
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
         />
     </div>
