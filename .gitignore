@@ -129,5 +129,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-# Some JSON files
-data/users.json
+# Data directory
+data/
