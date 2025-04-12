@@ -11,7 +11,9 @@ exports.getUserById = (req, res, next) => {
 exports.getAddUser = (req, res, next) => {
     res.render('profiles/new-profile', {
         pageTitle: "Create Profile",
-        currentPage: 'profile'
+        currentPage: 'profile',
+        errorMessage: null,
+        formData: {}
     });
 };
 
