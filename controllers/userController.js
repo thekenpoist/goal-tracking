@@ -19,15 +19,17 @@ exports.postAddUser = async (req, res, next) => {
     const { username, email, password, realName, avatar } = req.body;
 
     try {
-        await User.addUser({
+        const newUser = await User.addUser({
             username,
             email,
             passwordHash: password,
             realName,
             avatar
         });
+        console.log('Saving user with UUID:', newUser.uuid); //delete
+        console.log('[postAddUser] Redirecting to UUID:', newUser.uuid); //delete
 
-        res.redirect('/profiles/${newUser.uuid)');
+        res.redirect(`/profiles/${newUser.uuid}`);
     } catch (err) {
         console.error('Error adding user:', err);
         res.status(500).send('Failed to create user');
@@ -36,10 +38,11 @@ exports.postAddUser = async (req, res, next) => {
 };
 
 exports.getUserById = async (req, res, next) => {
-    const userID = req.params.userID;
+    const userId = req.params.userId;
+    console.log('[getUserById] Looking for user ID:', userId); //delete
 
     try {
-        const user = await User.getUserById(userID);
+        const user = await User.getUserById(userId);
 
         if (!user) {
             return res.status(404).send('User not found');
@@ -50,6 +53,7 @@ exports.getUserById = async (req, res, next) => {
             user,
             currentPage: 'profile'
         });
+        console.log('Looking for user with ID:', userId); //delete
     } catch (err) {
         console.error('Error fetching user by ID:', err);
         res.status(500).send('Server error');

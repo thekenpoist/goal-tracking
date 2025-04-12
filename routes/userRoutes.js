@@ -6,10 +6,11 @@ const userController = require('../controllers/userController');
 const router = express.Router();
 
 router.get('/new-profile', userController.getAddUser);
+router.get('/:userId', userController.getUserById);
 
 router.post('/', userController.postAddUser);
 
-router.get('/:userId', userController.getUserById)
+
 
 
 module.exports = router;

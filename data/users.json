@@ -1,13 +1,134 @@
 [
   {
-    "uuid": "1321efae-e66c-4e37-8299-b8097bacfd7a",
-    "username": "waywardcowboy",
-    "email": "hunkiefred@mail.com",
-    "passwordHash": "asfl;kjsadflkj",
+    "uuid": "b48528d3-2060-4a37-ab42-66ccfdd44ad3",
+    "username": "johnnyboy",
+    "email": "shull42@wgu.edu",
+    "passwordHash": "asfsadfasdfsadf",
+    "realName": "Johj john",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T16:57:06.465Z",
+    "updatedAt": "2025-04-12T16:57:06.465Z",
+    "goals": []
+  },
+  {
+    "uuid": "df8c1a9a-fda9-41b8-ad9a-684f2b4e1494",
+    "username": "thekenpoist",
+    "email": "sifu@kenpokicks.com",
+    "passwordHash": "asfsadfasdfsadf",
     "realName": "Steve Hull",
     "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
-    "createdAt": "2025-04-12T16:38:42.709Z",
-    "updatedAt": "2025-04-12T16:38:42.710Z",
+    "createdAt": "2025-04-12T17:00:58.624Z",
+    "updatedAt": "2025-04-12T17:00:58.624Z",
+    "goals": []
+  },
+  {
+    "uuid": "dbee0669-3c9a-4634-a05b-d6df1967c6f6",
+    "username": "LPI000579876",
+    "email": "hunkiefred@mail.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "Fred Schwartz",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:07:00.817Z",
+    "updatedAt": "2025-04-12T17:07:00.817Z",
+    "goals": []
+  },
+  {
+    "uuid": "b556f0f7-9649-4b63-9ccc-875deb1841af",
+    "username": "foo",
+    "email": "foo@foo.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "stank",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:08:25.553Z",
+    "updatedAt": "2025-04-12T17:08:25.553Z",
+    "goals": []
+  },
+  {
+    "uuid": "8bc254fc-d4e9-4b59-811f-aea43b25be56",
+    "username": "food",
+    "email": "food@foo.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "stank",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:10:52.565Z",
+    "updatedAt": "2025-04-12T17:10:52.565Z",
+    "goals": []
+  },
+  {
+    "uuid": "5debbd38-3d9e-41c2-9e86-254d229a9ce6",
+    "username": "foot",
+    "email": "foot@foo.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "stank",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:11:22.686Z",
+    "updatedAt": "2025-04-12T17:11:22.686Z",
+    "goals": []
+  },
+  {
+    "uuid": "81bcb699-9b78-4320-99c7-4e398637d73c",
+    "username": "foog",
+    "email": "footg@foo.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "stank",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:12:36.327Z",
+    "updatedAt": "2025-04-12T17:12:36.327Z",
+    "goals": []
+  },
+  {
+    "uuid": "72ceb115-2ffb-49ba-b6d9-c1e452fa3b73",
+    "username": "foop",
+    "email": "footp@foo.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "stank",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:13:08.516Z",
+    "updatedAt": "2025-04-12T17:13:08.517Z",
+    "goals": []
+  },
+  {
+    "uuid": "555685de-7ef6-477d-95a9-57e8aa3a2de2",
+    "username": "fook",
+    "email": "fook@foo.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "stank",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:17:05.463Z",
+    "updatedAt": "2025-04-12T17:17:05.463Z",
+    "goals": []
+  },
+  {
+    "uuid": "5932b1d8-399b-4bcf-8cf6-849f7ce602d9",
+    "username": "foow",
+    "email": "foow@foo.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "stank",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:19:42.220Z",
+    "updatedAt": "2025-04-12T17:19:42.221Z",
+    "goals": []
+  },
+  {
+    "uuid": "c3a4deb6-19bc-4c48-87fe-3046d21ba99e",
+    "username": "foob",
+    "email": "foob@foo.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "stank",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:24:00.745Z",
+    "updatedAt": "2025-04-12T17:24:00.745Z",
+    "goals": []
+  },
+  {
+    "uuid": "526b8a46-67b6-495e-8b00-0e54f710e9cb",
+    "username": "fooq",
+    "email": "fooq@foo.com",
+    "passwordHash": "afagadfgdfgdsf",
+    "realName": "stank",
+    "avatar": "https://images.squarespace-cdn.com/content/v1/572bdc722fe13138bc903590/d19f9148-f2d7-45c7-b335-f04bb45ebb8e/5L+WRANGLER.jpg",
+    "createdAt": "2025-04-12T17:28:21.651Z",
+    "updatedAt": "2025-04-12T17:28:21.651Z",
     "goals": []
   }
 ]
