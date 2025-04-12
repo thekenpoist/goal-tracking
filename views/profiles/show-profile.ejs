@@ -4,6 +4,9 @@
 <div class="space-y-2">
     <p><strong>Username:</strong> <%= user.username %></p>
     <p><stromg>Email:</stromg> <%= user.email %></p>
-    <p><strong>Avatar:</strong></p>
+    <p><strong>Avatar:</strong></p> <% if (user.avatar && user.avatart.trim() !== '') { %>
     <img src="<%= user.avatar %>" alt="User Avatar" class="w-32 h-32 rounded-full" />
+    <% } else { %>
+        <p><em>No avatar provided</em></p>
+    <% } %>
 </div>
