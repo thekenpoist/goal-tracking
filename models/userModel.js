@@ -116,12 +116,11 @@ module.exports = class User {
     static async deleteUser(id) {
         const users = await getUsersFromFile();
 
-        const userIndex = users.findIndex(u => u.uuid === id);
-        if (userIndex === -1) {
-            return false;
-        }
+        const updatedUser = users.filter(u => u.uuid !== id);
 
-        users.splice(userIndex, 1);
+        if (updatedUsers.length === users.length) {
+            return false; //no user deleted
+        }
 
         try {
             await fsPromises.writeFile(p, JSON.stringify(users, null, 2));
