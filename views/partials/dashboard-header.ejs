@@ -1,20 +1,43 @@
-<header class="bg-red-100 text-gray-900 shadow p-4 mb-6">
-    <h1 class="text-2xl font-bold">TrailTracker - User Dashboard</h1>
+<header class="bg-gray-100 text-gray-900 shadow p-4 mb-6">
+    <div class="flex justify-between items-center">
+      <!-- Left nav -->
+      <div>
+        <h1 class="text-2xl font-bold mb-1">TrailTracker Dashboard</h1>
+        <nav>
+          <ul class="flex space-x-4">
+            <li>
+              <a href="/" class="<%= currentPage === 'home' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition' %>">Home</a>
+            </li>
+            <li>
+              <a href="/goals" class="<%= currentPage === 'goals' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition' %>">Goals</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
   
-    <nav class="mt-2">
-      <ul class="flex space-x-4">
-        <li>
-          <a href="/" class="<%= currentPage === 'home' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition' %>">Home</a>
-        </li>
-        <li>
-          <a href="/goals" class="<%= currentPage === 'goals' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition' %>">Goals</a>
-        </li>
-        <li>
-          <a href="/profiles/new-profile" class="<%= currentPage === 'profile' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition' %>">Create Profile</a>
-        </li>
-        <li>
-          <a href="/auth/login" class="<%= currentPage === 'login' ? 'text-yellow-700 font-semibold' : 'text-black hover:text-yellow-600 transition' %>">Login</a>
-        </li>
-      </ul>
-    </nav>
+      <!-- Right dropdown -->
+      <div class="relative inline-block text-left">
+        <button id="dropdownBtn" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 hover:text-yellow-600 focus:outline-none">
+          Account ▾
+        </button>
+        <ul id="dropdownMenu" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md">
+          <li>
+            <a href="/profiles/edit-profile" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'edit-profile' ? 'font-semibold' : '' %>">Edit Profile</a>
+          </li>
+          <li>
+            <a href="/profiles/delete-profile" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'delete-profile' ? 'font-semibold' : '' %>">Delete Profile</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  
+    <!-- Simple dropdown toggle script -->
+    <script>
+      const btn = document.getElementById('dropdownBtn');
+      const menu = document.getElementById('dropdownMenu');
+  
+      btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+      });
+    </script>
   </header>
