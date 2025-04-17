@@ -55,7 +55,8 @@ exports.getUserById = async (req, res, next) => {
         res.render('profiles/show-profile', {
             pageTitle: 'User Profile',
             user,
-            currentPage: 'profile'
+            currentPage: 'profile',
+            layout: 'layouts/dashboard-layout'
         });
     } catch (err) {
         console.error('Error fetching user by ID:', err);
