@@ -76,10 +76,12 @@ exports.postEditUser = async (req, res, next) => {
 
         res.redirect(`/profiles/${editUser.uuid}`);
     } catch (err) {
-        console.error('Error fetching user:', err);
-        res.status(500).render('500', {
-            pageTitle: "Server error",
-            currentPage: 'profile'
+        console.error('Error adding user:', err.message);
+        res.status(500).render('profiles/new-profile', {
+            pageTitle: 'Edit Profile',
+            currentPage: 'profile',
+            errorMessage: err.message,
+            formData: req.body
         });
     }
 };
