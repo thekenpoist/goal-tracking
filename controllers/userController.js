@@ -33,14 +33,33 @@ exports.postAddUser = async (req, res, next) => {
     }
 
 };
-// check the accuracy of this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 exports.getEditUser = (req, res, next) => {
+    const userId = req.params.userId;
+
+    try {
+        const user = await User.getUserById(userId);
+
+        if (!user) {
+            return res.status(404).render('404', {
+                pageTitle: "Usere Not Found",
+                currentPage: 'profile'
+            });
+        }
+
     res.render('profiles/edit-profile', {
         pageTitle: "Edit Profile",
         currentPage: 'profile',
         errorMessage: null,
-        formData: {}
-    });
+        formData: user
+        });
+    } catch (err) {
+        console.error('Error fetching user:', err);
+        res.status(500).render('500', {
+            pageTitle: "Server error",
+            currentPage: 'profile'
+        });
+    }
 };
 
 exports.getUserById = async (req, res, next) => {
