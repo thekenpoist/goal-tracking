@@ -63,10 +63,11 @@ exports.getEditUser = async (req, res, next) => {
 };
 
 exports.postEditUser = async (req, res, next) => {
+    const userId = req.params.userId;
     const { username, email, password, realName, avatar } = req.body;
 
     try {
-        const editUser = await User.updateUser({
+        const editUser = await User.updateUser(userId, {
             username,
             email,
             passwordHash: password,
@@ -76,7 +77,7 @@ exports.postEditUser = async (req, res, next) => {
 
         res.redirect(`/profiles/${editUser.uuid}`);
     } catch (err) {
-        console.error('Error adding user:', err.message);
+        console.error('Error updating user:', err.message);
         res.status(500).render('profiles/new-profile', {
             pageTitle: 'Edit Profile',
             currentPage: 'profile',
