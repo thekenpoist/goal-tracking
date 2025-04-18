@@ -1,1 +1,10 @@
-<h1>An unknown server error has occurred</h1>
+<h1>Something went wrong</h1>
+<p><%= message %></p>
+
+<% if (showstack) { %>
+    <pre><%= err.stack %></pre>
+<% } else { %>
+    <p>Please try again later or contact support.</p>
+<% } %>
+
+<a href="/">Return to Home</a>

@@ -15,6 +15,5 @@ exports.get500 = (err, req, res, next) => {
         message: 'An unexpected error occurred',
         err: err,
         showstack: process.env.NODE_ENV !== 'production',
-        // showHomeLink: true
     });
 };
