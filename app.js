@@ -32,6 +32,7 @@ app.use('/', homeRouter);
 
 app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 
+app.use(errorController.get500);
 app.use(errorController.get404);
 
 app.listen(3000);
