@@ -43,7 +43,8 @@ exports.getEditUser = async (req, res, next) => {
         if (!user) {
             return res.status(404).render('404', {
                 pageTitle: "User Not Found",
-                currentPage: 'profile'
+                currentPage: 'profile',
+                layout: 'layouts/main-layout'
             });
         }
 
