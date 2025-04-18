@@ -6,13 +6,16 @@ const userController = require('../controllers/userController');
 const router = express.Router();
 
 router.get('/new-profile', userController.getAddUser);
-router.get('/:userId', userController.getUserById);
 
 router.post('/', userController.postAddUser);
 
-router.get('/edit-profile:userId', userController.getEditUser);
+router.get('/edit-profile/:userId', userController.getEditUser);
 
-router.post('/edit-profile:userId', userController.postEditUser);
+router.post('/edit-profile/:userId', userController.postEditUser);
 
+
+
+
+router.get('/:userId', userController.getUserById);
 
 module.exports = router;
