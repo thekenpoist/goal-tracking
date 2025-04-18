@@ -10,7 +10,9 @@ router.get('/:userId', userController.getUserById);
 
 router.post('/', userController.postAddUser);
 
+router.get('/edit-profile:userId', userController.getEditUser);
 
+router.post('edit-profile:userId', userController.postEditUser);
 
 
 module.exports = router;
