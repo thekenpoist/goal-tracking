@@ -62,6 +62,28 @@ exports.getEditUser = async (req, res, next) => {
     }
 };
 
+exports.postEditUser = async (req, res, next) => {
+    const { username, email, password, realName, avatar } = req.body;
+
+    try {
+        const editUser = await User.updateUser({
+            username,
+            email,
+            passwordHash: password,
+            realName,
+            avatar
+        });
+
+        res.redirect(`/profiles/${editUser.uuid}`);
+    } catch (err) {
+        console.error('Error fetching user:', err);
+        res.status(500).render('500', {
+            pageTitle: "Server error",
+            currentPage: 'profile'
+        });
+    }
+};
+
 exports.getUserById = async (req, res, next) => {
     const userId = req.params.userId;
 
