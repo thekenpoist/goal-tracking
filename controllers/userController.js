@@ -34,7 +34,7 @@ exports.postAddUser = async (req, res, next) => {
 
 };
 
-exports.getEditUser = (req, res, next) => {
+exports.getEditUser = async (req, res, next) => {
     const userId = req.params.userId;
 
     try {
@@ -80,6 +80,9 @@ exports.getUserById = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error fetching user by ID:', err);
-        res.status(500).send('Server error');
+        res.status(500).render('500', {
+            pageTitle: "Server error",
+            currentPage: 'profile'
+        });
     }
 };
