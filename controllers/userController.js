@@ -33,6 +33,15 @@ exports.postAddUser = async (req, res, next) => {
     }
 
 };
+// check the accuracy of this!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+exports.getEditUser = (req, res, next) => {
+    res.render('profiles/edit-profile', {
+        pageTitle: "Edit Profile",
+        currentPage: 'profile',
+        errorMessage: null,
+        formData: {}
+    });
+};
 
 exports.getUserById = async (req, res, next) => {
     const userId = req.params.userId;
