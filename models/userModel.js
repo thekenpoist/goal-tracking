@@ -116,14 +116,14 @@ module.exports = class User {
     static async deleteUser(id) {
         const users = await getUsersFromFile();
 
-        const updatedUser = users.filter(u => u.uuid !== id);
+        const updatedUsers = users.filter(u => u.uuid !== id);
 
         if (updatedUsers.length === users.length) {
             return false; //no user deleted
         }
 
         try {
-            await fsPromises.writeFile(p, JSON.stringify(users, null, 2));
+            await fsPromises.writeFile(p, JSON.stringify(updatedUsers, null, 2));
             return true;
         } catch (err) {
             console.error('Write error during deleteUser:', err);

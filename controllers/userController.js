@@ -42,7 +42,7 @@ exports.getEditUser = async (req, res, next) => {
 
         if (!user) {
             return res.status(404).render('404', {
-                pageTitle: "Usere Not Found",
+                pageTitle: "User Not Found",
                 currentPage: 'profile'
             });
         }
@@ -78,7 +78,7 @@ exports.postEditUser = async (req, res, next) => {
         res.redirect(`/profiles/${editUser.uuid}`);
     } catch (err) {
         console.error('Error updating user:', err.message);
-        res.status(500).render('profiles/new-profile', {
+        res.status(500).render('profiles/edit-profile', {
             pageTitle: 'Edit Profile',
             currentPage: 'profile',
             errorMessage: err.message,
