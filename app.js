@@ -27,6 +27,11 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use((req, res, next) => {
+    res.locals.currentPage = '';  // default to empty string
+    next();
+});
+
 app.use('/profiles', userRouter);
 app.use('/', homeRouter);
 

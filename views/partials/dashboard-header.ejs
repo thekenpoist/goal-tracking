@@ -22,7 +22,7 @@
         </button>
         <ul id="dropdownMenu" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md">
           <li>
-            <a href="/profiles/edit-profile" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'edit-profile' ? 'font-semibold' : '' %>">Edit Profile</a>
+            <a href="/profiles/edit-profile/<%= formData.uuid %>" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'edit-profile' ? 'font-semibold' : '' %>">Edit Profile</a>
           </li>
           <li>
             <a href="/profiles/delete-profile" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'delete-profile' ? 'font-semibold' : '' %>">Delete Profile</a>
