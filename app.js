@@ -29,6 +29,7 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
     res.locals.currentPage = '';  // default to empty string
+    res.locals.currentUser = null;
     next();
 });
 
