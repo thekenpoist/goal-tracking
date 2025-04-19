@@ -98,6 +98,8 @@ exports.getUserById = async (req, res, next) => {
             return res.status(404).send('User not found');
         }
 
+        res.locals.currentUser = user;
+
         res.render('profiles/show-profile', {
             pageTitle: 'User Profile',
             user,
