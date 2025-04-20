@@ -114,3 +114,27 @@ exports.getUserById = async (req, res, next) => {
         });
     }
 };
+
+exports.deleteUser = async (req, res, next) => {
+    const userId = req.params.userId;
+
+    try {
+        const deleted = await User.deleteUser(userId);
+
+        if (!deleted) {
+            return res.status(404).render('404', {
+                pageTitle: 'User Not Found',
+                currentPage: 'profile'
+            });
+        }
+        
+        res.redirect('/');
+    } catch (err) {
+        console.error('Error deleting user', err);
+        res.status(500).render('500', {
+            pageTitle: "Server error",
+            currentPage: '/'
+        });
+
+    }
+};
