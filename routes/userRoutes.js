@@ -13,6 +13,8 @@ router.get('/edit-profile/:userId', userController.getEditUser);
 
 router.post('/edit-profile/:userId', userController.postEditUser);
 
+router.post('/delete-user/:userId', userController.deleteUser);
+
 
 
 
