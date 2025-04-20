@@ -15,16 +15,18 @@ const getGoalsFromFile = async () => {
 };
 
 module.exports = class Goal {
-    constructor(userId, goalId, goalTitle, goalCategory, goalStartdate, goalEnddate, createdAt, updatedAt, isCompleted) {
+    constructor(userId, goalId, goalTitle, goalCategory, goalDescription, goalPriority, goalstartDate, goalendDate, createdAt, updatedAt, isCompleted) {
         this.userId = userId;
         this.goalId = goalId;
         this.goalTitle = goalTitle;
         this.goalCategory = goalCategory;
-        this.goalStartdate = goalStartdate;
-        this.goalEnddate = goalEnddate;
+        this.goalDescription = goalDescription;
+        this.goalPriority = goalPriority;
+        this.goalStartdate = goalstartDate;
+        this.goalEnddate = goalendDate;
         this.createdAt = createdAt || new Date().toISOString();
         this.updatedAt = updatedAt || new Date().toISOString();
-        this.isCompleted = isCompleted;
+        this.isCompleted = isCompleted ?? false;
     }
 
 }
