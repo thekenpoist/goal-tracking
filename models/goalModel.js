@@ -40,6 +40,10 @@ module.exports = class Goal {
         }
     }
 
+    static async fetchAll() {
+        return getGoalsFromFile();
+    }
 
+    
 
 };
