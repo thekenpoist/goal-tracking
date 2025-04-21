@@ -28,4 +28,18 @@ module.exports = class Goal {
         this.updatedAt = updatedAt || new Date().toISOString();
         this.isCompleted = isCompleted ?? false;
     }
+
+    async saveGoals() {
+        const goals = await getGoalsFromFile();
+        goals.push(this);
+        
+        try {
+            await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
+        } catch (err) {
+            console.error('Write Error', err);
+        }
+    }
+
+
+    
 };
