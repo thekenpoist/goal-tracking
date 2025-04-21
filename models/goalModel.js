@@ -30,16 +30,16 @@ module.exports = class Goal {
     }
 
     async saveGoals() {
-        const goals = await getGoalsFromFile();
-        goals.push(this);
-        
+
         try {
+            const goals = (await getGoalsFromFile()).filter(goal => goal.goalId !== this.goalId);
+            goals.push(this);
             await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
         } catch (err) {
-            console.error('Write Error', err);
+            console.error(`Failed to save goal with ID ${this.goalId}:`, err);
         }
     }
 
 
-    
+
 };
