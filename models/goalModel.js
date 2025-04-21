@@ -44,6 +44,11 @@ module.exports = class Goal {
         return getGoalsFromFile();
     }
 
-    
+    static async getGoalsByUserId(userId) {
+        const goals = await getGoalsFromFile();
+        return goals.find(u => u.uuid == userId);
+
+    }
+
 
 };
