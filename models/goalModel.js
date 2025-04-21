@@ -46,13 +46,13 @@ module.exports = class Goal {
 
     static async getGoalsByUserId(userId) {
         const goals = await getGoalsFromFile();
-        return goals.filter(goal => goal.UserId === userId);
+        return goals.filter(goal => goal.userId === userId);
 
     }
 
     static async getGoalById(userId, goalId) {
         const goals = await getGoalsFromFile();
-        return goals.find(goal => goal.uuid === userId && goal.goalId === goalId);
+        return goals.find(goal => goal.userId === userId && goal.goalId === goalId);
     }
 
 
