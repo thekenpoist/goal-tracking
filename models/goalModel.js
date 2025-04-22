@@ -81,5 +81,28 @@ module.exports = class Goal {
 
     }
 
+    static async updateGoal(userId, goalId, updatedFields) {
+        // const goal = this.getGoalById(userId, goalId);
+        const goals = await getGoalsFromFile();
+        const goalIndex = goals.findIndex(goal => goal.userId === userId && goal.goalId === goalId);
+
+        const { userId, goalId, createdAt, updatedAt, ...safeFields } = updatedFields;
+
+        const updatedGoal = {
+            ...safeFields,
+            updatedAt: new Date().toDateString()
+        };
+
+        goals[goalIndex] = updatedGoal;
+
+        try {
+            await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
+            return updatedGoal;
+        } catch (err) {
+            console.error('Write error during updateGoal', err);
+            throw err;
+        }
+    }
+
 
 };
