@@ -1,6 +1,5 @@
 const fsPromises = require('fs').promises;
 const path = require('path');
-const { error } = require('console');
 
 const p = path.join(__dirname, '..', 'data', 'goals.json');
 
@@ -9,7 +8,7 @@ const getGoalsFromFile = async () => {
         const fileContent = await fsPromises.readFile(p, 'utf-8');
         return JSON.parse(fileContent);
     } catch (err) {
-        console.warn('Error reading goals.json. Returning empty array.');
+        console.warn('Error reading goals.json. Returning empty array.', err);
         return [];
     }
 };
@@ -29,10 +28,10 @@ module.exports = class Goal {
         this.isCompleted = isCompleted ?? false;
     }
 
-    async saveGoals() {
-
+    async save() {
         try {
-            const goals = (await getGoalsFromFile()).filter(goal => goal.goalId !== this.goalId);
+            const goals = (await getGoalsFromFile()).filter(
+                goal => goal.goalId !== this.goalId && goal.userId === this.userId);
             goals.push(this);
             await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
         } catch (err) {
@@ -76,9 +75,8 @@ module.exports = class Goal {
             endDate
         );
 
-        await newGoal.saveGoals();
+        await newGoal.save();
         return newGoal;
-
     }
 
     static async updateGoal(userId, goalId, updatedFields) {
@@ -89,6 +87,7 @@ module.exports = class Goal {
             throw new Error('Goal not found');
         }
 
+        // Destructure and ignore fields that should not be manually updated
         const { userId:_, goalId:__, createdAt:___, updatedAt:____, ...safeFields } = updatedFields;
 
         const updatedGoal = {
@@ -124,8 +123,5 @@ module.exports = class Goal {
             console.error(`Error deleting goalId ${goalId} for userId ${userId}`, err);
             throw err;
         }
-
     }
-
-
 };
