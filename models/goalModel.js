@@ -113,7 +113,7 @@ module.exports = class Goal {
         const userGoals = goals.filter(goal => goal.userId === userId);
         const updatedGoals = goals.filter(goal => !(goal.userId === userId && goal.goalId === goalId));
 
-        if (userGoals.length === goals.length) {
+        if (updatedGoals.length === goals.length) {
             return false;
         }
 
