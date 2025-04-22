@@ -55,5 +55,26 @@ module.exports = class Goal {
         return goals.find(goal => goal.userId === userId && goal.goalId === goalId);
     }
 
+    static async createGoal(userId, title, category, description, priority, startDate, endDate) {
+        const goals = await getGoalsFromFile();
+
+        const nextGoalId = goals.goalId += 1;
+
+        const newGoal = new Goal(
+            nextGoalId,
+            userId,
+            title,
+            category,
+            description,
+            priority,
+            startDate,
+            endDate
+        );
+
+        await newGoal.saveGoals();
+        return newGoal;
+
+    }
+
 
 };
