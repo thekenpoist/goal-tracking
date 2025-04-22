@@ -49,11 +49,11 @@ module.exports = class User {
         username = username.trim().toLowerCase();
         email = email.trim().toLowerCase();
 
-        const usernameTaken = users.some(u => u.username === username);
-        const emailTaken = users.some(u => u.email === email);
-
-        if (usernameTaken || emailTaken) {
-            throw new Error('Username or email already exists');
+        if (users.some(u => u.username === username)) {
+            throw new Error('That username is already taken.');
+        }
+        if (users.some(u => u.email === email)) {
+            throw new Error('That email is already registered.');
         }
 
         const newUser = new User(
