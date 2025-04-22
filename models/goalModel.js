@@ -57,11 +57,12 @@ module.exports = class Goal {
 
     static async createGoal(userId, title, category, description, priority, startDate, endDate) {
         const goals = await getGoalsFromFile();
-        const nextGoalId = 1;
+        let nextGoalId = 1;
 
-        const allUserGoals = goals.filter(goal => goal.userId);
-        if (allUserGoals) {
-            nextGoalId = Math.max(...goals.goalId + 1);
+        const allUserGoals = goals.filter(goal => goal.userId === userId);
+        if (allUserGoals.length > 0) {
+            const maxGoalId = Math.max(...allUserGoals.map(goal => goal.goalId));
+            nextGoalId = maxGoalId + 1;
         }
         
         const newGoal = new Goal(
