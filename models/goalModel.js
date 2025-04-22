@@ -82,18 +82,20 @@ module.exports = class Goal {
     }
 
     static async updateGoal(userId, goalId, updatedFields) {
-        // const goal = this.getGoalById(userId, goalId);
         const goals = await getGoalsFromFile();
         const goalIndex = goals.findIndex(goal => goal.userId === userId && goal.goalId === goalId);
 
-        const { userId, goalId, createdAt, updatedAt, ...safeFields } = updatedFields;
+        if (goalIndex === -1) {
+            throw new Error('Goal not found');
+        }
 
-        const updatedGoal = {
+        const { userId:_, goalId:__, createdAt:___, updatedAt:____, ...safeFields } = updatedFields;
+
+        goals[goalIndex] = {
+            ...goals[goalIndex],
             ...safeFields,
             updatedAt: new Date().toDateString()
-        };
-
-        goals[goalIndex] = updatedGoal;
+        }
 
         try {
             await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
