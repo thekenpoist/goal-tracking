@@ -46,6 +46,9 @@ module.exports = class User {
     static async addUser({ username, email, passwordHash, realName, avatar}) {
         const users = await getUsersFromFile();
 
+        username = username.trim().toLowerCase();
+        email = email.trim().toLowerCase();
+
         const usernameTaken = users.some(u => u.username === username);
         const emailTaken = users.some(u => u.email === email);
 
