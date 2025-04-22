@@ -95,7 +95,7 @@ module.exports = class Goal {
             ...goals[goalIndex],
             ...safeFields,
             updatedAt: new Date().toISOString()
-        }
+        };
 
         goals[goalIndex] = updatedGoal;
 
@@ -106,6 +106,24 @@ module.exports = class Goal {
             console.error('Write error during updateGoal', err);
             throw err;
         }
+    }
+
+    static async deleteGoal(userId, goalId) {
+        const goals = await getGoalsFromFile();
+        const updatedGoals = goals.filter(goal => goal.userId === userId && goal.goalId !== goalId);
+
+        if (updatedGoals.length === goals.length) {
+            return false;
+        }
+
+        try {
+            await fsPromises.writeFile(p, JSON.stringify(updatedGoals, null, 2));
+            return true;
+        } catch (err) {
+            console.error('Write error during deleteGoal', err);
+            throw err;
+        }
+
     }
 
 
