@@ -28,17 +28,7 @@ module.exports = class Goal {
         this.isCompleted = isCompleted ?? false;
     }
 
-    async save() {
-        try {
-            const goals = (await getGoalsFromFile()).filter(
-                goal => goal.goalId !== this.goalId && goal.userId === this.userId);
-            goals.push(this);
-            await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
-        } catch (err) {
-            console.error(`Failed to save goal with ID ${this.goalId}:`, err);
-        }
-    }
-
+    //      READ-ONLY OPERATIONS
     static async fetchAll() {
         return getGoalsFromFile();
     }
@@ -54,6 +44,7 @@ module.exports = class Goal {
         return goals.find(goal => goal.userId === userId && goal.goalId === goalId);
     }
 
+    //      WRITE OPERATIONS
     static async createGoal(userId, title, category, description, priority, startDate, endDate) {
         const goals = await getGoalsFromFile();
         let nextGoalId = 1;
@@ -122,6 +113,18 @@ module.exports = class Goal {
         } catch (err) {
             console.error(`Error deleting goalId ${goalId} for userId ${userId}`, err);
             throw err;
+        }
+    }
+
+    //      INSTANCE METHOD
+    async save() {
+        try {
+            const goals = (await getGoalsFromFile()).filter(
+                goal => goal.goalId !== this.goalId && goal.userId === this.userId);
+            goals.push(this);
+            await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
+        } catch (err) {
+            console.error(`Failed to save goal with ID ${this.goalId}:`, err);
         }
     }
 };
