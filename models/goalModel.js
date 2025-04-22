@@ -91,11 +91,13 @@ module.exports = class Goal {
 
         const { userId:_, goalId:__, createdAt:___, updatedAt:____, ...safeFields } = updatedFields;
 
-        goals[goalIndex] = {
+        const updatedGoal = {
             ...goals[goalIndex],
             ...safeFields,
-            updatedAt: new Date().toDateString()
+            updatedAt: new Date().toISOString()
         }
+
+        goals[goalIndex] = updatedGoal;
 
         try {
             await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
