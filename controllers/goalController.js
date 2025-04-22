@@ -1,6 +1,6 @@
 const Goal = require("../models/goalModel")
 
-exports.getcreateGoal = (req, res, next) => {
+exports.getCreateGoal = (req, res, next) => {
     res.render('goals/new-goal', {
         pageTitle: "Create Goal",
         currentPage: 'goals',
