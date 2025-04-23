@@ -8,3 +8,28 @@ exports.getCreateGoal = (req, res, next) => {
         formData: {}
     });
 };
+
+exports.postCreateGoal = async (req, res, next) => {
+    const { userId, title, category, description, priority, startDate, endDate }= req.body;
+
+    try {
+        const newGoal = await Goal.createGoal({
+            userId, 
+            title, 
+            category, 
+            description, 
+            priority, 
+            startDate, 
+            endDate
+        });
+        res.redirect(`/goals/${userId}`);
+    } catch (err) {
+        console.error('Error creating goal:', err.message);
+        res.status(500).render('goals/new-goal', {
+            pageTitle: 'New Goal',
+            currentPage: 'goals',
+            errorMessage: err.message,
+            formData: req.body
+        });
+    }
+};
