@@ -79,11 +79,16 @@ exports.postEditUser = async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
+        const originalUser = await User.getUserById(req.params.userId);
+
         return res.status(422).render('profiles/edit-profile', {
-            pageTitle: 'Create Profile',
+            pageTitle: 'Edit Profile',
             currentPage: 'profiles',
             errorMessage: errors.array().map(e => e.msg).join(','),
-            formData: req.body
+            formData: {
+                ...originalUser,
+                ...req.body
+            }
         });
     }
 
