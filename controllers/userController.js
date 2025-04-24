@@ -76,10 +76,21 @@ exports.getEditUser = async (req, res, next) => {
 };
 
 exports.postEditUser = async (req, res, next) => {
-    const userId = req.params.userId;
-    const { username, email, password, realName, avatar } = req.body;
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).render('profiles/new-profile', {
+            pageTitle: 'Create Profile',
+            currentPage: 'profiles',
+            errorMessage: errors.array().map(e => e.msg).join(','),
+            formData: req.body
+        });
+    }
 
     try {
+        const userId = req.params.userId;
+        const { username, email, password, realName, avatar } = req.body;
+
         const editUser = await User.updateUser(userId, {
             username,
             email,
@@ -93,8 +104,8 @@ exports.postEditUser = async (req, res, next) => {
         console.error('Error updating user:', err.message);
         res.status(500).render('profiles/edit-profile', {
             pageTitle: 'Edit Profile',
-            currentPage: 'profile',
-            errorMessage: err.message,
+            currentPage: 'profiles',
+            errorMessage: 'Something went wrong. Please try again',
             formData: req.body
         });
     }
