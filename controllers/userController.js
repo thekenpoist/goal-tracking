@@ -79,7 +79,7 @@ exports.postEditUser = async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).render('profiles/new-profile', {
+        return res.status(422).render('profiles/edit-profile', {
             pageTitle: 'Create Profile',
             currentPage: 'profiles',
             errorMessage: errors.array().map(e => e.msg).join(','),
