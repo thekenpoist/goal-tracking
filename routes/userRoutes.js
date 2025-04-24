@@ -8,7 +8,8 @@ const router = express.Router();
 
 router.get('/new-profile', userController.getAddUser);
 
-router.post('/', userController.postAddUser, [
+
+router.post('/', [
     body('username')
         .isLength({ min: 4, max: 50 }).withMessage('Username must be between 4 and 50 characters.'),
     body('email')
@@ -21,9 +22,11 @@ router.post('/', userController.postAddUser, [
         .isLength({ max: 50 }).withMessage('Real name must be less than 50 characters.'),
     body('avatar')
         .optional({ checkFalsy: true })
-        .isLength
+        .isURL().withMessage('Avatar must be a valid URL.')
+        .isLength({ max: 2048 }).withMessage('Avatar URL is too long.')
 
-]);
+], userController.postAddUser);
+
 
 router.get('/edit-profile/:userId', userController.getEditUser);
 
