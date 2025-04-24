@@ -17,3 +17,19 @@ exports.addUserRules = [
         .isLength({ max: 2048 }).withMessage('Avatar URL is too long.')
 
 ];
+
+exports.editUserRules = [
+    body('username')
+        .isLength({ min: 4, max: 50 }).withMessage('Username must be between 4 and 50 characters.'),
+    body('email')
+        .isEmail().withMessage('A valid email is required.')
+        .normalizeEmail(),
+    body('realName')
+        .optional({ checkFalsy: true })
+        .isLength({ max: 50 }).withMessage('Real name must be less than 50 characters.'),
+    body('avatar')
+        .optional({ checkFalsy: true })
+        .isURL().withMessage('Avatar must be a valid URL.')
+        .isLength({ max: 2048 }).withMessage('Avatar URL is too long.')
+
+];
