@@ -15,7 +15,6 @@ exports.addUserRules = [
         .optional({ checkFalsy: true })
         .isURL().withMessage('Avatar must be a valid URL.')
         .isLength({ max: 2048 }).withMessage('Avatar URL is too long.')
-
 ];
 
 exports.editUserRules = [
@@ -31,5 +30,4 @@ exports.editUserRules = [
         .optional({ checkFalsy: true })
         .isURL().withMessage('Avatar must be a valid URL.')
         .isLength({ max: 2048 }).withMessage('Avatar URL is too long.')
-
 ];
