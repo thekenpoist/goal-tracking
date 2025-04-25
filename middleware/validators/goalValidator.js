@@ -36,6 +36,5 @@ exports.createGoalRules = [
             }
             return true;
         })
-
 ];
 
