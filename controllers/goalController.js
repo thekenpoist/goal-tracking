@@ -4,7 +4,7 @@ const Goal = require("../models/goalModel")
 exports.getCreateGoal = (req, res, next) => {
     res.render('goals/new-goal', {
         pageTitle: "Create Goal",
-        currentPage: 'goals',
+        currentPage: 'new-goal',
         errorMessage: null,
         formData: {
             userId: req.params.userId || ''
