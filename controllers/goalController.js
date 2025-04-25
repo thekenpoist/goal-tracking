@@ -6,7 +6,9 @@ exports.getCreateGoal = (req, res, next) => {
         pageTitle: "Create Goal",
         currentPage: 'goals',
         errorMessage: null,
-        formData: {}
+        formData: {
+            userId: req.session.userId || ''
+        }
     });
 };
 
@@ -21,7 +23,7 @@ exports.postCreateGoal = async (req, res, next) => {
             formData: req.body
         });
     }
-    
+
     const { userId, title, category, description, priority, startDate, endDate } = req.body;
 
     try {
