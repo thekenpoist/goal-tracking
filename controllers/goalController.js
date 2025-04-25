@@ -7,7 +7,7 @@ exports.getCreateGoal = (req, res, next) => {
         currentPage: 'goals',
         errorMessage: null,
         formData: {
-            userId: req.session.userId || ''
+            userId: req.params.userId || ''
         }
     });
 };
