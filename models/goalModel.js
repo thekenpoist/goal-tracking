@@ -14,9 +14,9 @@ const getGoalsFromFile = async () => {
 };
 
 module.exports = class Goal {
-    constructor(userId, goalId, title, category, description, priority, startDate, endDate, createdAt, updatedAt, isCompleted) {
-        this.userId = userId;
+    constructor(goalId, userId, title, category, description, priority, startDate, endDate, createdAt, updatedAt, isCompleted) {
         this.goalId = goalId;
+        this.userId = userId;
         this.title = title;
         this.category = category;
         this.description = description;
