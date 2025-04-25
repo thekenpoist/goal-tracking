@@ -1,7 +1,5 @@
 const { body } = require('express-validator');
 
-pstartDate, endDate
-
 exports.createGoalRules = [
     body('title')
         .isLength({ max: 100 }).withMessage('Title must be less than 100 characters.'),
@@ -32,8 +30,12 @@ exports.createGoalRules = [
         .optional({ checkFalsy: true })
         .isISO8601().withMessage('End date must be a valid date.')
         .toDate()
-    
-
+        .custom(( value, { req }) => {
+            if (value && req.body.startDate && new Date(value) < new Date(req.body.startDate)) {
+                throw new Error('End date cannot be before start date.');
+            }
+            return true;
+        })
 
 ];
 
