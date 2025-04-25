@@ -2,6 +2,7 @@ const { body } = require('express-validator');
 
 exports.createGoalRules = [
     body('title')
+        .trim()
         .isLength({ max: 100 }).withMessage('Title must be less than 100 characters.'),
     body('category')
         .isIn([
@@ -17,11 +18,12 @@ exports.createGoalRules = [
             'Miscellaneous'])
         .withMessage('Invalid category selected.'),
     body('description')
+        .trim()
         .isLength({ max: 1000 }).withMessage('Description must be less than 1000 characters.'),
     body('priority')
-        .optional({ checkFalsy: ture })
+        .optional({ checkFalsy: true })
         .isIn(['low', 'medium', 'high'])
-        .withMessage('Priority must be low, medium, or high'),
+        .withMessage('Priority must be low, medium, or high.'),
     body('startDate')
         .optional({ checkFalsy: true })
         .isISO8601().withMessage('Start date must be a valid date.')
@@ -30,7 +32,7 @@ exports.createGoalRules = [
         .optional({ checkFalsy: true })
         .isISO8601().withMessage('End date must be a valid date.')
         .toDate()
-        .custom(( value, { req }) => {
+        .custom((value, { req }) => {
             if (value && req.body.startDate && new Date(value) < new Date(req.body.startDate)) {
                 throw new Error('End date cannot be before start date.');
             }
