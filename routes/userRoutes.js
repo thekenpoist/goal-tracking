@@ -22,4 +22,4 @@ router.post('/delete-user/:userId', userController.deleteUser);
 
 router.get('/:userId', userController.getUserById);
 
-module.exports = router;
+module.exports = router; 
