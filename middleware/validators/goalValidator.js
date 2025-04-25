@@ -25,7 +25,13 @@ exports.createGoalRules = [
         .isIn(['low', 'medium', 'high'])
         .withMessage('Priority must be low, medium, or high'),
     body('startDate')
-    isD
+        .optional({ checkFalsy: true })
+        .isISO8601().withMessage('Start date must be a valid date.')
+        .toDate(),
+    body('endDate')
+        .optional({ checkFalsy: true })
+        .isISO8601().withMessage('End date must be a valid date.')
+        .toDate()
     
 
 
