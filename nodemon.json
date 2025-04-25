@@ -1,3 +1,3 @@
 {
-    "ignore": ["data/users.json"]
+    "ignore": ["data/users.json", "data/goals.json"]
 }

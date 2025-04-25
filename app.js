@@ -7,6 +7,7 @@ const expressLayouts = require('express-ejs-layouts');
 const errorController = require('./controllers/errorController');
 const homeRouter = require('./routes/homeRoutes');
 const userRouter = require('./routes/userRoutes');
+const goalRouter = require('./routes/goalRoutes');
 
 const { error } = require('console');
 
@@ -35,6 +36,7 @@ app.use((req, res, next) => {
 
 app.use('/profiles', userRouter);
 app.use('/', homeRouter);
+app.use('/goals', goalRouter);
 
 app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 
