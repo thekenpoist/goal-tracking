@@ -46,6 +46,14 @@ exports.postAddUser = async (req, res, next) => {
 
 };
 
+exports.getLogin = async (req, res, next) => {
+    res.render('/auth/login', {
+        pageTitle: 'Login',
+        currentPage: 'login',
+        errorMessage: null
+    });
+};
+
 exports.getEditUser = async (req, res, next) => {
     const userId = req.params.userId;
 
