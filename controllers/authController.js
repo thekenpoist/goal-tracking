@@ -43,7 +43,7 @@ exports.postSignup = async (req, res, next) => {
 
     } catch (err) {
         console.error('Error during signup:', err.message);
-        res.status(400).render('auth/signup', {
+        res.status(500).render('auth/signup', {
             pageTitle: 'Sign Up',
             currentPage: 'signup',
             errorMessage: 'Something went wrong. Please try again',
