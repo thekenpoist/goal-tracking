@@ -7,6 +7,8 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
+router.get('login', userController.getLogin);
+
 router.get('/new-profile', userController.getAddUser);
 
 router.post('/', addUserRules, userController.postAddUser);
