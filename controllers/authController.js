@@ -10,10 +10,48 @@ exports.getSignup = (req, res, next) => {
     });
 };
 
+exports.postSignup = async (req, res, next) => {
+    const errors = validationResult(req);
 
+    if (!errors.isEmpty()) {
+        return res.status(422).render('auth/signup', {
+            pageTitle: 'Sign Up',
+            currentPage: 'signup',
+            errorMessage: errors.array().map(e => e.msg).join(','),
+            formData: req.body
+        });
+    }
 
+    try {
+        const { email, password } = req.body;
 
+        const newUser = await User.addUser({
+            username: '',
+            email,
+            passwordHash: password,
+            realName: '',
+            avatar: ''
+        });
 
+        req.session.userId = newUser.uuid;
+        req.session.save(err => {
+            if (err) {
+                console.error('Session save error', err);
+            }
+            res.redirect('/dashboard');
+        });
+
+    } catch (err) {
+        console.error('Error during signup:', err.message);
+        res.status(400).render('auth/signup', {
+            pageTitle: 'Sign Up',
+            currentPage: 'signup',
+            errorMessage: 'Something went wrong. Please try again',
+            formData: req.body
+        });
+    }
+
+};
 
 exports.getLogin = async (req, res, next) => {
     res.render('auth/login', {
