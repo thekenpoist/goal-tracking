@@ -1,6 +1,20 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
 
+exports.getSignup = (req, res, next) => {
+    res.render('auth/signup', {
+        pageTitle: "Sign Up",
+        currentPage: 'signup',
+        errorMessage: null,
+        formData: {}
+    });
+};
+
+
+
+
+
+
 exports.getLogin = async (req, res, next) => {
     res.render('auth/login', {
         pageTitle: 'Login',
