@@ -47,7 +47,7 @@ exports.postAddUser = async (req, res, next) => {
 };
 
 exports.getLogin = async (req, res, next) => {
-    res.render('/auth/login', {
+    res.render('auth/login', {
         pageTitle: 'Login',
         currentPage: 'login',
         errorMessage: null
