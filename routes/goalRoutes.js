@@ -1,7 +1,7 @@
 const path = require('path');
 const express = require('express');
 const { body } = require('express-validator');
-const { createGoalRules } = require('../middleware/validators/goalValidator');
+const { createGoalRules } = require('../middleware/validators/goalValidators');
 
 const goalController = require('../controllers/goalController');
 
