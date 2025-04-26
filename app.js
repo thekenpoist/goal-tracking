@@ -53,5 +53,8 @@ app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 app.use(errorController.get500);
 app.use(errorController.get404);
 
-app.listen(3000);
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+});
 

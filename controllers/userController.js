@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
 
-exports.getAddUser = (req, res, next) => {
+exports.getCreateProfile = (req, res, next) => {
     res.render('profiles/new-profile', {
         pageTitle: "Create Profile",
         currentPage: 'profile',
@@ -10,7 +10,7 @@ exports.getAddUser = (req, res, next) => {
     });
 };
 
-exports.postAddUser = async (req, res, next) => {
+exports.postCreateProfile = async (req, res, next) => {
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
