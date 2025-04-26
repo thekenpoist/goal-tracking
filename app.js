@@ -3,7 +3,7 @@ const path = require('path');
 const swaggerui = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 const expressLayouts = require('express-ejs-layouts');
-const sesson = require('express-session');
+const session = require('express-session');
 
 const errorController = require('./controllers/errorController');
 const homeRouter = require('./routes/homeRoutes');
