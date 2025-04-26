@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
 
+/*
 exports.getCreateProfile = (req, res, next) => {
     res.render('profiles/new-profile', {
         pageTitle: "Create Profile",
@@ -44,7 +45,7 @@ exports.postCreateProfile = async (req, res, next) => {
         });
     }
 
-};
+}; */
 
 exports.getEditUser = async (req, res, next) => {
     const userId = req.params.userId;

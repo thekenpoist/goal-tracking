@@ -4,7 +4,7 @@
         <%= errorMessage %>
     </div>
 <% } %>
-<form action="/profiles" method="POST" class="space-y-4">
+<form action="/auth/signup" method="POST" class="space-y-4">
     <div class="mb-4">
         <label for="email" class="block text-gray-700 font-semibold mb-2">Email Address</label>
         <input type="email" id="email" name="email" required value="<%= formData?.email || '' %>"

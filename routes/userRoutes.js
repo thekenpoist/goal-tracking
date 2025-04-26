@@ -7,8 +7,8 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-router.get('/new-profile', userController.getAddUser);
-router.post('/', addUserRules, userController.postAddUser);
+//router.get('/new-profile', userController.getAddUser);
+//router.post('/', addUserRules, userController.postAddUser);
 
 router.get('/edit-profile/:userId', userController.getEditUser);
 router.post('/edit-profile/:userId', editUserRules,userController.postEditUser);
