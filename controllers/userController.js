@@ -64,6 +64,7 @@ exports.getEditUser = async (req, res, next) => {
     res.render('profiles/edit-profile', {
         pageTitle: "Edit Profile",
         currentPage: 'profile',
+        layout: 'layouts/dashboard-layout',
         errorMessage: null,
         formData: user
         });
