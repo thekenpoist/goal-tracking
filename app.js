@@ -40,19 +40,23 @@ app.use((req, res, next) => {
 
 app.use(async (req, res, next) => {
     res.locals.currentPage = '';  // default to empty string to avoid undefined errors in views
+    res.locals.currentUser = null;
+    res.locals.layout = 'layouts/main-layout';
 
-    if (!req.session.userId) {
-        res.locals.currentUser = null;
-        return next();
+    if (req.session.userId) {
+        try {
+            const user = await User.getUserById(req.session.userId);
+            if (user) { 
+                res.locals.currentUser = user;
+                res.locals.layout = 'layouts/dashboard-layout';
+            }
+        } catch (err) {
+            console.error('Error loading current user for session', err);
+            res.locals.currentUser = null;
+            res.locals.layout = 'layouts/main-layout';
+        }
     }
 
-    try {
-        const user = await User.getUserById(req.session.userId);
-        res.locals.currentUser = user;
-    } catch (err) {
-        console.error('Error loading current user for session', err);
-        res.locals.currentUser = null;
-    }
     next();
 });
 
