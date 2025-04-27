@@ -46,7 +46,7 @@ exports.postSignup = async (req, res, next) => {
         res.status(500).render('auth/signup', {
             pageTitle: 'Sign Up',
             currentPage: 'signup',
-            errorMessage: 'Something went wrong. Please try again',
+            errorMessage: err.message || 'Something went wrong. Please try again',
             formData: req.body
         });
     }
