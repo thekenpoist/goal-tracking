@@ -39,7 +39,7 @@ app.use((req, res, next) => {
 });
 
 app.use(async (req, res, next) => {
-    res.locals.currentPage = '';  // default to empty string
+    res.locals.currentPage = '';  // default to empty string to avoid undefined errors in views
 
     if (!req.session.userId) {
         res.locals.currentUser = null;
