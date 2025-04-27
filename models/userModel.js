@@ -1,6 +1,7 @@
 const fsPromises = require('fs').promises;
 const path = require('path');
 const { randomUUID } = require('crypto');
+const { emit } = require('process');
 
 const p = path.join(__dirname, '..', 'data', 'users.json');
 
@@ -91,12 +92,14 @@ module.exports = class User {
             throw new Error('Username or email already in use by another user.');
         }
 
-        const { uuid, createdAt, updatedAt, ...safeFields } = updatedFields;
-
         const existingUser = users[userIndex];
+
         const updatedUser = {
             ...existingUser,
-            ...safeFields,
+            username: updatedFields.username || existingUser.username,
+            email: updatedFields.email || existingUser.email,
+            realName: updatedFields.realName || existingUser.realName,
+            avatar: updatedFields.avatar || existingUser.avatar,
             updatedAt: new Date().toISOString()
         };
 
