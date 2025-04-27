@@ -1,6 +1,13 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
 
+exports.getDashboard = (req, res, next) => {
+    res.render('dashboard', {
+        pageTitle: 'Your Dashboard',
+        currentPage: 'dashboard'
+    });
+};
+
 exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
         pageTitle: "Sign Up",

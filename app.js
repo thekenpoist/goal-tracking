@@ -43,7 +43,7 @@ app.use(async (req, res, next) => {
 
     if (!req.session.userId) {
         res.locals.currentUser = null;
-        next();
+        return next();
     }
 
     try {
