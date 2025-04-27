@@ -16,7 +16,7 @@ const getUsersFromFile = async () => {
 };
    
 module.exports = class User {
-    constructor(uuid, username, email, passwordHash, realName, avatar, createdAt, updatedAt, goals) {
+    constructor(uuid, username, email, passwordHash, realName, avatar, createdAt, updatedAt) {
         this.uuid = uuid || randomUUID();
         this.username = username;
         this.email = email;
@@ -25,7 +25,6 @@ module.exports = class User {
         this.avatar = avatar;
         this.createdAt = createdAt || new Date().toISOString();
         this.updatedAt = updatedAt || new Date().toISOString();
-        this.goals = goals || [];
     }
 
     //      READ-ONLY OPERATIONS
