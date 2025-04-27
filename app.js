@@ -59,7 +59,7 @@ app.use(async (req, res, next) => {
 app.use('/profiles', userRouter);
 app.use('/', homeRouter);
 app.use('/goals', goalRouter);
-app.use('/auth', authRouter);
+app.use(authRouter);
 
 app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 

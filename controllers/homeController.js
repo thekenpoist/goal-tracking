@@ -4,3 +4,10 @@ exports.getIndex = (req, res, next) => {
         currentPage: 'index'
          });
 };
+
+exports.getDashboard = (req, res, next) => {
+    res.render('dashboard', {
+        pageTitle: 'Your Dashboard',
+        currentPage: 'dashboard'
+    });
+};
