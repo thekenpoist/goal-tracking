@@ -54,7 +54,7 @@ module.exports = class User {
         username = username.trim().toLowerCase();
         email = email.trim().toLowerCase();
 
-        if (users.some(u => u.username === username)) {
+        if (username && users.some(u => u.username === username)) {
             throw new Error('That username is already taken.');
         }
         if (users.some(u => u.email === email)) {

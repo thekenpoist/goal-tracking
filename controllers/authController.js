@@ -87,7 +87,7 @@ exports.postLogin = async (req, res, next) => {
             if (err) {
                 console.error('Session save error', err);
             }
-            res.redirect('/');
+            res.redirect('profiles/show-profile');
         });
     } catch (err) {
         console.error('Login error', err);
