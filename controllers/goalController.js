@@ -24,7 +24,8 @@ exports.postCreateGoal = async (req, res, next) => {
         });
     }
 
-    const { userId, title, category, description, priority, startDate, endDate } = req.body;
+    const { userId } = req.session.userId;
+    const { title, category, description, priority, startDate, endDate } = req.body;
 
     try {
         const newGoal = await Goal.createGoal({
