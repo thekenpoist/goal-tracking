@@ -8,6 +8,7 @@ exports.getIndex = (req, res, next) => {
 exports.getDashboard = (req, res, next) => {
     res.render('dashboard', {
         pageTitle: 'Your Dashboard',
-        currentPage: 'dashboard'
+        currentPage: 'dashboard',
+        layout: 'layouts/dashboard-layout'
     });
 };
