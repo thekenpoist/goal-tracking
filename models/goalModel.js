@@ -119,8 +119,7 @@ module.exports = class Goal {
     //      INSTANCE METHOD
     async save() {
         try {
-            const goals = (await getGoalsFromFile()).filter(
-                goal => goal.goalId !== this.goalId && goal.userId === this.userId);
+            const goals = (await getGoalsFromFile());
             goals.push(this);
             await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
         } catch (err) {
