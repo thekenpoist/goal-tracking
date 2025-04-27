@@ -26,23 +26,33 @@
         <button id="dropdownBtn" class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 hover:text-yellow-600 focus:outline-none">
           Account ▾
         </button>
-        <ul id="dropdownMenu" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md">
+        <<ul id="dropdownMenu" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md">
+
           <% if (currentUser?.uuid) { %>
+            <li>
+              <a href="/dashboard" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'dashboard' ? 'font-semibold' : '' %>">
+                Dashboard
+              </a>
+            </li>
             <li>
               <a href="/profiles/edit-profile/<%= currentUser.uuid %>" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'edit-profile' ? 'font-semibold' : '' %>">
                 Edit Profile
               </a>
             </li>
-          <% } %>
-          <% if (currentUser?.uuid) { %>
             <li>
-              <form action="/profiles/delete-user/<%= currentUser.uuid %>" method="POST" onsubmit="return confirm('Are you sure you want to delete your profile? This cannot be undone!');">
+              <a href="/settings" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100">
+                Settings
+              </a>
+            </li>
+            <li>
+              <form action="/auth/logout" method="POST">
                 <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-black hover:bg-yellow-100">
-                  Delete Profile
+                  Logout
                 </button>
               </form>
             </li>
           <% } %>
+        
         </ul>
       </div>
     </div>
