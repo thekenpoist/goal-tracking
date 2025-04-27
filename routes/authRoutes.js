@@ -7,13 +7,11 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.get('/dashboard', authController.getDashboard);
+router.get('/signup', authController.getSignup);
+router.post('/signup', signupRules, authController.postSignup);
 
-router.get('/auth/signup', authController.getSignup);
-router.post('/auth/signup', signupRules, authController.postSignup);
-
-router.get('/auth/login', authController.getLogin);
-router.post('/auth/login', loginRules, authController.postLogin);
+router.get('/login', authController.getLogin);
+router.post('/login', loginRules, authController.postLogin);
 
 
 
