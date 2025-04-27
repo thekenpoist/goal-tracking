@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get('/', homeController.getIndex);
 
-router.get('/dashboard', authController.getDashboard);
+router.get('/dashboard', homeController.getDashboard);
 
 
 
