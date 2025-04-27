@@ -12,6 +12,7 @@ const goalRouter = require('./routes/goalRoutes');
 const authRouter = require('./routes/authRoutes');
 
 const { error } = require('console');
+const User = require('./models/userModel');
 
 const app = express();
 
@@ -37,9 +38,21 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     res.locals.currentPage = '';  // default to empty string
-    res.locals.currentUser = null;
+
+    if (!req.session.userId) {
+        res.locals.currentUser = null;
+        next();
+    }
+
+    try {
+        const user = await User.getUserById(req.session.userId);
+        res.locals.currentUser = user;
+    } catch (err) {
+        console.error('Error loading current user for session', err);
+        res.locals.currentUser = null;
+    }
     next();
 });
 
