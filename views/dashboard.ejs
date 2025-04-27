@@ -1,7 +1,7 @@
 <%- include('../layouts/dashboard-header') %>
 
 <main class="container mx-auto px-4 py-8">
-  <h1 class="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
+    <h1 class="text-3xl font-bold mb-6">Welcome, <%= currentUser?.username || 'friend' %>!</h1>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     <!-- Create New Goal Card -->
