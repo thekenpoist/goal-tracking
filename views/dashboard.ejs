@@ -1,0 +1,33 @@
+<%- include('../layouts/dashboard-header') %>
+
+<main class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">Welcome to Your Dashboard</h1>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Create New Goal Card -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Create New Goal</h2>
+      <p class="text-gray-600">[Goal creation form will go here]</p>
+    </div>
+
+    <!-- Goals In Progress Card -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Goals In Progress</h2>
+      <p class="text-gray-600">[List of active goals will go here]</p>
+    </div>
+
+    <!-- Stats and Streak Card -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Your Stats</h2>
+      <p class="text-gray-600">[Login streak, progress, quote will go here]</p>
+    </div>
+
+    <!-- Completed Goals Card -->
+    <div class="bg-white shadow-md rounded-lg p-6">
+      <h2 class="text-xl font-semibold mb-4">Completed Goals</h2>
+      <p class="text-gray-600">[List of completed goals will go here]</p>
+    </div>
+  </div>
+</main>
+
+<%- include('../layouts/footer') %>
