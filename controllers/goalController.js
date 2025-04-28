@@ -2,9 +2,11 @@ const { validationResult } = require("express-validator");
 const Goal = require("../models/goalModel")
 
 exports.getCreateGoal = (req, res, next) => {
-    res.render('goals/new-goal', {
-        pageTitle: "Create Goal",
-        currentPage: 'new-goal',
+    res.render('goals/form-goal', {
+        pageTitle: "Create New Goal",
+        currentPage: 'goals',
+        formAction: '/goals',
+        submitButtonText: 'Create Goal',
         errorMessage: null,
         formData: {
             userId: req.params.userId || ''
@@ -48,3 +50,5 @@ exports.postCreateGoal = async (req, res, next) => {
         });
     }
 };
+
+exports.
