@@ -98,3 +98,12 @@ exports.postLogin = async (req, res, next) => {
         });
     }
 };
+
+exports.postLogout = (req, res, next) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error('Logout session destroy error:', err);
+        }
+        res.redirect('/');
+    });
+};
