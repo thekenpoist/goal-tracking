@@ -1,15 +1,21 @@
-<h1 class="text-2xl font-bold mb-4">Create New Goal</h1>
+<h1 class="text-2xl font-bold mb-4"><%= pageTitle %></h1>
+
 <% if (errorMessage) { %>
     <div class="text-red-600 bg-red-100 border border-red-400 p-4 rounded mb-6">
         <%= errorMessage %>
     </div>
 <% } %>
-<form action="/goals" method="POST" class="space-y-4">
+
+<form action="<%= formAction %>" method="POST" class="space-y-4">
+    <!-- Title -->
     <div class="mb-4">
         <label for="title" class="block text-gray-700 font-semibold mb-2">Goal Title</label>
-        <input type="text" id="title" name="title" required value="<%= formData?.title || '' %>"
-             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"/>  
+        <input type="text" id="title" name="title" required
+            value="<%= formData?.title || '' %>"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"/>  
     </div>
+
+    <!-- Category -->
     <div class="mb-4">
         <label for="category" class="block text-gray-700 font-semibold mb-2">Goal Category</label>
         <select id="category" name="category" required
@@ -27,6 +33,8 @@
             <option value="Miscellaneous" <%= formData?.category === 'Miscellaneous' ? 'selected' : '' %>>Miscellaneous</option>
         </select>
     </div>
+
+    <!-- Priority -->
     <div class="mb-4">
         <label for="priority" class="block text-gray-700 font-semibold mb-2">Goal Priority</label>
         <select id="priority" name="priority" required
@@ -37,22 +45,32 @@
             <option value="high" <%= formData?.priority === 'high' ? 'selected' : '' %>>High</option>
         </select>
     </div>
+
+    <!-- Start Date -->
     <div class="mb-4">
         <label for="startDate" class="block text-gray-700 font-semibold mb-2">Start Date</label>
         <input type="date" id="startDate" name="startDate"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
-            value="<%= formData?.startDate ? formData.startDate.toISOString().split('T')[0] : '' %>">
+            value="<%= formData?.startDate ? new Date(formData.startDate).toISOString().split('T')[0] : '' %>"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
     </div>
+
+    <!-- End Date -->
     <div class="mb-4">
         <label for="endDate" class="block text-gray-700 font-semibold mb-2">End Date</label>
         <input type="date" id="endDate" name="endDate"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
-            value="<%= formData?.endDate ? formData.endDate.toISOString().split('T')[0] : '' %>">
+            value="<%= formData?.endDate ? new Date(formData.endDate).toISOString().split('T')[0] : '' %>"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
     </div>
+
+    <!-- Description -->
     <div class="mb-4">
         <label for="description" class="block text-gray-700 font-semibold mb-2">Goal Description</label>
         <textarea id="description" name="description" rows="5"
             class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"><%= formData?.description || '' %></textarea>
     </div>
-    <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Create Goal</button>
+
+    <!-- Submit -->
+    <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
+        <%= submitButtonText %>
+    </button>
 </form>
