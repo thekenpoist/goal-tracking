@@ -13,6 +13,8 @@ router.post('/signup', signupRules, authController.postSignup);
 router.get('/login', authController.getLogin);
 router.post('/login', loginRules, authController.postLogin);
 
+router.post('/', authController.postLogout);
+
 
 
 
