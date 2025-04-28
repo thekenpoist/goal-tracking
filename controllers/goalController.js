@@ -51,4 +51,38 @@ exports.postCreateGoal = async (req, res, next) => {
     }
 };
 
-exports.
+exports.getEditGoal = async (req, res, next) => {
+    const userId = req.session.userId;
+    const goalId = parseInt(req.params.goalId);
+
+    try {
+        const goal = await Goal.getGoalById(userId, goalId);
+
+        if (!goal) {
+            return res.status(404).render('404', {
+                pageTitle: 'Goal not found',
+                currentPage: 'dashboard'
+            });
+        }
+
+        res.render('goals/form-goal', {
+            pageTitle: 'Edit Goal',
+            currentPage: 'goals',
+            formAction: `/goals/edit/${goalId}`,
+            submitButtonText: 'Save Changes',
+            errorMessage: null,
+            formData: goal
+        });
+    } catch (err) {
+        console.error('Error getching goal', err);
+        res.status(500).render('500', {
+            pageTitle: 'Server Error',
+            currentPage: 'dashboard'
+        });
+    }
+};
+
+exports.postEditGoal = async (res, req, next) => {
+    const userId = req.session.userId;
+    
+}
