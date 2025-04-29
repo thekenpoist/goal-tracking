@@ -7,14 +7,14 @@ exports.getIndex = (req, res, next) => {
          });
 };
 
-exports.getDashboard = (req, res, next) => {
+exports.getDashboard = async (req, res, next) => {
     const userId = req.session.userId;
 
     if (!userId) {
         return res.redirect('/auth/login');
     }
     try{ 
-        const userGoals = Goals.getGoalsByUserId(userId);
+        const userGoals = await Goals.getGoalsByUserId(userId);
 
         res.render('dashboard', {
             pageTitle: 'Your Dashboard',
