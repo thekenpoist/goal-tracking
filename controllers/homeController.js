@@ -9,12 +9,24 @@ exports.getIndex = (req, res, next) => {
 
 exports.getDashboard = (req, res, next) => {
     const userId = req.session.userId;
-    const userGoals = Goals.getGoalsByUserId(userId);
 
-    res.render('dashboard', {
-        pageTitle: 'Your Dashboard',
-        currentPage: 'dashboard',
-        layout: 'layouts/dashboard-layout',
-        goals: userGoals
-    });
+    if (!userId) {
+        return res.redirect('/auth/login');
+    }
+    try{ 
+        const userGoals = Goals.getGoalsByUserId(userId);
+
+        res.render('dashboard', {
+            pageTitle: 'Your Dashboard',
+            currentPage: 'dashboard',
+            layout: 'layouts/dashboard-layout',
+            goals: userGoals
+        });
+    } catch (err) {
+        console.error('Error fetching user goals.', err);
+        res.status(500).render('500', {
+            pageTitle: 'Server Error',
+            currentPage: 'dashboard'
+        });
+    }
 };
