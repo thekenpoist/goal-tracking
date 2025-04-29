@@ -15,12 +15,16 @@ exports.getDashboard = async (req, res, next) => {
     }
     try{ 
         const userGoals = await Goals.getGoalsByUserId(userId);
+        const priorityOrder = { high: 1, medium: 2, low: 3 };
+        const sortedGoals = userGoals.sort ((a, b) => {
+            return priorityOrder[a.priority.toLowerCase()] - priorityOrder[b.priority.toLowerCase()];
+        });
 
         res.render('dashboard', {
             pageTitle: 'Your Dashboard',
             currentPage: 'dashboard',
             layout: 'layouts/dashboard-layout',
-            goals: userGoals
+            goals: sortedGoals
         });
     } catch (err) {
         console.error('Error fetching user goals.', err);
