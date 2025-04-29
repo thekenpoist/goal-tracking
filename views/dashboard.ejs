@@ -11,9 +11,12 @@
     <!-- Goals In Progress Card -->
     <div class="bg-white shadow-md rounded-lg p-6">
       <h2 class="text-xl font-semibold mb-4">Goals In Progress</h2>
-      <p class="text-gray-600"><% goals.forEach(goal => { %><%= goal.title %></p><% }) %>
+      <div class="text-gray-600">
+        <% goals.forEach(goal => { %>
+          <p><%= goal.title %></p>
+        <% }) %>
 
-      </p>
+      </div>
     </div>
 
     <!-- Stats and Streak Card -->
