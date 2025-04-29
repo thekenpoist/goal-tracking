@@ -12,8 +12,17 @@
     <div class="bg-white shadow-md rounded-lg p-6">
       <h2 class="text-xl font-semibold mb-4">Goals In Progress</h2>
       <div class="text-gray-600">
-        <% goals.forEach(goal => { %>
-          <p><%= goal.title %></p>
+        <% goals.forEach(goal => { 
+          let priority = goal.priority?.toLowerCase();
+          let priorityColor = '';
+          if (priority === 'high') priorityColor = 'text-red-700';
+          if (priority === 'medium') priorityColor = 'text-yellow-400';
+          if (priority === 'low') priorityColor = 'text-yellow-600';
+        %>
+        <p class="flex items-center <%= priorityColor %> font-semibold">
+          <span class="w-2 h-2 rounded-full mr-2 bg-current"></span>
+            <%= goal.title %>
+          </p>
         <% }) %>
 
       </div>
