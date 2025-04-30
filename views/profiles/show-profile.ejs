@@ -1,12 +1,37 @@
-<h1 class="text-2xl font-bold mb-4">
-    <%= user.realName?.trim() !== '' ? user.realName : 'Unnamed User' %>'s Profile</h1>
-
-<div class="space-y-2">
-    <p><strong>Username:</strong> <%= user.username %></p>
-    <p><strong>Email:</strong> <%= user.email %></p>
-    <p><strong>Avatar:</strong></p> <% if (user.avatar && user.avatar.trim() !== '') { %>
-    <img src="<%= user.avatar %>" alt="User Avatar" class="w-32 h-32 rounded-full" />
-    <% } else { %>
-        <p><em>No avatar provided</em></p>
-    <% } %>
+<div class="bg-white p-6 rounded shadow-md max-w-md mx-auto">
+    <h1 class="text-2xl font-bold mb-6">
+      <%= user.realName?.trim() !== '' ? user.realName : 'Unnamed User' %>'s Profile
+    </h1>
+    <dt class="font-semibold">Member Since</dt>
+    <dd><%= new Date(user.createdAt).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }) %></dd>
+    <dl class="space-y-2">
+        <dt class="font-semibold">Username</dt>
+        <dd><%= user.username %></dd>
+      
+        <dt class="font-semibold">Email</dt>
+        <dd><%= user.email %></dd>
+      
+        <dt class="font-semibold">Avatar</dt>
+        <dd>
+          <% if (user.avatar && user.avatar.trim() !== '') { %>
+            <img src="<%= user.avatar %>" alt="User Avatar" class="w-32 h-32 rounded-full" />
+          <% } else { %>
+            <em>No avatar provided</em>
+          <% } %>
+        </dd>
+      
+        <% if (user.memberSince) { %>
+          <dt class="font-semibold">Member Since</dt>
+          <dd><%= new Date(user.memberSince).toLocaleDateString() %></dd>
+        <% } %>
+    </dl>
+    <div class="mt-6 text-right">
+        <a href="/profiles/edit/<%= user.id %>" class="inline-block bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
+          Edit Profile
+        </a>
+    </div>
 </div>
