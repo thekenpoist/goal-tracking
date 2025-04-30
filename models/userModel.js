@@ -32,7 +32,7 @@ module.exports = class User {
         return getUsersFromFile();
     }
 
-    static async getUserById(id) {
+    static async getUserByUUID(id) {
         const users = await getUsersFromFile();
         return users.find(u => u.uuid === id);
     }
