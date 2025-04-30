@@ -11,7 +11,6 @@ const userRouter = require('./routes/userRoutes');
 const goalRouter = require('./routes/goalRoutes');
 const authRouter = require('./routes/authRoutes');
 
-const { error } = require('console');
 const User = require('./models/userModel');
 
 const app = express();
@@ -30,48 +29,53 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(express.urlencoded({ extended: false }));
 
+// Set path as local variable for active nav highlighting
 app.use((req, res, next) => {
     res.locals.path = req.path;
     next();
 });
 
+// Set currentUser and layout from session
 app.use(async (req, res, next) => {
-    res.locals.currentPage = '';  // default to empty string to avoid undefined errors in views
+    res.locals.currentPage = '';
     res.locals.currentUser = null;
     res.locals.layout = 'layouts/main-layout';
 
-    if (req.session.userId) {
+    const uuid = req.session.userUuid;
+
+    if (uuid) {
         try {
-            const user = await User.getUserById(req.session.userId);
-            if (user) { 
+            const user = await User.getUserById(uuid);
+            if (user) {
                 res.locals.currentUser = user;
                 res.locals.layout = 'layouts/dashboard-layout';
             }
         } catch (err) {
-            console.error('Error loading current user for session', err);
+            console.error('Error loading current user from session:', err);
             res.locals.currentUser = null;
-            res.locals.layout = 'layouts/main-layout';
         }
     }
 
     next();
 });
 
+// Mount routes
 app.use('/profiles', userRouter);
 app.use('/', homeRouter);
 app.use('/goals', goalRouter);
 app.use('/auth', authRouter);
 
+// Swagger docs
 app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 
+// Error handlers
 app.use(errorController.get500);
 app.use(errorController.get404);
 
+// Start server
 const port = 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
