@@ -1,6 +1,37 @@
 const { validationResult } = require("express-validator");
 const Goal = require("../models/goalModel");
 
+exports.getShowGoal = async (req, res, next) => {
+    const uuid = req.session.userUuid;
+    const goalId = parseInt(req.params.goalId);
+
+    if (!uuid) {
+        return res.redirect('/auth/login');
+    }
+
+    try {
+        const goal = await Goal.getGoalById(uuid, goalId);
+        if (!goal) {
+            return res.status(404).render('404', {
+                pageTitle: "Goal not found",
+                currentPage: 'dashboard'
+            });
+        }
+        res.render('goals/show-goals', {
+            pageTitle: 'View Goal',
+            currentPage: 'goal',
+            errorMessage: null,
+            formData: goal
+        });
+    } catch (err) {
+        console.error('Error fetching goal:', err);
+        res.status(500).render('500', {
+            pageTitle: 'Server Error',
+            currentPage: 'dashboard'
+        });
+    }
+};
+
 exports.getCreateGoal = (req, res, next) => {
     res.render('goals/form-goal', {
         pageTitle: "Create New Goal",
