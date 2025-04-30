@@ -14,9 +14,9 @@ const getGoalsFromFile = async () => {
 };
 
 module.exports = class Goal {
-    constructor(goalId, userId, title, category, description, priority, startDate, endDate, createdAt, updatedAt, isCompleted) {
+    constructor(goalId, userUuid, title, category, description, priority, startDate, endDate, createdAt, updatedAt, isCompleted) {
         this.goalId = goalId;
-        this.userId = userId;
+        this.userUuid = userUuid;
         this.title = title;
         this.category = category;
         this.description = description;
@@ -28,36 +28,35 @@ module.exports = class Goal {
         this.isCompleted = isCompleted ?? false;
     }
 
-    //      READ-ONLY OPERATIONS
+    // READ-ONLY OPERATIONS
     static async fetchAll() {
         return getGoalsFromFile();
     }
 
-    static async getGoalsByUserId(userId) {
+    static async getGoalsByUserId(userUuid) {
         const goals = await getGoalsFromFile();
-        return goals.filter(goal => goal.userId === userId);
-
+        return goals.filter(goal => goal.userUuid === userUuid);
     }
 
-    static async getGoalById(userId, goalId) {
+    static async getGoalById(userUuid, goalId) {
         const goals = await getGoalsFromFile();
-        return goals.find(goal => goal.userId === userId && goal.goalId === goalId);
+        return goals.find(goal => goal.userUuid === userUuid && goal.goalId === goalId);
     }
 
-    //      WRITE OPERATIONS
-    static async createGoal({ userId, title, category, description, priority, startDate, endDate }) {
+    // WRITE OPERATIONS
+    static async createGoal({ userUuid, title, category, description, priority, startDate, endDate }) {
         const goals = await getGoalsFromFile();
         let nextGoalId = 1;
 
-        const allUserGoals = goals.filter(goal => goal.userId === userId);
-        if (allUserGoals.length > 0) {
-            const maxGoalId = Math.max(...allUserGoals.map(goal => goal.goalId));
+        const userGoals = goals.filter(goal => goal.userUuid === userUuid);
+        if (userGoals.length > 0) {
+            const maxGoalId = Math.max(...userGoals.map(goal => goal.goalId));
             nextGoalId = maxGoalId + 1;
         }
-        
+
         const newGoal = new Goal(
             nextGoalId,
-            userId,
+            userUuid,
             title,
             category,
             description,
@@ -70,16 +69,15 @@ module.exports = class Goal {
         return newGoal;
     }
 
-    static async updateGoal(userId, goalId, updatedFields) {
+    static async updateGoal(userUuid, goalId, updatedFields) {
         const goals = await getGoalsFromFile();
-        const goalIndex = goals.findIndex(goal => goal.userId === userId && goal.goalId === goalId);
+        const goalIndex = goals.findIndex(goal => goal.userUuid === userUuid && goal.goalId === goalId);
 
         if (goalIndex === -1) {
             throw new Error('Goal not found');
         }
 
-        // Destructure and ignore fields that should not be manually updated
-        const { userId:_, goalId:__, createdAt:___, updatedAt:____, ...safeFields } = updatedFields;
+        const { userUuid: _, goalId: __, createdAt: ___, updatedAt: ____, ...safeFields } = updatedFields;
 
         const updatedGoal = {
             ...goals[goalIndex],
@@ -98,10 +96,9 @@ module.exports = class Goal {
         }
     }
 
-    static async deleteGoal(userId, goalId) {
+    static async deleteGoal(userUuid, goalId) {
         const goals = await getGoalsFromFile();
-        const userGoals = goals.filter(goal => goal.userId === userId);
-        const updatedGoals = goals.filter(goal => !(goal.userId === userId && goal.goalId === goalId));
+        const updatedGoals = goals.filter(goal => !(goal.userUuid === userUuid && goal.goalId === goalId));
 
         if (updatedGoals.length === goals.length) {
             return false;
@@ -111,15 +108,15 @@ module.exports = class Goal {
             await fsPromises.writeFile(p, JSON.stringify(updatedGoals, null, 2));
             return true;
         } catch (err) {
-            console.error(`Error deleting goalId ${goalId} for userId ${userId}`, err);
+            console.error(`Error deleting goalId ${goalId} for userUuid ${userUuid}`, err);
             throw err;
         }
     }
 
-    //      INSTANCE METHOD
+    // INSTANCE METHOD
     async save() {
         try {
-            const goals = (await getGoalsFromFile());
+            const goals = await getGoalsFromFile();
             goals.push(this);
             await fsPromises.writeFile(p, JSON.stringify(goals, null, 2));
         } catch (err) {
