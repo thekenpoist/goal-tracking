@@ -7,6 +7,8 @@ const goalController = require('../controllers/goalController');
 
 const router = express.Router();
 
+router.get('/show-goal:goalId', goalController.getShowGoal);
+
 router.get('/form-goal', isAuthenticated, goalController.getCreateGoal);
 router.post('/', createGoalRules, goalController.postCreateGoal);
 
