@@ -1,51 +1,9 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
 
-/*
-exports.getCreateProfile = (req, res, next) => {
-    res.render('profiles/new-profile', {
-        pageTitle: "Create Profile",
-        currentPage: 'profile',
-        errorMessage: null,
-        formData: {}
-    });
-};
-
-exports.postCreateProfile = async (req, res, next) => {
-    const errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-        return res.status(422).render('profiles/new-profile', {
-            pageTitle: 'Create Profile',
-            currentPage: 'profiles',
-            errorMessage: errors.array().map(e => e.msg).join(','),
-            formData: req.body
-        });
-    }
-
-    try {
-        const { username, email, password, realName, avatar } = req.body;
-
-        const newUser = await User.addUser({
-            username,
-            email,
-            passwordHash: password,
-            realName,
-            avatar
-        });
-
-        res.redirect(`/profiles/${newUser.uuid}`);
-    } catch (err) {
-        console.error('Error Creating Profile:', err.message);
-        res.status(400).render('profiles/new-profile', {
-            pageTitle: 'Create Profile',
-            currentPage: 'profiles',
-            errorMessage: 'Something went wrong. Please try again',
-            formData: req.body
-        });
-    }
-
-}; */
+exports.getShowProfile = (req, res, next) => {
+    
+}
 
 exports.getEditUser = async (req, res, next) => {
     const userId = req.params.userId;
