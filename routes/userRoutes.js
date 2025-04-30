@@ -16,8 +16,8 @@ router.post('/edit-profile/:uuid', editUserRules,userController.postEditUser);
 router.post('/delete-user/:uuid', userController.deleteUser);
 
 
+router.get('/me', userController.getShowProfile);
 
-
-router.get('/:uuid', userController.getUserById);
+router.get('/:uuid', userController.getUserByUUID);
 
 module.exports = router; 

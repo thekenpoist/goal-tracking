@@ -9,7 +9,7 @@ exports.getShowProfile = async (req, res, next) => {
     }
 
     try {
-        const user = await User.getUserById(uuid);
+        const user = await User.getUserByUUID(uuid);
         if (!user) { 
             return res.status(404).render('404', {
                 pageTitle: 'User Not Found',
@@ -38,7 +38,7 @@ exports.getEditUser = async (req, res, next) => {
     const uuid = req.params.uuid;
 
     try {
-        const user = await User.getUserById(uuid);
+        const user = await User.getUserByUUID(uuid);
 
         if (!user) {
             return res.status(404).render('404', {
@@ -69,7 +69,7 @@ exports.postEditUser = async (req, res, next) => {
     const uuid = req.params.uuid;
 
     if (!errors.isEmpty()) {
-        const originalUser = await User.getUserById(uuid);
+        const originalUser = await User.getUserByUUID(uuid);
 
         return res.status(422).render('profiles/edit-profile', {
             pageTitle: 'Edit Profile',
@@ -109,7 +109,7 @@ exports.getUserByUUID = async (req, res, next) => {
     const uuid = req.params.uuid;
 
     try {
-        const user = await User.getUserById(uuid);
+        const user = await User.getUserByUUID(uuid);
 
         if (!user) {
             return res.status(404).send('User not found');

@@ -47,7 +47,7 @@ app.use(async (req, res, next) => {
 
     if (uuid) {
         try {
-            const user = await User.getUserById(uuid);
+            const user = await User.getUserByUUID(uuid);
             if (user) {
                 res.locals.currentUser = user;
                 res.locals.layout = 'layouts/dashboard-layout';
