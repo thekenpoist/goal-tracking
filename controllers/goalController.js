@@ -40,7 +40,7 @@ exports.postCreateGoal = async (req, res, next) => {
             endDate
         });
 
-        res.redirect('/goals/');
+        res.redirect('/dashboard');
     } catch (err) {
         console.error('Error creating goal:', err.message);
         res.status(500).render('goals/new-goal', {
