@@ -3,16 +3,15 @@ const User = require("../models/userModel");
 
 exports.getShowProfile = async (req, res, next) => {
     const userId = req.session.userId;
-    const goalId = req.body.goalId;
 
     if (!userId) {
         return res.redirect('auth/login');
     }
 
     try {
-        const user = await User.getGoalById(userId, goalId)
+        const user = await User.getUserById(userId);
         if (!user) { 
-            res.status(404).render('404', {
+            return res.status(404).render('404', {
                 pageTitle: 'User Not Found',
                 currentPage: 'profile',
                 layout: 'layouts/main-layout'
