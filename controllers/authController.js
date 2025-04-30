@@ -17,7 +17,7 @@ exports.postSignup = async (req, res, next) => {
         return res.status(422).render('auth/signup', {
             pageTitle: 'Sign Up',
             currentPage: 'signup',
-            errorMessage: errors.array().map(e => e.msg).join(','),
+            errorMessage: errors.array().map(e => e.msg).join(', '),
             formData: req.body
         });
     }
@@ -33,10 +33,11 @@ exports.postSignup = async (req, res, next) => {
             avatar: ''
         });
 
-        req.session.userId = newUser.uuid;
+        req.session.userUuid = newUser.uuid;
+
         req.session.save(err => {
             if (err) {
-                console.error('Session save error', err);
+                console.error('Session save error:', err);
             }
             res.redirect('/dashboard');
         });
@@ -46,11 +47,10 @@ exports.postSignup = async (req, res, next) => {
         res.status(500).render('auth/signup', {
             pageTitle: 'Sign Up',
             currentPage: 'signup',
-            errorMessage: err.message || 'Something went wrong. Please try again',
+            errorMessage: err.message || 'Something went wrong. Please try again.',
             formData: req.body
         });
     }
-
 };
 
 exports.getLogin = async (req, res, next) => {
@@ -67,30 +67,25 @@ exports.postLogin = async (req, res, next) => {
     try {
         const user = await User.getUserByEmail(email);
 
-        if (!user) {
+        if (!user || user.passwordHash !== password) {
             return res.status(401).render('auth/login', {
                 pageTitle: 'Login',
                 currentPage: 'login',
                 errorMessage: 'Invalid email or password.'
             });
         }
-        if (user.passwordHash !== password) {
-            return res.status(401).render('auth/login', {
-                pageTitle: 'Login',
-                currentPage: 'login',
-                errorMessage: 'Invalid email or password'
-            });
-        }
 
-        req.session.userId = user.uuid;
+        req.session.userUuid = user.uuid;
+
         req.session.save(err => {
             if (err) {
-                console.error('Session save error', err);
+                console.error('Session save error:', err);
             }
             res.redirect('/dashboard');
         });
+
     } catch (err) {
-        console.error('Login error', err);
+        console.error('Login error:', err);
         res.status(500).render('auth/login', {
             pageTitle: 'Login',
             currentPage: 'login',

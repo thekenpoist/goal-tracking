@@ -2,14 +2,14 @@ const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
 
 exports.getShowProfile = async (req, res, next) => {
-    const userId = req.session.userId;
+    const uuid = req.session.userUuid;
 
-    if (!userId) {
-        return res.redirect('auth/login');
+    if (!uuid) {
+        return res.redirect('/auth/login');
     }
 
     try {
-        const user = await User.getUserById(userId);
+        const user = await User.getUserById(uuid);
         if (!user) { 
             return res.status(404).render('404', {
                 pageTitle: 'User Not Found',
@@ -32,14 +32,13 @@ exports.getShowProfile = async (req, res, next) => {
             currentPage: 'profile'
         });
     }
-
 };
 
 exports.getEditUser = async (req, res, next) => {
-    const userId = req.params.userId;
+    const uuid = req.params.uuid;
 
     try {
-        const user = await User.getUserById(userId);
+        const user = await User.getUserById(uuid);
 
         if (!user) {
             return res.status(404).render('404', {
@@ -67,14 +66,15 @@ exports.getEditUser = async (req, res, next) => {
 
 exports.postEditUser = async (req, res, next) => {
     const errors = validationResult(req);
+    const uuid = req.params.uuid;
 
     if (!errors.isEmpty()) {
-        const originalUser = await User.getUserById(req.params.userId);
+        const originalUser = await User.getUserById(uuid);
 
         return res.status(422).render('profiles/edit-profile', {
             pageTitle: 'Edit Profile',
-            currentPage: 'profiles',
-            errorMessage: errors.array().map(e => e.msg).join(','),
+            currentPage: 'profile',
+            errorMessage: errors.array().map(e => e.msg).join(', '),
             formData: {
                 ...originalUser,
                 ...req.body
@@ -83,10 +83,9 @@ exports.postEditUser = async (req, res, next) => {
     }
 
     try {
-        const userId = req.params.userId;
         const { username, email, password, realName, avatar } = req.body;
 
-        const editUser = await User.updateUser(userId, {
+        const updatedUser = await User.updateUser(uuid, {
             username,
             email,
             passwordHash: password,
@@ -94,23 +93,23 @@ exports.postEditUser = async (req, res, next) => {
             avatar
         });
 
-        res.redirect(`/profiles/${editUser.uuid}`);
+        res.redirect(`/profiles/${updatedUser.uuid}`);
     } catch (err) {
         console.error('Error updating user:', err.message);
         res.status(500).render('profiles/edit-profile', {
             pageTitle: 'Edit Profile',
-            currentPage: 'profiles',
-            errorMessage: 'Something went wrong. Please try again',
+            currentPage: 'profile',
+            errorMessage: 'Something went wrong. Please try again.',
             formData: req.body
         });
     }
 };
 
-exports.getUserById = async (req, res, next) => {
-    const userId = req.params.userId;
+exports.getUserByUUID = async (req, res, next) => {
+    const uuid = req.params.uuid;
 
     try {
-        const user = await User.getUserById(userId);
+        const user = await User.getUserById(uuid);
 
         if (!user) {
             return res.status(404).send('User not found');
@@ -125,7 +124,7 @@ exports.getUserById = async (req, res, next) => {
             layout: 'layouts/dashboard-layout'
         });
     } catch (err) {
-        console.error('Error fetching user by ID:', err);
+        console.error('Error fetching user by UUID:', err);
         res.status(500).render('500', {
             pageTitle: "Server error",
             currentPage: 'profile'
@@ -134,10 +133,10 @@ exports.getUserById = async (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
-    const userId = req.params.userId;
+    const uuid = req.params.uuid;
 
     try {
-        const deleted = await User.deleteUser(userId);
+        const deleted = await User.deleteUser(uuid);
 
         if (!deleted) {
             return res.status(404).render('404', {
@@ -153,6 +152,5 @@ exports.deleteUser = async (req, res, next) => {
             pageTitle: "Server error",
             currentPage: '/'
         });
-
     }
 };

@@ -4,19 +4,22 @@ exports.getIndex = (req, res, next) => {
     res.render('index', {
         pageTitle: 'TrailTracker',
         currentPage: 'index'
-         });
+    });
 };
 
 exports.getDashboard = async (req, res, next) => {
-    const userId = req.session.userId;
+    const userUuid = req.session.userUuid;
 
-    if (!userId) {
+    if (!userUuid) {
         return res.redirect('/auth/login');
     }
-    try{ 
-        const userGoals = await Goals.getGoalsByUserId(userId);
+
+    try { 
+        const userGoals = await Goals.getGoalsByUserId(userUuid);
+
+        // Sort goals by priority: high → medium → low
         const priorityOrder = { high: 1, medium: 2, low: 3 };
-        const sortedGoals = userGoals.sort ((a, b) => {
+        const sortedGoals = userGoals.sort((a, b) => {
             return priorityOrder[a.priority.toLowerCase()] - priorityOrder[b.priority.toLowerCase()];
         });
 
