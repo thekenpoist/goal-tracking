@@ -1,9 +1,40 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
 
-exports.getShowProfile = (req, res, next) => {
-    
-}
+exports.getShowProfile = async (req, res, next) => {
+    const userId = req.session.userId;
+    const goalId = req.body.goalId;
+
+    if (!userId) {
+        return res.redirect('auth/login');
+    }
+
+    try {
+        const user = await User.getGoalById(userId, goalId)
+        if (!user) { 
+            res.status(404).render('404', {
+                pageTitle: 'User Not Found',
+                currentPage: 'profile',
+                layout: 'layouts/main-layout'
+            });
+        }
+
+        res.render('profiles/show-profile', {
+            pageTitle: 'Show Profile',
+            currentPage: 'profile',
+            layout: 'layouts/dashboard-layout',
+            errorMessage: null,
+            formData: user
+        });
+    } catch (err) {
+        console.error('Error fetching user', err);
+        res.status(500).render('500', {
+            pageTitle: 'Server Error',
+            currentPage: 'profile'
+        });
+    }
+
+};
 
 exports.getEditUser = async (req, res, next) => {
     const userId = req.params.userId;
@@ -19,12 +50,12 @@ exports.getEditUser = async (req, res, next) => {
             });
         }
 
-    res.render('profiles/edit-profile', {
-        pageTitle: "Edit Profile",
-        currentPage: 'profile',
-        layout: 'layouts/dashboard-layout',
-        errorMessage: null,
-        formData: user
+        res.render('profiles/edit-profile', {
+            pageTitle: "Edit Profile",
+            currentPage: 'profile',
+            layout: 'layouts/dashboard-layout',
+            errorMessage: null,
+            formData: user
         });
     } catch (err) {
         console.error('Error fetching user:', err);
