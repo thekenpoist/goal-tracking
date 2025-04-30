@@ -1,7 +1,8 @@
 <main class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Welcome, <%= currentUser?.username || 'friend' %>!</h1>
+  <h1 class="text-3xl font-bold mb-6">Welcome, <%= currentUser?.username || 'friend' %>!</h1>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    
     <!-- Create New Goal Card -->
     <div class="bg-white shadow-md rounded-lg p-6">
       <h2 class="text-xl font-semibold mb-4">Create New Goal</h2>
@@ -11,20 +12,21 @@
     <!-- Goals In Progress Card -->
     <div class="bg-white shadow-md rounded-lg p-6">
       <h2 class="text-xl font-semibold mb-4">Goals In Progress</h2>
-      <div class="text-gray-600">
-        <% goals.forEach(goal => { 
-          let priority = goal.priority?.toLowerCase();
-          let priorityColor = '';
+      <div class="space-y-2">
+        <% goals.forEach(goal => {
+          const priority = goal.priority?.toLowerCase();
+          let priorityColor = 'text-gray-600';
           if (priority === 'high') priorityColor = 'text-red-600';
           if (priority === 'medium') priorityColor = 'text-yellow-600';
           if (priority === 'low') priorityColor = 'text-yellow-300';
         %>
-        <p class="flex items-center <%= priorityColor %> font-semibold">
-          <span class="w-2 h-2 rounded-full mr-2 bg-current"></span>
-            <%= goal.title %>
+          <p class="flex items-center <%= priorityColor %> font-semibold">
+            <span class="w-2 h-2 rounded-full mr-2 bg-current"></span>
+            <a href="/goals/<%= goal.goalId %>" class="hover:underline">
+              <%= goal.title %>
+            </a>
           </p>
         <% }) %>
-
       </div>
     </div>
 
@@ -39,5 +41,6 @@
       <h2 class="text-xl font-semibold mb-4">Completed Goals</h2>
       <p class="text-gray-600">[List of completed goals will go here]</p>
     </div>
+
   </div>
 </main>
