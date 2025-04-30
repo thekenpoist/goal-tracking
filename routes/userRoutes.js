@@ -10,14 +10,14 @@ const router = express.Router();
 //router.get('/new-profile', userController.getAddUser);
 //router.post('/', addUserRules, userController.postAddUser);
 
-router.get('/edit-profile/:userId', userController.getEditUser);
-router.post('/edit-profile/:userId', editUserRules,userController.postEditUser);
+router.get('/edit-profile/:uuid', userController.getEditUser);
+router.post('/edit-profile/:uuid', editUserRules,userController.postEditUser);
 
-router.post('/delete-user/:userId', userController.deleteUser);
-
-
+router.post('/delete-user/:uuid', userController.deleteUser);
 
 
-router.get('/:userId', userController.getUserById);
+
+
+router.get('/:uuid', userController.getUserById);
 
 module.exports = router; 
