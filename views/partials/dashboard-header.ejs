@@ -27,7 +27,6 @@
           Account ▾
         </button>
         <ul id="dropdownMenu" class="hidden absolute right-0 z-10 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md">
-
           <% if (currentUser?.uuid) { %>
             <li>
               <a href="/dashboard" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'dashboard' ? 'font-semibold' : '' %>">
@@ -35,7 +34,7 @@
               </a>
             </li>
             <li>
-              <a href="/profiles/show-profile/<%= currentUser.uuid %>" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'show-profile' ? 'font-semibold' : '' %>">
+              <a href="/profiles/me" class="block px-4 py-2 text-sm text-black hover:bg-yellow-100 <%= currentPage === 'show-profile' ? 'font-semibold' : '' %>">
                 View Profile
               </a>
             </li>
@@ -52,7 +51,6 @@
               </form>
             </li>
           <% } %>
-        
         </ul>
       </div>
     </div>
