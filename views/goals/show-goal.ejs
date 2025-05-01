@@ -36,9 +36,43 @@
       </div>
     </dl>
   
-    <div class="mt-6 text-center">
-      <a href="/goals/edit/<%= formData.goalId %>" class="inline-block bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
+    <div class="mt-6 flex justify-center gap-4">
+      <a href="/goals/edit/<%= formData.goalId %>" class="bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
         Edit Goal
       </a>
+    
+      <button 
+        type="button" 
+        class="bg-red-600 text-white font-semibold px-4 py-2 rounded hover:bg-red-700 transition"
+        onclick="confirmDelete(<%= formData.goalId %>)"
+      >
+        Delete Goal
+      </button>
     </div>
   </div>
+
+  <!-- Delete Confirmation Modal -->
+<div id="deleteModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full text-center">
+    <h2 class="text-xl font-semibold mb-4">Are you sure?</h2>
+    <p class="mb-6 text-gray-600">This will permanently delete your goal. This action cannot be undone.</p>
+
+    <form id="deleteForm" method="POST">
+      <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded mr-2 hover:bg-red-700">Yes, Delete</button>
+      <button type="button" class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400" onclick="closeModal()">Cancel</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function confirmDelete(goalId) {
+    const modal = document.getElementById('deleteModal');
+    const form = document.getElementById('deleteForm');
+    form.action = `/goals/delete-goal/${goalId}`;
+    modal.classList.remove('hidden');
+  }
+
+  function closeModal() {
+    document.getElementById('deleteModal').classList.add('hidden');
+  }
+</script>
