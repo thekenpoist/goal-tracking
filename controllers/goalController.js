@@ -43,7 +43,10 @@ exports.viewGoalPartial = async (req, res, next) => {
         if (!goal) {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
         }
-        res.render('partials/goal-details', { goal });
+        res.render('partials/goal-details', {
+            goal,
+            pageTitle: `Goal: ${goal.title}` 
+        });
     } catch (err) {
         console.error('Error loading goal details.', err);
         res.status(500).send('<p> classe="text-red-500">Server erro loading goal</p>');

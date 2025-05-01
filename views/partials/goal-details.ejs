@@ -1,0 +1,41 @@
+<div class="bg-white p-6 rounded-lg shadow">
+  <dl class="space-y-4">
+    <div>
+      <dt class="font-semibold">Title</dt>
+      <dd><%= goal.title %></dd>
+    </div>
+    <div>
+      <dt class="font-semibold">Category</dt>
+      <dd><%= goal.category %></dd>
+    </div>
+    <div>
+      <dt class="font-semibold">Priority</dt>
+      <dd><%= goal.priority %></dd>
+    </div>
+    <div>
+      <dt class="font-semibold">Start Date</dt>
+      <dd><%= new Date(goal.startDate).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric' }) %></dd>
+    </div>
+    <div>
+      <dt class="font-semibold">End Date</dt>
+      <dd><%= new Date(goal.endDate).toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric' }) %></dd>
+    </div>
+    <div>
+      <dt class="font-semibold">Description</dt>
+      <dd><%= goal.description %></dd>
+    </div>
+  </dl>
+
+  <div class="mt-6 flex justify-center gap-4">
+    <a href="/goals/edit/<%= goal.goalId %>" class="bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
+      Edit Goal
+    </a>
+
+    <button type="button" class="bg-red-600 text-white font-semibold px-4 py-2 rounded hover:bg-red-700 transition"
+            onclick="confirmDelete(<%= goal.goalId %>)">
+      Delete Goal
+    </button>
+  </div>
+</div>
