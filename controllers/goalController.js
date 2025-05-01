@@ -17,8 +17,7 @@ exports.getShowGoal = async (req, res, next) => {
                 currentPage: 'dashboard'
             });
         }
-        console.log('Trying to fetch goalId:', goalId, 'for userUuid:', userUuid); // delte this
-        res.render('goals/show-goals', {
+        res.render('goals/show-goal', {
             pageTitle: 'View Goal',
             currentPage: 'goal',
             errorMessage: null,
@@ -29,6 +28,7 @@ exports.getShowGoal = async (req, res, next) => {
         res.status(500).render('500', {
             pageTitle: 'Server Error',
             currentPage: 'dashboard',
+            message: 'Something went wrong while loading this goal', err
         });
     }
 };
