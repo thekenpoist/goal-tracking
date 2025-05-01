@@ -153,7 +153,7 @@ exports.postEditGoal = async (req, res, next) => {
     }
 };
 
-exports.deleteUser = async (req, res, next) => {
+exports.deleteGoal = async (req, res, next) => {
     const uuid = req.session.userUuid;
     const goalId = req.params.goalId;
 
