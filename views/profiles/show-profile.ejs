@@ -1,41 +1,44 @@
-<div class="bg-white p-6 rounded shadow-md max-w-md mx-auto">
+<div class="bg-white p-8 rounded-2xl shadow-lg max-w-2xl mx-auto">
   <h1 class="text-2xl font-bold mb-6">
     <%= formData.realName?.trim() !== '' ? formData.realName : 'Unnamed User' %>'s Profile
   </h1>
 
-  <dl class="space-y-4">
-    <div>
-      <dt class="font-semibold">Username</dt>
-      <dd><%= formData.username %></dd>
+  <div class="flex flex-col md:flex-row justify-between items-start gap-6">
+    <!-- Profile Info -->
+    <dl class="space-y-4 flex-1">
+      <div>
+        <dt class="font-semibold">Username</dt>
+        <dd><%= formData.username %></dd>
+      </div>
+  
+      <div>
+        <dt class="font-semibold">Email</dt>
+        <dd><%= formData.email %></dd>
+      </div>
+  
+      <div>
+        <dt class="font-semibold">Member Since</dt>
+        <dd><%= new Date(formData.createdAt).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }) %></dd>
+      </div>
+    </dl>
+  
+    <!-- Avatar -->
+    <div class="shrink-0 text-center">
+      <dt class="font-semibold text-lg mb-2">Avatar</dt>
+      <% if (formData.avatar && formData.avatar.trim() !== '') { %>
+        <img src="<%= formData.avatar %>" alt="User Avatar" class="w-40 h-40 rounded-full border border-gray-300 shadow-md mx-auto" />
+      <% } else { %>
+        <em class="block text-gray-500">No avatar provided</em>
+      <% } %>
     </div>
-
-    <div>
-      <dt class="font-semibold">Email</dt>
-      <dd><%= formData.email %></dd>
-    </div>
-
-    <div>
-      <dt class="font-semibold">Member Since</dt>
-      <dd><%= new Date(formData.createdAt).toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      }) %></dd>
-    </div>
-
-    <div>
-      <dt class="font-semibold">Avatar</dt>
-      <dd>
-        <% if (formData.avatar && formData.avatar.trim() !== '') { %>
-          <img src="<%= formData.avatar %>" alt="User Avatar" class="w-32 h-32 rounded-full" />
-        <% } else { %>
-          <em>No avatar provided</em>
-        <% } %>
-      </dd>
-    </div>
-  </dl>
-
-  <div class="mt-6 text-right">
+  </div>
+  
+  <!-- Edit button -->
+  <div class="mt-8 text-center">
     <a href="/profiles/edit-profile/<%= formData.uuid %>" class="inline-block bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
       Edit Profile
     </a>
