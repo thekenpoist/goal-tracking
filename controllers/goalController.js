@@ -45,7 +45,8 @@ exports.viewGoalPartial = async (req, res, next) => {
         }
         res.render('partials/goal-details', {
             goal,
-            pageTitle: `Goal: ${goal.title}` 
+            pageTitle: `Goal: ${goal.title}`,
+            layout: false
         });
     } catch (err) {
         console.error('Error loading goal details.', err);
