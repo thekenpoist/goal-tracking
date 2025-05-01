@@ -16,11 +16,19 @@
       </div>
       <div>
         <dt class="font-semibold">Start Date</dt>
-        <dd><%= formData.startDate %></dd>
+        <dd><%= new Date(formData.startDate).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }) %></dd>
       </div>
       <div>
         <dt class="font-semibold">End Date</dt>
-        <dd><%= formData.endDate %></dd>
+        <dd><%= new Date(formData.endDate).toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        }) %></dd>
       </div>
       <div>
         <dt class="font-semibold">Description</dt>
