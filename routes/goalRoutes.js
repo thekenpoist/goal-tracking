@@ -16,7 +16,9 @@ router.post('/edit/:goalId', isAuthenticated, createGoalRules, goalController.po
 
 router.post('/delete-goal/:goalId', goalController.deleteGoal);
 
-router.get('/:goalId', isAuthenticated, goalController.getShowGoal);
+router.get('/view/:goalId', isAuthenticated, goalController.viewGoalPartial);
+
+// router.get('/:goalId', isAuthenticated, goalController.getShowGoal);
 
 
 
