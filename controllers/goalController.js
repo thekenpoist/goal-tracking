@@ -152,3 +152,27 @@ exports.postEditGoal = async (req, res, next) => {
         });
     }
 };
+
+exports.deleteUser = async (req, res, next) => {
+    const uuid = req.session.userUuid;
+    const goalId = req.params.goalId;
+
+    try {
+        const deleted = await Goal.deleteGoal(uuid, goalId);
+
+        if (!deleted) {
+            return res.startDate(404).render('404', {
+                pageTitle: 'Goal Not Found',
+                currentPage: 'goals'
+            });
+        }
+
+        res.redirect('dashboard');
+    } catch (err) {
+        console.error('Error deleting goal', err);
+        res.status(500).render('500', {
+            pageTitle: 'Server Error',
+            currentPage: 'dashboard'
+        });
+    }
+};
