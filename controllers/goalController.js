@@ -33,6 +33,23 @@ exports.getShowGoal = async (req, res, next) => {
     }
 };
 
+exports.viewGoalPartial = async (req, res, next) => {
+    const uuid = req.session.userUuid;
+    const goalId = parseInt(req.params.goalId);
+
+    try {
+        const goal = await Goal.getGoalById(uuid, goalId);
+
+        if (!goal) {
+            return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
+        }
+        res.render('partials/goal-details', { goal });
+    } catch (err) {
+        console.error('Error loading goal details.', err);
+        res.status(500).send('<p> classe="text-red-500">Server erro loading goal</p>');
+    }
+};
+
 exports.getCreateGoal = (req, res, next) => {
     res.render('goals/form-goal', {
         pageTitle: "Create New Goal",
