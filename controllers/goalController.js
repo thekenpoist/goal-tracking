@@ -17,6 +17,7 @@ exports.getShowGoal = async (req, res, next) => {
                 currentPage: 'dashboard'
             });
         }
+        console.log('Trying to fetch goalId:', goalId, 'for userUuid:', userUuid); // delte this
         res.render('goals/show-goals', {
             pageTitle: 'View Goal',
             currentPage: 'goal',
@@ -27,7 +28,7 @@ exports.getShowGoal = async (req, res, next) => {
         console.error('Error fetching goal:', err);
         res.status(500).render('500', {
             pageTitle: 'Server Error',
-            currentPage: 'dashboard'
+            currentPage: 'dashboard',
         });
     }
 };

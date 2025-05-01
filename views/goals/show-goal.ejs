@@ -1,0 +1,36 @@
+<div class="bg-white p-6 rounded shadow-md max-w-md mx-auto">
+    <dl class="space-y-4">
+      <div>
+        <dt class="font-semibold">Title</dt>
+        <dd><%= formData.title %></dd>
+      </div>
+  
+      <div>
+        <dt class="font-semibold">Category</dt>
+        <dd><%= formData.category %></dd>
+      </div>
+  
+      <div>
+        <dt class="font-semibold">Priority</dt>
+        <dd><%= formData.priority %></dd>
+      </div>
+      <div>
+        <dt class="font-semibold">Start Date</dt>
+        <dd><%= formData.startDate %></dd>
+      </div>
+      <div>
+        <dt class="font-semibold">End Date</dt>
+        <dd><%= formData.endDate %></dd>
+      </div>
+      <div>
+        <dt class="font-semibold">Description</dt>
+        <dd><%= formData.description %></dd>
+      </div>
+    </dl>
+  
+    <div class="mt-6 text-right">
+      <a href="/goals/edit-goal/<%= formData.goalId %>" class="inline-block bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
+        Edit Profile
+      </a>
+    </div>
+  </div>
