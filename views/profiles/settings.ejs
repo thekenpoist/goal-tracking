@@ -1,0 +1,33 @@
+<h1 class="text-2xl font-bold mb-4">Settings</h1>
+<% if (errorMessage) { %>
+    <div class="text-red-600 bg-red-100 border border-red-400 p-4 rounded mb-6">
+        <%= errorMessage %>
+    </div>
+<% } %>
+<form action="/profiles/settings" method="POST" class="space-y-4">
+    <div class="mb-4">
+        <label for="email" class="block text-gray-700 font-semibold mb-2">Update Email</label>
+        <input type="email" id="email" name="email" required value="<%= formData?.email || '' %>"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
+        />
+    </div>
+    <div class="mb-4">
+        <label for="confirmEmail" class="block text-gray-700 font-semibold mb-2">Confirm Email Address</label>
+        <input type="email" id="confirmEmail" name="confirmEmail" required value="<%= formData?.confirmEmail || '' %>"
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
+        />
+    </div>
+    <div class="mb-4">
+        <label for="password" class="block text-gray-700 font-semibold mb-2">Update Password</label>
+        <input type="password" id="password" name="password" required
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
+        />
+    </div>
+    <div class="mb-4">
+        <label for="confirmPassword" class="block text-gray-700 font-semibold mb-2">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required
+            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"
+        />
+    </div>
+    <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Submit Changes</button>
+</form>
