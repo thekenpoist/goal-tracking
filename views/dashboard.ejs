@@ -70,3 +70,33 @@
 
   </div>
 </main>
+
+
+<!-- Script for goal deletion confirmation -->
+<script>
+  function confirmDelete(goalId) {
+    const modal = document.getElementById('deleteModal');
+    const box = document.getElementById('modalBox');
+    const form = document.getElementById('deleteForm');
+
+    form.action = `/goals/delete-goal/${goalId}`;
+    modal.classList.remove('hidden');
+
+    requestAnimationFrame(() => {
+      box.classList.remove('scale-95', 'opacity-0');
+      box.classList.add('scale-100', 'opacity-100');
+    });
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('deleteModal');
+    const box = document.getElementById('modalBox');
+
+    box.classList.remove('scale-100', 'opacity-100');
+    box.classList.add('scale-95', 'opacity-0');
+
+    setTimeout(() => {
+      modal.classList.add('hidden');
+    }, 300);
+  }
+</script>
