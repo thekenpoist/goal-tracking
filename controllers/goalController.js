@@ -184,7 +184,7 @@ exports.deleteGoal = async (req, res, next) => {
         if (!deleted) {
             return res.status(404).render('404', {
                 pageTitle: 'Goal Not Found',
-                currentPage: 'goals'
+                currentPage: 'dashboard'
             });
         }
 
@@ -193,7 +193,8 @@ exports.deleteGoal = async (req, res, next) => {
         console.error('Error deleting goal', err);
         res.status(500).render('500', {
             pageTitle: 'Server Error',
-            currentPage: 'dashboard'
+            currentPage: 'dashboard',
+            message: 'Failed to delete goal', err
         });
     }
 };
