@@ -1,6 +1,36 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
 
+exports.getSettingsPage = async (req, res, next) => {
+    const uuid = req.session.userUuid;
+
+    if (!uuid) {
+        return res.redirect('/auth/login');
+    }
+
+    try {
+        const user = await User.getUserByUUID(uuid);
+        if (!user) {
+            return res.status(404).render('404', {
+                pageTitle: 'User Not Found',
+                currentPage: 'profile',
+                layout: 'layouts/main-layout'
+            });
+        }
+        res.render('profiles/settings', {
+            pageTitle: 'Settings',
+            currentPage: 'dashboard',
+            layout: 'layouts/dashboard-layout'
+        });
+    } catch (err) {
+        console.error('Error fetching user', err);
+        res.status(500).render('500', {
+            pageTitle: 'Server Error',
+            currentPage: 'dashboard'
+        });
+    }
+};
+
 exports.getShowProfile = async (req, res, next) => {
     const uuid = req.session.userUuid;
 
