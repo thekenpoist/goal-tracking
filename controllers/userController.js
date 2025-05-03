@@ -13,14 +13,20 @@ exports.getSettingsPage = async (req, res, next) => {
         if (!user) {
             return res.status(404).render('404', {
                 pageTitle: 'User Not Found',
-                currentPage: 'profile',
+                currentPage: 'dashboard',
                 layout: 'layouts/main-layout'
             });
         }
         res.render('profiles/settings', {
             pageTitle: 'Settings',
             currentPage: 'dashboard',
-            layout: 'layouts/dashboard-layout'
+            layout: 'layouts/dashboard-layout',
+            formData: {
+                email: user.email,
+                confirmEmail: ''
+            },
+            errorMessage: null,
+            successMessage: null
         });
     } catch (err) {
         console.error('Error fetching user', err);
