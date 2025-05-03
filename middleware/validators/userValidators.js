@@ -23,6 +23,8 @@ exports.editUserRules = [
     body('email')
         .isEmail().withMessage('A valid email is required.')
         .normalizeEmail(),
+    body('password')
+        .isLength({ min: 10, max: 25 }).withMessage('Password must be between 10 and 25 characters.'),
     body('realName')
         .optional({ checkFalsy: true })
         .isLength({ max: 50 }).withMessage('Real name must be less than 50 characters.'),
