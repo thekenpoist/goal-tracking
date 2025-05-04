@@ -50,6 +50,7 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
             pageTitle: 'Settings',
             currentPage: 'settings',
             errorMessage: errors.array().map(e => e.msg).join(', '),
+            successMessage: null,
             formData: req.body
         });
     }
@@ -66,7 +67,13 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
 
         const updatedUser = await User.updateUser(uuid, updatedFields);
 
-        res.redirect(`/profiles/${updatedUser.uuid}`);
+        return res.render('profiles/settings', {
+            pageTitle: 'Settings',
+            currentUser: 'settings',
+            errorMessage: null,
+            successMessage: 'Settings updated successfully!',
+            formData: {}
+        });
     } catch (err) {
         console.error('Error updating user settings:', err.message);
         res.status(500).render('profiles/settings', {
