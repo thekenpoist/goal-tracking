@@ -37,6 +37,47 @@ exports.getSettingsPage = async (req, res, next) => {
     }
 };
 
+exports.postUpdateEmailOrPassword = async (req, res, next) => {
+    const uuid = req.session.userUuid;
+    const errors = validationResult(req);
+
+    if (!uuid) {
+        return res.redirect('/auth/login');
+    }
+
+    if (!errors.isEmpty()) {
+        return res.status(422).render('profiles/settings', {
+            pageTitle: 'Settings',
+            currentPage: 'settings',
+            errorMessage: errors.array().map(e => e.msg).join(', '),
+            formData: req.body
+        });
+    }
+
+    try {
+        const { email, password } = req.body;
+
+        const updatedUser = await User.updateUser(uuid, {
+            username,
+            email,
+            passwordHash: password,
+            realName,
+            avatar
+        });
+
+        res.redirect(`/profiles/${updatedUser.uuid}`);
+    } catch (err) {
+        console.error('Error updating user settings:', err.message);
+        res.status(500).render('profile/settings', {
+            pageTitle: 'Settings',
+            currentPage: 'settings',
+            errorMessage: 'Something went wrong. Please try again',
+            formData: req.body
+        });
+        
+    }
+};
+
 exports.getShowProfile = async (req, res, next) => {
     const uuid = req.session.userUuid;
 
@@ -72,6 +113,10 @@ exports.getShowProfile = async (req, res, next) => {
 
 exports.getEditUser = async (req, res, next) => {
     const uuid = req.params.uuid;
+
+    if (!uuid) {
+        return res.redirect('/auth/login');
+    }
 
     try {
         const user = await User.getUserByUUID(uuid);
