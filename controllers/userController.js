@@ -55,15 +55,16 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
     }
 
     try {
-        const { email, password } = req.body;
+        const { username, email, password, realName, avatar } = req.body;
+        const updatedFields = {};
 
-        const updatedUser = await User.updateUser(uuid, {
-            username,
-            email,
-            passwordHash: password,
-            realName,
-            avatar
-        });
+        if (username) updatedFields.username = username;
+        if (email) updatedFields.email = email;
+        if (password) updatedFields.password = password;
+        if (realName) updatedFields.realName = realName;
+        if (avatar) updatedFields.avatar = avatar;
+
+        const updatedUser = await User.updateUser(uuid, updatedFields);
 
         res.redirect(`/profiles/${updatedUser.uuid}`);
     } catch (err) {
