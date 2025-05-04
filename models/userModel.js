@@ -97,6 +97,7 @@ module.exports = class User {
             ...existingUser,
             username: updatedFields.username || existingUser.username,
             email: updatedFields.email || existingUser.email,
+            passwordHash: updatedFields.passwordHash || existingUser.passwordHash,
             realName: updatedFields.realName || existingUser.realName,
             avatar: updatedFields.avatar || existingUser.avatar,
             updatedAt: new Date().toISOString()
