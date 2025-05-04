@@ -16,7 +16,7 @@ router.post('/edit-profile/:uuid', editUserRules, userController.postEditUser);
 
 router.get('/settings', isAuthenticated, userController.getSettingsPage);
 router.post('/settings/:uuid', isAuthenticated, updateSettingsRules, userController.postUpdateEmailOrPassword);
-//router.post('/delete-user/:uuid', userController.deleteUser);
+router.post('/delete-user/:uuid', userController.deleteUser);
 
 router.get('/me', userController.getShowProfile);
 
