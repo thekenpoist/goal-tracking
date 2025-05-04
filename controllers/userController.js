@@ -69,7 +69,7 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
         res.redirect(`/profiles/${updatedUser.uuid}`);
     } catch (err) {
         console.error('Error updating user settings:', err.message);
-        res.status(500).render('profile/settings', {
+        res.status(500).render('profiles/settings', {
             pageTitle: 'Settings',
             currentPage: 'settings',
             errorMessage: 'Something went wrong. Please try again',
