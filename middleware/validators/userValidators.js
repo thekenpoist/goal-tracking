@@ -36,9 +36,11 @@ exports.editUserRules = [
 
 exports.updateSettingsRules = [
     body('email')
+        .optional({ checkFalsy: true })
         .isEmail().withMessage('A valid email is required.')
         .normalizeEmail(),
     body('confirmEmail')
+        .optional({ checkFalsy: true })
         .custom((value, { req }) => {
             if (value !== req.body.email) {
                 throw new Error('Emails do not match.');
@@ -46,8 +48,10 @@ exports.updateSettingsRules = [
             return true;
         }),
     body('password')
+        .optional({ checkFalsy: true })
         .isLength({ min: 10, max: 25 }).withMessage('Password must be between 10 and 25 characters.'),
     body('confirmPassword')
+    .optional({ checkFalsy: true })
         .custom((value, { req }) => {
             if (value !== req.body.password) {
                 throw new Error('Passwords do not match.');
