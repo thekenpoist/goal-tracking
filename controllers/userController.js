@@ -258,8 +258,14 @@ exports.deleteUser = async (req, res, next) => {
                 currentPage: 'profile'
             });
         }
-        
-        res.redirect('/');
+
+        req.session.destroy(err => {
+            if (err) {
+                console.error('Session destroy error:', err);
+                return res.redirect('/');
+            }
+            res.redirect('/');
+        });
     } catch (err) {
         console.error('Error deleting user', err);
         res.status(500).render('500', {
