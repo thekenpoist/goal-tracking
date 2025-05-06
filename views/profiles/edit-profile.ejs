@@ -4,7 +4,7 @@
         <%= errorMessage %>
     </div>
 <% } %>
-<form action="/profiles/edit-profile/<%= formData.uuid %>" method="POST" class="space-y-4">
+<form action="/profiles/edit-profile" method="POST" class="space-y-4">
     <div class="mb-4">
         <label for="username" class="block text-gray-700 font-semibold mb-2">Username</label>
         <input type="text" id="username" name="username" required value="<%= formData.username %>"

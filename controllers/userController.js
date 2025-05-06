@@ -221,7 +221,7 @@ exports.postEditUser = async (req, res, next) => {
 };
 
 exports.getUserByUUID = async (req, res, next) => {
-    const uuid = req.params.uuid;
+    const uuid = req.session.userUuid;
 
     try {
         const user = await User.getUserByUUID(uuid);
@@ -234,7 +234,7 @@ exports.getUserByUUID = async (req, res, next) => {
 
         res.render('profiles/show-profile', {
             pageTitle: 'User Profile',
-            user,
+            formData: user,
             currentPage: 'profile',
             layout: 'layouts/dashboard-layout'
         });
