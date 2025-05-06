@@ -28,7 +28,7 @@ exports.postSignup = async (req, res, next) => {
         const newUser = await User.addUser({
             username: '',
             email,
-            passwordHash: password,
+            password: password,
             realName: '',
             avatar: ''
         });
