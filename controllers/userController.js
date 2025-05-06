@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
+const Goals = require("../models/goalModel");
 const argon2 = require('argon2');
 const session = require("express-session");
 
