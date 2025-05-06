@@ -24,6 +24,7 @@ exports.editUserRules = [
         .isEmail().withMessage('A valid email is required.')
         .normalizeEmail(),
     body('password')
+        .optional({ checkFalsy: true })
         .isLength({ min: 10, max: 25 }).withMessage('Password must be between 10 and 25 characters.'),
     body('realName')
         .optional({ checkFalsy: true })
@@ -58,4 +59,6 @@ exports.updateSettingsRules = [
             }
             return true;
         }),
+    body('currentPassword')
+        .notEmpty().withMessage('Current password is required.')
 ];
