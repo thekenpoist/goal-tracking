@@ -146,7 +146,7 @@ exports.getShowProfile = async (req, res, next) => {
 };
 
 exports.getEditUser = async (req, res, next) => {
-    const uuid = req.params.uuid;
+    const uuid = req.session.userUuid;
 
     if (!uuid) {
         return res.redirect('/auth/login');
@@ -180,8 +180,8 @@ exports.getEditUser = async (req, res, next) => {
 };
 
 exports.postEditUser = async (req, res, next) => {
+    const uuid = req.session.userUuid;
     const errors = validationResult(req);
-    const uuid = req.params.uuid;
 
     if (!errors.isEmpty()) {
         const originalUser = await User.getUserByUUID(uuid);
