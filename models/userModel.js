@@ -78,6 +78,9 @@ module.exports = class User {
 
     static async updateUser(id, updatedFields) {
         const users = await getUsersFromFile();
+
+        if (updatedFields.username) updatedFields.username = updatedFields.username.trim().toLowerCase();
+        if (updatedFields.email) updatedFields.email = updatedFields.email.trim().toLowerCase();
         
         const userIndex = users.findIndex(u => u.uuid === id);
         if (userIndex === -1) {
