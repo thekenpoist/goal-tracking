@@ -42,6 +42,7 @@ app.use(async (req, res, next) => {
     res.locals.currentPage = '';
     res.locals.currentUser = null;
     res.locals.layout = 'layouts/main-layout';
+    res.locals.session = req.session;
 
     const uuid = req.session.userUuid;
 

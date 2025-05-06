@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
 const argon2 = require('argon2');
+const session = require("express-session");
 
 exports.getSettingsPage = async (req, res, next) => {
     const uuid = req.session.userUuid;
