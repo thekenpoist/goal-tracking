@@ -115,14 +115,14 @@ module.exports = class Goal {
 
     static async deleteAllGoals(userUuid) {
         const goals = await getGoalsFromFile();
-        const updatedGoals = goals.filter(goals => !(goals.userUuid === userUuid));
+        const updatedGoals = goals.filter(goal => !(goal.userUuid === userUuid));
 
         if (updatedGoals.length === goals.length) {
             return false;
         }
 
         try {
-            fsPromises.writeFile(p, JSON.stringify(updatedGoals, null, 2));
+            await fsPromises.writeFile(p, JSON.stringify(updatedGoals, null, 2));
             return true;
         } catch (err) {
             console.error(`Error deleting goals for userUuid ${userUuid}`, err);
