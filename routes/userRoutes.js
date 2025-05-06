@@ -8,11 +8,8 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-//router.get('/new-profile', userController.getAddUser);
-//router.post('/', addUserRules, userController.postAddUser);
-
-router.get('/edit-profile/:uuid', userController.getEditUser);
-router.post('/edit-profile/:uuid', editUserRules, userController.postEditUser);
+router.get('/edit-profile', userController.getEditUser);
+router.post('/edit-profile', editUserRules, userController.postEditUser);
 
 router.get('/settings', isAuthenticated, userController.getSettingsPage);
 router.post('/settings', isAuthenticated, updateSettingsRules, userController.postUpdateEmailOrPassword);
