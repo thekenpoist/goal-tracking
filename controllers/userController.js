@@ -247,7 +247,7 @@ exports.getUserByUUID = async (req, res, next) => {
 };
 
 exports.deleteUser = async (req, res, next) => {
-    const uuid = req.params.uuid;
+    const uuid = req.session.userUuid;
 
     try {
         const deleted = await User.deleteUser(uuid);
