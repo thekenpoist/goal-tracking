@@ -66,7 +66,7 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
             });
         }
 
-        const { username, email, password, realName, avatar } = req.body;
+        const { username, email, password, realName, avatar, currentPassword } = req.body;
         const passwordChanged = password?.trim().length > 0;
         const passwordIsValid = await argon2.verify(currentUser.password, currentPassword);
 
@@ -103,6 +103,7 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
             pageTitle: 'Settings',
             currentPage: 'settings',
             errorMessage: 'Something went wrong. Please try again',
+            successMessage: null,
             formData: req.body
         });
         
