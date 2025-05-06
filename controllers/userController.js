@@ -92,7 +92,8 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
 
         return res.render('profiles/settings', {
             pageTitle: 'Settings',
-            currentUser: 'settings',
+            currentPage: 'settings',
+            layout: 'layouts/dashboard-layout',
             errorMessage: null,
             successMessage: 'Settings updated successfully!',
             formData: {}
