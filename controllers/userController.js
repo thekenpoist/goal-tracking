@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
+const argon2 = require('argon2');
 
 exports.getSettingsPage = async (req, res, next) => {
     const uuid = req.session.userUuid;
@@ -56,12 +57,34 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
     }
 
     try {
+        const currentUser = await User.getUserByUUID(uuid);
+
+        if (!currentUser) {
+            return res.status(404).render('404', {
+                pageTitle: 'User Not Found',
+                currentPage: 'dashboard'
+            });
+        }
+
         const { username, email, password, realName, avatar } = req.body;
+        const passwordChanged = password?.trim().length > 0;
+        const passwordIsValid = await argon2.verify(currentUser.password, currentPassword);
+
+        if (!passwordIsValid) {
+            return res.status(401).render('profiles/settings', {
+                pageTitle: 'Settings',
+                currentPage: 'settings',
+                errorMessage: 'Current password is incorrect.',
+                successMessage: null,
+                formData: req.body
+            });
+        }
+
         const updatedFields = {};
 
         if (username) updatedFields.username = username;
         if (email) updatedFields.email = email;
-        if (password) updatedFields.password = password;
+        if (passwordChanged) updatedFields.password = password;
         if (realName) updatedFields.realName = realName;
         if (avatar) updatedFields.avatar = avatar;
 
@@ -177,7 +200,7 @@ exports.postEditUser = async (req, res, next) => {
         const updatedUser = await User.updateUser(uuid, {
             username,
             email,
-            passwordHash: password,
+            password: password,
             realName,
             avatar
         });
