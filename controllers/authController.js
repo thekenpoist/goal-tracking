@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const User = require("../models/userModel");
+const argon2 = require('argon2');
 
 exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
@@ -67,7 +68,7 @@ exports.postLogin = async (req, res, next) => {
     try {
         const user = await User.getUserByEmail(email);
 
-        if (!user || user.passwordHash !== password) {
+        if (!user || !(await argon2.verify(user.password, password))) {
             return res.status(401).render('auth/login', {
                 pageTitle: 'Login',
                 currentPage: 'login',
