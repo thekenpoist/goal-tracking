@@ -2,6 +2,7 @@ const fsPromises = require('fs').promises;
 const path = require('path');
 const { randomUUID } = require('crypto');
 const { emit } = require('process');
+const argon2 = require('argon2');
 
 const p = path.join(__dirname, '..', 'data', 'users.json');
 
@@ -16,11 +17,11 @@ const getUsersFromFile = async () => {
 };
    
 module.exports = class User {
-    constructor(uuid, username, email, passwordHash, realName, avatar, createdAt, updatedAt) {
+    constructor(uuid, username, email, password, realName, avatar, createdAt, updatedAt) {
         this.uuid = uuid || randomUUID();
         this.username = username;
         this.email = email;
-        this.passwordHash = passwordHash;
+        this.password = password;
         this.realName = realName;
         this.avatar = avatar;
         this.createdAt = createdAt || new Date().toISOString();
@@ -48,7 +49,7 @@ module.exports = class User {
     }
 
     //      WRITE OPERATIONS
-    static async addUser({ username, email, passwordHash, realName, avatar}) {
+    static async addUser({ username, email, password, realName, avatar}) {
         const users = await getUsersFromFile();
 
         username = username.trim().toLowerCase();
@@ -61,11 +62,12 @@ module.exports = class User {
             throw new Error('That email is already registered.');
         }
 
+        const hashedPassword = await argon2.hash(password);
         const newUser = new User(
             null,
             username,
             email,
-            passwordHash,
+            hashedPassword,
             realName,
             avatar
         );
@@ -92,12 +94,17 @@ module.exports = class User {
         }
 
         const existingUser = users[userIndex];
+        let hashedPassword = existingUser.password;
+
+        if (updatedFields.password) {
+            hashedPassword = await argon2.hash(updatedFields.password);
+        }
 
         const updatedUser = {
             ...existingUser,
             username: updatedFields.username || existingUser.username,
             email: updatedFields.email || existingUser.email,
-            passwordHash: updatedFields.passwordHash || existingUser.passwordHash,
+            password: hashedPassword,
             realName: updatedFields.realName || existingUser.realName,
             avatar: updatedFields.avatar || existingUser.avatar,
             updatedAt: new Date().toISOString()
