@@ -252,6 +252,13 @@ exports.deleteUser = async (req, res, next) => {
     const uuid = req.session.userUuid;
 
     try {
+        const deletedGoals = await Goals.deleteAllGoals(uuid);
+        if (deletedGoals) {
+            console.log(`All goals deleted for user ${uuid}`);
+        } else {
+            console.log(`No goals deleted for user ${uuid}`);
+        }
+        
         const deleted = await User.deleteUser(uuid);
 
         if (!deleted) {
