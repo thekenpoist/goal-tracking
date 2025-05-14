@@ -1,6 +1,7 @@
-const { validationResult } = require("express-validator");
-const User = require("../models/userModel");
+const { validationResult } = require('express-validator');
+const User = require('../models/userModel');
 const argon2 = require('argon2');
+const { Op } = require('sequelize');
 
 exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
@@ -26,10 +27,23 @@ exports.postSignup = async (req, res, next) => {
     try {
         const { email, password } = req.body;
 
-        const newUser = await User.addUser({
+        const existingUser = await User.findOne({ where: { email: email.trim().toLowerCase() } });
+
+        if (existingUser) {
+            return res.status(400).render('auth/signip', {
+                pageTitle: 'Sign Up',
+                currentPage: 'signup',
+                errorMessage: 'Email is already registered',
+                formData: req.body
+            });
+        }
+
+        const hashedPassword = await argon2.hash(password);
+
+        const newUser = await User.create({
             username: '',
-            email,
-            password: password,
+            email: email.trim().toLowerCase(),
+            password: hashedPassword,
             realName: '',
             avatar: ''
         });
