@@ -80,7 +80,7 @@ exports.postLogin = async (req, res, next) => {
     const { email, password } = req.body;
 
     try {
-        const user = await User.getUserByEmail(email);
+        const user = await User.findOne({ where: { email: email.trim().toLowerCase() } });
 
         if (!user || !(await argon2.verify(user.password, password))) {
             return res.status(401).render('auth/login', {
