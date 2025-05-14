@@ -145,7 +145,7 @@ exports.getShowProfile = async (req, res, next) => {
     }
 
     try {
-        const user = await User.getUserByUUID(uuid);
+        const user = await User.findOne({ where: { uuid } });
         if (!user) { 
             return res.status(404).render('404', {
                 pageTitle: 'User Not Found',
