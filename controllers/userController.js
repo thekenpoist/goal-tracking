@@ -3,6 +3,7 @@ const User = require("../models/userModel");
 const Goals = require("../models/goalModel");
 const argon2 = require('argon2');
 const session = require("express-session");
+const { Op } = require('sequelize');
 
 exports.getSettingsPage = async (req, res, next) => {
     const uuid = req.session.userUuid;
@@ -59,7 +60,7 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
     }
 
     try {
-        const currentUser = await User.getUserByUUID(uuid);
+        const currentUser = await User.findOne({ where: { uuid } });
 
         if (!currentUser) {
             return res.status(404).render('404', {
@@ -82,15 +83,38 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
             });
         }
 
-        const updatedFields = {};
+        const duplicate = await findOne({
+            where: {
+                uuid: { [Op.ne]: uuid },
+                [Op.or]: [
+                    username ? { username: username.trim().toLowerCase() } : null,
+                    email ? { email: email.trim().toLowerCase() } : null
+                ].filter(Boolean)
+            }
+        });
 
-        if (username) updatedFields.username = username;
-        if (email) updatedFields.email = email;
-        if (passwordChanged) updatedFields.password = password;
-        if (realName) updatedFields.realName = realName;
-        if (avatar) updatedFields.avatar = avatar;
+        if (duplicate) {
+            return res.status(400).render('profiles/settings', {
+                pageTitle: 'Settings',
+                currentPage: 'settings',
+                errorMessage: 'Username or email already in use by another user',
+                successMessage: null,
+                formData: req.body
+            });
+        }
 
-        const updatedUser = await User.updateUser(uuid, updatedFields);
+        const updatedFields = {
+            username: username?.trim().toLowerCase() || currentUser.username,
+            email: email?.trim().toLowerCase() || currentUser.email,
+            password: passwordChanged
+                ? await argon2.hash(password)
+                : currentUser.password,
+            realName: realName || currentUser.realName,
+            avatar: avatar || currentUser.avatar,
+            updatedAt: new Date()
+        }
+
+        await User.update(updatedFields, { where: { uuid } });
 
         return res.render('profiles/settings', {
             pageTitle: 'Settings',
