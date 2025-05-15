@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const Goal = require("../models/goalModel");
+const { Goal } = require('../models');
 
 exports.getShowGoal = async (req, res, next) => {
     const uuid = req.session.userUuid;
@@ -80,26 +80,39 @@ exports.postCreateGoal = async (req, res, next) => {
     }
 
     const userUuid = req.session.userUuid;
-    const { title, category, description, priority, startDate, endDate } = req.body;
+    const { 
+        title, 
+        category, 
+        description, 
+        priority, 
+        startDate, 
+        endDate,
+        frequency,
+        duration
+     } = req.body;
 
     try {
-        const newGoal = await Goal.createGoal({
+        const newGoal = await Goal.create({
             userUuid,
             title,
             category,
             description,
             priority,
             startDate,
-            endDate
+            endDate,
+            frequency,
+            duration
         });
 
         res.redirect('/dashboard');
     } catch (err) {
         console.error('Error creating goal:', err.message);
         res.status(500).render('goals/new-goal', {
-            pageTitle: 'New Goal',
+            pageTitle: 'Create Goal',
             currentPage: 'goals',
-            errorMessage: err.message,
+            formAction: '/goals',
+            submitButtonText: 'Create Goal',
+            errorMessage: 'Failed to create goal',
             formData: req.body
         });
     }
