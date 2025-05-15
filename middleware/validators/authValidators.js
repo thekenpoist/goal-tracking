@@ -1,16 +1,20 @@
 const { body } = require('express-validator')
 
 exports.loginRules = [
-    body('email')
-        .isEmail().withMessage('A valid email is required.')
-        .normalizeEmail(),
+    body('login')
+        .notEmpty()
+        .withMessage('Email or username is required.')
+        .trim()
+        .toLowerCase(),
     body('password')
-        .isLength({ min: 10, max: 25 }).withMessage('Password must be between 10 and 25 characters.'),
+        .isLength({ min: 10, max: 25 })
+        .withMessage('Password must be between 10 and 25 characters.'),
 ];
 
 exports.signupRules = [
     body('email')
-        .isEmail().withMessage('A valid email is required.')
+        .isEmail()
+        .withMessage('A valid email is required.')
         .normalizeEmail(),
     body('confirmEmail')
         .custom((value, { req }) => {
@@ -20,7 +24,8 @@ exports.signupRules = [
             return true;
         }),
     body('password')
-        .isLength({ min: 10, max: 25 }).withMessage('Password must be between 10 and 25 characters.'),
+        .isLength({ min: 10, max: 25 })
+        .withMessage('Password must be between 10 and 25 characters.'),
     body('confirmPassword')
         .custom((value, { req }) => {
             if (value !== req.body.password) {
