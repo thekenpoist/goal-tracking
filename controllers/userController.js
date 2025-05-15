@@ -319,7 +319,7 @@ exports.deleteUser = async (req, res, next) => {
             console.log(`No goals deleted for user ${uuid}`);
         }
         
-        const deleted = await User.deleteUser(uuid);
+        const deleted = await User.destroy({ where: { uuid } });
 
         if (!deleted) {
             return res.status(404).render('404', {
