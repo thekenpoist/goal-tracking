@@ -285,7 +285,7 @@ exports.getUserByUUID = async (req, res, next) => {
     const uuid = req.session.userUuid;
 
     try {
-        const user = await User.getUserByUUID(uuid);
+        const user = await User.findOne({ wehre: { uuid } });
 
         if (!user) {
             return res.status(404).send('User not found');
