@@ -208,15 +208,19 @@ exports.postEditUser = async (req, res, next) => {
     const uuid = req.session.userUuid;
     const errors = validationResult(req);
 
+    if (!uuid) {
+        return res.redirect('/auth/login');
+    }
+
     if (!errors.isEmpty()) {
-        const originalUser = await User.getUserByUUID(uuid);
+        const originalUser = await User.findOne({ where: { uuid } });
 
         return res.status(422).render('profiles/edit-profile', {
             pageTitle: 'Edit Profile',
             currentPage: 'profile',
             errorMessage: errors.array().map(e => e.msg).join(', '),
             formData: {
-                ...originalUser,
+                ...originalUser?.dataValues,
                 ...req.body
             }
         });
@@ -225,15 +229,47 @@ exports.postEditUser = async (req, res, next) => {
     try {
         const { username, email, password, realName, avatar } = req.body;
 
-        const updatedUser = await User.updateUser(uuid, {
-            username,
-            email,
-            password: password,
-            realName,
-            avatar
+        const currentUser = await User.findOne({ where: { uuid } });
+        if (!currentUser) {
+            return res.status(404).render('404', {
+                pageTitle: 'User Not Found',
+                currentPage: 'profile'
+            });
+        }
+
+        const duplicate = await User.findOne({
+            where: {
+                uuid: { [Op.ne]: uuid },
+                [Op.or]: [
+                    username ? { username: username.trim().toLowerCase() } : null,
+                    email ? { email: email.trim().toLowerCase() } : null
+                ].filter(Boolean)
+            }
         });
 
-        res.redirect(`/profiles/${updatedUser.uuid}`);
+        if (duplicate) {
+            return res.status(400).render('profiles/edit-profile', {
+                pageTitle: 'Edit Profile',
+                currentPage: 'profile',
+                errorMessage: 'Username or email already in use.',
+                formData: req.body
+            });
+        }
+
+        const updatedFields = {
+            username: username?.trim().toLowerCase() || currentUser.username,
+            email: email?.trim().toLowerCase() || currentUser.email,
+            password: password
+                ? await argon2.hash(password)
+                : currentUser.password,
+            realName: realName || currentUser.realName,
+            avatar: avatar || currentUser.avatar,
+            updatedAt: new Date()
+        };
+
+        await User.update(updatedFields, { where: { uuid } });
+
+        res.redirect(`/profiles/${uuid}`);
     } catch (err) {
         console.error('Error updating user:', err.message);
         res.status(500).render('profiles/edit-profile', {
