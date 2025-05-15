@@ -11,7 +11,7 @@ const userRouter = require('./routes/userRoutes');
 const goalRouter = require('./routes/goalRoutes');
 const authRouter = require('./routes/authRoutes');
 
-const User = require('./models/userModel');
+const { User } = require('./models');
 
 const app = express();
 
@@ -48,7 +48,7 @@ app.use(async (req, res, next) => {
 
     if (uuid) {
         try {
-            const user = await User.getUserByUUID(uuid);
+            const user = await User.findOne({ where: { uuid: req.session.userUuid } });
             if (user) {
                 res.locals.currentUser = user;
                 res.locals.layout = 'layouts/dashboard-layout';
