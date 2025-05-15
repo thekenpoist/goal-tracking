@@ -77,16 +77,23 @@ exports.getLogin = async (req, res, next) => {
 };
 
 exports.postLogin = async (req, res, next) => {
-    const { email, password } = req.body;
+    const { login, password } = req.body;
 
     try {
-        const user = await User.findOne({ where: { email: email.trim().toLowerCase() } });
+        const user = await User.findOne({
+            where: {
+                [Op.or]: [
+                    { email: login.trim().toLowerCase() },
+                    { username: login.trim().toLowerCase() }
+                ]
+            }
+        });
 
         if (!user || !(await argon2.verify(user.password, password))) {
             return res.status(401).render('auth/login', {
                 pageTitle: 'Login',
                 currentPage: 'login',
-                errorMessage: 'Invalid email or password.'
+                errorMessage: 'Invalid email, username or password.'
             });
         }
 
