@@ -1,11 +1,11 @@
 'use strict'
-const { Model, DataTypes, Sequelize } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
     class Goal extends Model {
         static associate(models) {
             Goal.belongsTo(models.User, {
-                foreignKey: 'userUudi',
+                foreignKey: 'userUuid',
                 targetKey: 'uuid',
                 onDelete: 'CASCADE'
             });
