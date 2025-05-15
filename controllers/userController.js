@@ -1,8 +1,7 @@
 const { validationResult } = require("express-validator");
-const User = require("../models/userModel");
+const { User } = require("../models/userModel");
 const Goals = require("../models/goalModel");
 const argon2 = require('argon2');
-const session = require("express-session");
 const { Op } = require('sequelize');
 
 exports.getSettingsPage = async (req, res, next) => {
@@ -83,7 +82,7 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
             });
         }
 
-        const duplicate = await findOne({
+        const duplicate = await User.findOne({
             where: {
                 uuid: { [Op.ne]: uuid },
                 [Op.or]: [
@@ -125,7 +124,7 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
             formData: {}
         });
     } catch (err) {
-        console.error('Error updating user settings:', err.message);
+        console.error('Error updating user settings:', err);
         res.status(500).render('profiles/settings', {
             pageTitle: 'Settings',
             currentPage: 'settings',
@@ -271,7 +270,7 @@ exports.postEditUser = async (req, res, next) => {
 
         res.redirect(`/profiles/${uuid}`);
     } catch (err) {
-        console.error('Error updating user:', err.message);
+        console.error('Error updating user:', err);
         res.status(500).render('profiles/edit-profile', {
             pageTitle: 'Edit Profile',
             currentPage: 'profile',
@@ -285,7 +284,7 @@ exports.getUserByUUID = async (req, res, next) => {
     const uuid = req.session.userUuid;
 
     try {
-        const user = await User.findOne({ wehre: { uuid } });
+        const user = await User.findOne({ where: { uuid } });
 
         if (!user) {
             return res.status(404).send('User not found');
