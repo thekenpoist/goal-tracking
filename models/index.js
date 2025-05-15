@@ -19,6 +19,9 @@ if (config.use_env_variable) {
 const User = require('./userModel')(sequelize, Sequelize.DataTypes);
 db.User = User;
 
+const Goal = require('./goalModel')(sequelize, Sequelize.DataTypes);
+db.Goal = Goal;
+
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
