@@ -2,15 +2,21 @@ const { validationResult } = require("express-validator");
 const { Goal } = require('../models');
 
 exports.getShowGoal = async (req, res, next) => {
-    const uuid = req.session.userUuid;
-    const goalId = parseInt(req.params.goalId);
+    const userUuid = req.session.userUuid;
+    const goalIUuid = req.params.goalId;
 
-    if (!uuid) {
+    if (!userUuid) {
         return res.redirect('/auth/login');
     }
 
     try {
-        const goal = await Goal.getGoalById(uuid, goalId);
+        const goal = await Goal.findOne({
+            where: {
+                userUuid: userUuid,
+                uuid: goalUuid
+            }
+        });
+
         if (!goal) {
             return res.status(404).render('404', {
                 pageTitle: "Goal not found",
