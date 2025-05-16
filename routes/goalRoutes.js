@@ -7,19 +7,19 @@ const goalController = require('../controllers/goalController');
 
 const router = express.Router();
 
-
-router.get('/form-goal', isAuthenticated, goalController.getCreateGoal);
+// Create
+router.get('/new', isAuthenticated, goalController.getCreateGoal);
 router.post('/', createGoalRules, goalController.postCreateGoal);
 
+// Read
+router.get('/partials/:goalUuid', isAuthenticated, goalController.viewGoalPartial);
+
+// Update
 router.get('/edit/:goalUuid', isAuthenticated, goalController.getEditGoal);
 router.post('/edit/:goalUuid', isAuthenticated, createGoalRules, goalController.postEditGoal);
 
-router.post('/delete-goal/:goalUuid', goalController.deleteGoal);
-
-router.get('/view/:goalUuid', isAuthenticated, goalController.viewGoalPartial);
-
-// router.get('/:goalUuid', isAuthenticated, goalController.getShowGoal);
-
+// Delete
+router.post('/delete/:goalUuid', isAuthenticated, goalController.deleteGoal);
 
 
 

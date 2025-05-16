@@ -27,6 +27,7 @@ exports.getShowGoal = async (req, res, next) => {
         res.render('goals/show-goal', {
             pageTitle: 'View Goal',
             currentPage: 'goal',
+            layout: 'layouts/dashboard-layout',
             errorMessage: null,
             formData: goal
         });
