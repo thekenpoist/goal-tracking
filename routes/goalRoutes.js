@@ -11,14 +11,14 @@ const router = express.Router();
 router.get('/form-goal', isAuthenticated, goalController.getCreateGoal);
 router.post('/', createGoalRules, goalController.postCreateGoal);
 
-router.get('/edit/:goalId', isAuthenticated, goalController.getEditGoal);
-router.post('/edit/:goalId', isAuthenticated, createGoalRules, goalController.postEditGoal);
+router.get('/edit/:goalUuid', isAuthenticated, goalController.getEditGoal);
+router.post('/edit/:goalUuid', isAuthenticated, createGoalRules, goalController.postEditGoal);
 
-router.post('/delete-goal/:goalId', goalController.deleteGoal);
+router.post('/delete-goal/:goalUuid', goalController.deleteGoal);
 
-router.get('/view/:goalId', isAuthenticated, goalController.viewGoalPartial);
+router.get('/view/:goalUuid', isAuthenticated, goalController.viewGoalPartial);
 
-// router.get('/:goalId', isAuthenticated, goalController.getShowGoal);
+// router.get('/:goalUuid', isAuthenticated, goalController.getShowGoal);
 
 
 
