@@ -13,7 +13,7 @@ exports.getShowGoal = async (req, res, next) => {
         const goal = await Goal.findOne({
             where: {
                 userUuid,
-                goalUuid
+                uuid: goalUuid
             }
         });
 
@@ -47,7 +47,7 @@ exports.viewGoalPartial = async (req, res, next) => {
         const goal = await Goal.findOne({
             where: {
                 userUuid,
-                goalUuid
+                uuid: goalUuid
             }
         });
 
@@ -131,10 +131,15 @@ exports.postCreateGoal = async (req, res, next) => {
 
 exports.getEditGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;
-    const goalUuid = req.params.goalId;
+    const goalUuid = req.params.goalUuid;
 
     try {
-        const goal = await Goal.getGoalById(userUuid, goalId);
+        const goal = await Goal.findOne({
+            where: {
+                userUuid,
+                uuid: goalUuid
+            }
+        });
 
         if (!goal) {
             return res.status(404).render('404', {
@@ -146,7 +151,8 @@ exports.getEditGoal = async (req, res, next) => {
         res.render('goals/form-goal', {
             pageTitle: 'Edit Goal',
             currentPage: 'goals',
-            formAction: `/goals/edit/${goalId}`,
+            layout: 'layouts/dashboard-layout',
+            formAction: `/goals/edit/${goalUuid}`,
             submitButtonText: 'Save Changes',
             errorMessage: null,
             formData: goal
