@@ -1,5 +1,6 @@
 const { validationResult } = require("express-validator");
 const { Goal } = require('../models');
+const { DATE } = require("sequelize");
 
 exports.getShowGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;
@@ -168,14 +169,15 @@ exports.getEditGoal = async (req, res, next) => {
 
 exports.postEditGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;
-    const goalId = parseInt(req.params.goalId);
+    const goalUuid = req.params.goalUuid;
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
         return res.status(422).render('goals/form-goal', {
             pageTitle: 'Edit Goal',
             currentPage: 'goals',
-            formAction: `/goals/edit/${goalId}`,
+            layout: 'layouts/dashboard-layout',
+            formAction: `/goals/edit/${goalUuid}`,
             submitButtonText: 'Save Changes',
             errorMessage: errors.array().map(e => e.msg).join(', '),
             formData: req.body
@@ -183,15 +185,49 @@ exports.postEditGoal = async (req, res, next) => {
     }
 
     try {
-        const { title, category, description, priority, startDate, endDate } = req.body;
+        const goal = await Goal.findOne({
+            where: {
+                userUuid,
+                uuid: goalUuid
+            }
+        });
 
-        const updatedGoal = await Goal.updateGoal(userUuid, goalId, {
+        if (!goal) {
+            return res.status(404).render('404', {
+                pageTitle: 'Goal Not Found',
+                currentPage: 'dashboard'
+            });
+        }
+        const {
             title,
             category,
             description,
             priority,
             startDate,
-            endDate
+            endDate,
+            frequency,
+            duration,
+            isCompleted,
+            wasAchieved
+        } = req.body;
+
+        await Goal.update({
+            title,
+            category,
+            description,
+            priority,
+            startDate,
+            endDate,
+            frequency,
+            duration,
+            isCompleted: isCompleted === 'on'  || isCompleted === true,
+            wasAchieved: wasAchieved === 'on' || wasAchieved === true,
+            updatedAt: new Date()
+        }, {
+            where: {
+                userUuid,
+                uuid: goalUuid
+            } 
         });
 
         res.redirect('/dashboard');
