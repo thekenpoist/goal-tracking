@@ -3,7 +3,7 @@ const { Goal } = require('../models');
 
 exports.getShowGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;
-    const goalUuid = req.params.goalId;
+    const goalUuid = req.params.goalUuid;
 
     if (!userUuid) {
         return res.redirect('/auth/login');
@@ -13,7 +13,7 @@ exports.getShowGoal = async (req, res, next) => {
         const goal = await Goal.findOne({
             where: {
                 userUuid,
-                uuid: goalUuid
+                goalUuid
             }
         });
 
@@ -41,13 +41,13 @@ exports.getShowGoal = async (req, res, next) => {
 
 exports.viewGoalPartial = async (req, res, next) => {
     const userUuid = req.session.userUuid;
-    const goalUuid = req.params.goalId;
+    const goalUuid = req.params.goalUuid;
 
     try {
         const goal = await Goal.findOne({
             where: {
                 userUuid,
-                uuid: goalUuid
+                goalUuid
             }
         });
 
@@ -131,7 +131,7 @@ exports.postCreateGoal = async (req, res, next) => {
 
 exports.getEditGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;
-    const goalId = parseInt(req.params.goalId);
+    const goalUuid = req.params.goalId;
 
     try {
         const goal = await Goal.getGoalById(userUuid, goalId);
