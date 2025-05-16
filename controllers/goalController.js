@@ -241,11 +241,16 @@ exports.postEditGoal = async (req, res, next) => {
 };
 
 exports.deleteGoal = async (req, res, next) => {
-    const uuid = req.session.userUuid;
-    const goalId = parseInt(req.params.goalId);
+    const userUuid = req.session.userUuid;
+    const goalUuid = req.params.goalUuid;
 
     try {
-        const deleted = await Goal.deleteGoal(uuid, goalId);
+        const deleted = await Goal.destroy({
+            where: {
+                userUuid,
+                uuid: goalUuid
+            }
+        });
 
         if (!deleted) {
             return res.status(404).render('404', {
