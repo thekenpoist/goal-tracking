@@ -3,7 +3,7 @@ const { Goal } = require('../models');
 
 exports.getShowGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;
-    const goalIUuid = req.params.goalId;
+    const goalUuid = req.params.goalId;
 
     if (!userUuid) {
         return res.redirect('/auth/login');
@@ -12,7 +12,7 @@ exports.getShowGoal = async (req, res, next) => {
     try {
         const goal = await Goal.findOne({
             where: {
-                userUuid: userUuid,
+                userUuid,
                 uuid: goalUuid
             }
         });
@@ -40,11 +40,16 @@ exports.getShowGoal = async (req, res, next) => {
 };
 
 exports.viewGoalPartial = async (req, res, next) => {
-    const uuid = req.session.userUuid;
-    const goalId = parseInt(req.params.goalId);
+    const userUuid = req.session.userUuid;
+    const goalUuid = req.params.goalId;
 
     try {
-        const goal = await Goal.getGoalById(uuid, goalId);
+        const goal = await Goal.findOne({
+            where: {
+                userUuid,
+                uuid: goalUuid
+            }
+        });
 
         if (!goal) {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
