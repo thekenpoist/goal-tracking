@@ -37,14 +37,14 @@
     </dl>
   
     <div class="mt-6 flex justify-center gap-4">
-      <a href="/goals/edit/<%= formData.goalUuid %>" class="bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
+      <a href="/goals/edit/<%= formData.uuid %>" class="bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
         Edit Goal
       </a>
     
       <button 
         type="button" 
         class="bg-red-600 text-white font-semibold px-4 py-2 rounded hover:bg-red-700 transition"
-        onclick="confirmDelete(<%= formData.goalUuid %>)"
+        onclick="confirmDelete(<%= formData.uuid %>)"
       >
         Delete Goal
       </button>
@@ -67,12 +67,12 @@
 </div>
 
 <script>
-  function confirmDelete(goalUuid) {
+  function confirmDelete(goalId) {
     const modal = document.getElementById('deleteModal');
     const box = document.getElementById('modalBox');
     const form = document.getElementById('deleteForm');
 
-    form.action = `/goals/delete-goal/${goalUuid}`;
+    form.action = `/goals/delete/${goalId}`;
     modal.classList.remove('hidden');
 
     // Animate in
