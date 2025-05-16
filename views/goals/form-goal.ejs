@@ -1,76 +1,114 @@
 <h1 class="text-2xl font-bold mb-4"><%= pageTitle %></h1>
 
 <% if (errorMessage) { %>
-    <div class="text-red-600 bg-red-100 border border-red-400 p-4 rounded mb-6">
-        <%= errorMessage %>
-    </div>
+  <div class="text-red-600 bg-red-100 border border-red-400 p-4 rounded mb-6">
+    <%= errorMessage %>
+  </div>
 <% } %>
 
 <form action="<%= formAction %>" method="POST" class="space-y-4">
-    <!-- Title -->
-    <div class="mb-4">
-        <label for="title" class="block text-gray-700 font-semibold mb-2">Goal Title</label>
-        <input type="text" id="title" name="title" required
-            value="<%= formData?.title || '' %>"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"/>  
-    </div>
+  <!-- Title -->
+  <div class="mb-4">
+    <label for="title" class="block text-gray-700 font-semibold mb-2">Goal Title</label>
+    <input type="text" id="title" name="title" required
+      value="<%= formData?.title || '' %>"
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400" />
+  </div>
 
-    <!-- Category -->
-    <div class="mb-4">
-        <label for="category" class="block text-gray-700 font-semibold mb-2">Goal Category</label>
-        <select id="category" name="category" required
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
-            <option value="">-- Select a category --</option>
-            <option value="Health & Fitness" <%= formData?.category === 'Health & Fitness' ? 'selected' : '' %>>Health & Fitness</option>
-            <option value="Career & Work" <%= formData?.category === 'Career & Work' ? 'selected' : '' %>>Career & Work</option>
-            <option value="Learning & Education" <%= formData?.category === 'Learning & Education' ? 'selected' : '' %>>Learning & Education</option>
-            <option value="Finances" <%= formData?.category === 'Finances' ? 'selected' : '' %>>Finances</option>
-            <option value="Relationships & Family" <%= formData?.category === 'Relationships & Family' ? 'selected' : '' %>>Relationships & Family</option>
-            <option value="Mind & Spirit" <%= formData?.category === 'Mind & Spirit' ? 'selected' : '' %>>Mind & Spirit</option>
-            <option value="Home & Organization" <%= formData?.category === 'Home & Organization' ? 'selected' : '' %>>Home & Organization</option>
-            <option value="Creative & Hobbies" <%= formData?.category === 'Creative & Hobbies' ? 'selected' : '' %>>Creative & Hobbies</option>
-            <option value="Animal Care & Connection" <%= formData?.category === 'Animal Care & Connection' ? 'selected' : '' %>>Animal Care & Connection</option>
-            <option value="Miscellaneous" <%= formData?.category === 'Miscellaneous' ? 'selected' : '' %>>Miscellaneous</option>
-        </select>
-    </div>
+  <!-- Category -->
+  <div class="mb-4">
+    <label for="category" class="block text-gray-700 font-semibold mb-2">Goal Category</label>
+    <select id="category" name="category" required
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
+      <option value="">-- Select a category --</option>
+      <% const categories = [
+          'Health & Fitness', 'Career & Work', 'Learning & Education',
+          'Finances', 'Relationships & Family', 'Mind & Spirit',
+          'Home & Organization', 'Creative & Hobbies',
+          'Animal Care & Connection', 'Miscellaneous'
+        ];
+        categories.forEach(c => { %>
+        <option value="<%= c %>" <%= formData?.category === c ? 'selected' : '' %>><%= c %></option>
+      <% }); %>
+    </select>
+  </div>
 
-    <!-- Priority -->
-    <div class="mb-4">
-        <label for="priority" class="block text-gray-700 font-semibold mb-2">Goal Priority</label>
-        <select id="priority" name="priority" required
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
-            <option value="">-- Select a priority --</option>
-            <option value="low" <%= formData?.priority === 'low' ? 'selected' : '' %>>Low</option>
-            <option value="medium" <%= formData?.priority === 'medium' ? 'selected' : '' %>>Medium</option>
-            <option value="high" <%= formData?.priority === 'high' ? 'selected' : '' %>>High</option>
-        </select>
-    </div>
+  <!-- Priority -->
+  <div class="mb-4">
+    <label for="priority" class="block text-gray-700 font-semibold mb-2">Goal Priority</label>
+    <select id="priority" name="priority" required
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
+      <option value="">-- Select a priority --</option>
+      <option value="low" <%= formData?.priority === 'low' ? 'selected' : '' %>>Low</option>
+      <option value="medium" <%= formData?.priority === 'medium' ? 'selected' : '' %>>Medium</option>
+      <option value="high" <%= formData?.priority === 'high' ? 'selected' : '' %>>High</option>
+    </select>
+  </div>
 
-    <!-- Start Date -->
-    <div class="mb-4">
-        <label for="startDate" class="block text-gray-700 font-semibold mb-2">Start Date</label>
-        <input type="date" id="startDate" name="startDate"
-            value="<%= formData?.startDate ? new Date(formData.startDate).toISOString().split('T')[0] : '' %>"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
-    </div>
+  <!-- Start Date -->
+  <div class="mb-4">
+    <label for="startDate" class="block text-gray-700 font-semibold mb-2">Start Date</label>
+    <input type="date" id="startDate" name="startDate"
+      value="<%= formData?.startDate ? new Date(formData.startDate).toISOString().split('T')[0] : '' %>"
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
+  </div>
 
-    <!-- End Date -->
-    <div class="mb-4">
-        <label for="endDate" class="block text-gray-700 font-semibold mb-2">End Date</label>
-        <input type="date" id="endDate" name="endDate"
-            value="<%= formData?.endDate ? new Date(formData.endDate).toISOString().split('T')[0] : '' %>"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
-    </div>
+  <!-- End Date -->
+  <div class="mb-4">
+    <label for="endDate" class="block text-gray-700 font-semibold mb-2">End Date</label>
+    <input type="date" id="endDate" name="endDate"
+      value="<%= formData?.endDate ? new Date(formData.endDate).toISOString().split('T')[0] : '' %>"
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
+  </div>
 
-    <!-- Description -->
-    <div class="mb-4">
-        <label for="description" class="block text-gray-700 font-semibold mb-2">Goal Description</label>
-        <textarea id="description" name="description" rows="5"
-            class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"><%= formData?.description || '' %></textarea>
-    </div>
+  <!-- Description -->
+  <div class="mb-4">
+    <label for="description" class="block text-gray-700 font-semibold mb-2">Goal Description</label>
+    <textarea id="description" name="description" rows="5"
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400"><%= formData?.description || '' %></textarea>
+  </div>
 
-    <!-- Submit -->
-    <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
-        <%= submitButtonText %>
-    </button>
+  <!-- Frequency -->
+  <div class="mb-4">
+    <label for="frequency" class="block text-gray-700 font-semibold mb-2">Target Frequency (times/week)</label>
+    <select id="frequency" name="frequency"
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
+      <option value="">-- Select Frequency --</option>
+      <% for (let i = 1; i <= 7; i++) { %>
+        <option value="<%= i %>" <%= formData?.frequency == i ? 'selected' : '' %>><%= i %> times/week</option>
+      <% } %>
+    </select>
+  </div>
+
+  <!-- Duration -->
+  <div class="mb-4">
+    <label for="duration" class="block text-gray-700 font-semibold mb-2">Target Duration (minutes/session)</label>
+    <select id="duration" name="duration"
+      class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
+      <option value="">-- Select Duration --</option>
+      <% for (let i = 15; i <= 180; i += 15) { %>
+        <option value="<%= i %>" <%= formData?.duration == i ? 'selected' : '' %>><%= i %> minutes</option>
+      <% } %>
+    </select>
+  </div>
+
+  <!-- Completion Checkboxes (only in edit mode) -->
+  <% if (formData?.uuid) { %>
+    <div class="mb-4 flex flex-col sm:flex-row gap-4">
+      <label class="inline-flex items-center">
+        <input type="checkbox" name="isCompleted" <%= formData.isCompleted ? 'checked' : '' %> />
+        <span class="ml-2">Mark as Completed</span>
+      </label>
+
+      <label class="inline-flex items-center">
+        <input type="checkbox" name="wasAchieved" <%= formData.wasAchieved ? 'checked' : '' %> />
+        <span class="ml-2">Mark as Achieved This Week</span>
+      </label>
+    </div>
+  <% } %>
+
+  <!-- Submit -->
+  <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">
+    <%= submitButtonText %>
+  </button>
 </form>
