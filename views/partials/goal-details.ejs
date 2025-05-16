@@ -29,14 +29,14 @@
   </dl>
 
   <div class="mt-6 flex justify-center gap-4">
-    <a href="/goals/edit/<%= goal.goalId %>" class="bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
+    <a href="/goals/edit/<%= goal.uuid %>" class="bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
       Edit Goal
     </a>
 
     <button 
         type="button" 
         class="bg-red-600 text-white font-semibold px-4 py-2 rounded hover:bg-red-700 transition"
-        onclick="confirmDelete(<%= goal.goalId %>)"
+        onclick="confirmDelete(<%= goal.uuid %>)"
       >
         Delete Goal
       </button>
