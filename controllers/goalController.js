@@ -1,6 +1,7 @@
 const { validationResult } = require("express-validator");
 const { Goal } = require('../models');
 const { DATE } = require("sequelize");
+const { renderServerError } = require('../utils/errorHelpers');
 
 exports.getShowGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;
@@ -33,11 +34,7 @@ exports.getShowGoal = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error fetching goal:', err);
-        res.status(500).render('500', {
-            pageTitle: 'Server Error',
-            currentPage: 'dashboard',
-            message: 'Something went wrong while loading this goal', err
-        });
+        return renderServerError(res, err, 'dashboard');
     }
 };
 
@@ -63,7 +60,7 @@ exports.viewGoalPartial = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error loading goal details.', err);
-        res.status(500).send('<p> classe="text-red-500">Server erro loading goal</p>');
+        res.status(500).send('<p> classe="text-red-500">Server error loading goal</p>');
     }
 };
 
@@ -119,7 +116,7 @@ exports.postCreateGoal = async (req, res, next) => {
 
         res.redirect('/dashboard');
     } catch (err) {
-        console.error('Error creating goal:', err.message);
+        console.error('Error creating goal:', err);
         res.status(500).render('goals/new-goal', {
             pageTitle: 'Create Goal',
             currentPage: 'goals',
@@ -161,10 +158,7 @@ exports.getEditGoal = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error fetching goal:', err);
-        res.status(500).render('500', {
-            pageTitle: 'Server Error',
-            currentPage: 'dashboard'
-        });
+        return renderServerError(res, err, 'dashboard');
     }
 };
 
@@ -234,10 +228,7 @@ exports.postEditGoal = async (req, res, next) => {
         res.redirect('/dashboard');
     } catch (err) {
         console.error('Error updating goal:', err.message);
-        res.status(500).render('500', {
-            pageTitle: 'Server Error',
-            currentPage: 'dashboard'
-        });
+        return renderServerError(res, err, 'dashboard');
     }
 };
 
@@ -263,10 +254,6 @@ exports.deleteGoal = async (req, res, next) => {
         res.redirect('/dashboard');
     } catch (err) {
         console.error('Error deleting goal', err);
-        res.status(500).render('500', {
-            pageTitle: 'Server Error',
-            currentPage: 'dashboard',
-            message: 'Failed to delete goal', err
-        });
+        return renderServerError(res, err, 'dashboard');
     }
 };
