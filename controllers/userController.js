@@ -1,6 +1,6 @@
 const { validationResult } = require("express-validator");
-const { User } = require("../models/userModel");
-const Goals = require("../models/goalModel");
+const { User } = require('../models');
+const { Goal } = require('../models');
 const argon2 = require('argon2');
 const { Op } = require('sequelize');
 const { renderServerError } = require('../utils/errorHelpers');
@@ -300,10 +300,9 @@ exports.deleteUser = async (req, res, next) => {
     const uuid = req.session.userUuid;
 
     try {
-        const deletedGoals = await Goals.deleteAllGoals(uuid);
-        if (deletedGoals) {
-            console.log(`All goals deleted for user ${uuid}`);
-        } else {
+        const deletedGoals = await Goal.destroy({ where: { userUuid: uuid } });
+        console.log(`${deletedGoals} goals deleted for user ${uuid}`);
+        if (deletedGoals == 0) {
             console.log(`No goals deleted for user ${uuid}`);
         }
         
