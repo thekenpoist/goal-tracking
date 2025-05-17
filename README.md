@@ -6,18 +6,6 @@ Feature Expansion Plan: Goal Tracking
 Goal
 Enhance the TrailTracker app to support weekly goal tracking, auto-completion of goals, and summary views for completed goals. This expands the core functionality from goal creation into long-term habit-building and achievement analysis.
 
-✅ Phase 1: Weekly Progress Tracking
-Rename wasAchieved → wasAchievedAt
-
-Change data type to DATE
-
-Purpose: Timestamp for the last week in which the frequency & duration requirements were fulfilled
-
-New Fields Already Present in Model
-
-frequency (integer): How many times per week the user intends to work on the goal
-
-duration (integer): How many minutes per session
 
 ✅ Phase 2: Goal Status Logic
 Auto-set isCompleted
