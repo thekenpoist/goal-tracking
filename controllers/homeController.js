@@ -1,4 +1,4 @@
-const Goals = require('../models/goalModel');
+const { Goal } = require('../models');
 
 exports.getIndex = (req, res, next) => {
     res.render('index', {
@@ -15,7 +15,9 @@ exports.getDashboard = async (req, res, next) => {
     }
 
     try { 
-        const userGoals = await Goals.getGoalsByUserId(userUuid);
+        const userGoals = await Goal.findAll({
+            where: { userUuid }
+        });
 
         // Sort goals by priority: high → medium → low
         const priorityOrder = { high: 1, medium: 2, low: 3 };
@@ -33,7 +35,9 @@ exports.getDashboard = async (req, res, next) => {
         console.error('Error fetching user goals.', err);
         res.status(500).render('500', {
             pageTitle: 'Server Error',
-            currentPage: 'dashboard'
+            currentPage: 'dashboard',
+            message: err.message,
+            showstack: process.env.NODE_ENV !== 'production', err
         });
     }
 };
