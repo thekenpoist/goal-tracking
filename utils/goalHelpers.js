@@ -5,8 +5,8 @@ function isWithinCurrentRollingWindow(startDate, wasAchievedAt) {
     const start = new Date(startDate);
     const achieved = new Date(wasAchievedAt);
 
-    const dasySinceStart = Math.floor((now - start) / (1000 * 60 * 60 * 24));
-    const currentWindowIndex = Math.floor(dasySinceStart / 7);
+    const daysSinceStart = Math.floor((now - start) / (1000 * 60 * 60 * 24));
+    const currentWindowIndex = Math.floor(daysSinceStart / 7);
 
     const windowStart = new Date(start);
     windowStart.setDate(windowStart.getDate() + currentWindowIndex * 7);
