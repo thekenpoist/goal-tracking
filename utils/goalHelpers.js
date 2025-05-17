@@ -14,7 +14,15 @@ function isWithinCurrentRollingWindow(startDate, wasAchievedAt) {
     const windowEnd = new Date(windowStart);
     windowEnd.setDate(windowEnd.getDate() + 6);
 
-    return achieved >= windowStart && achieved <= windowEnd;
+    console.log("WINDOW:", {
+        startDate,
+        wasAchievedAt,
+        windowStart: windowStart.toISOString(),
+        windowEnd: windowEnd.toISOString()
+      });
+
+      return achieved >= windowStart && achieved <= windowEnd;
+
 }
 
 module.exports = {
