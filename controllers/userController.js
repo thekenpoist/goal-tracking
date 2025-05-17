@@ -3,6 +3,7 @@ const { User } = require("../models/userModel");
 const Goals = require("../models/goalModel");
 const argon2 = require('argon2');
 const { Op } = require('sequelize');
+const { renderServerError } = require('../utils/errorHelpers');
 
 exports.getSettingsPage = async (req, res, next) => {
     const uuid = req.session.userUuid;
@@ -33,10 +34,7 @@ exports.getSettingsPage = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error fetching user', err);
-        res.status(500).render('500', {
-            pageTitle: 'Server Error',
-            currentPage: 'dashboard'
-        });
+        return renderServerError(res, err, 'dashboard');
     }
 };
 
@@ -162,10 +160,7 @@ exports.getShowProfile = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error fetching user', err);
-        res.status(500).render('500', {
-            pageTitle: 'Server Error',
-            currentPage: 'profile'
-        });
+        return renderServerError(res, err, 'profile');
     }
 };
 
@@ -196,10 +191,7 @@ exports.getEditUser = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error fetching user:', err);
-        res.status(500).render('500', {
-            pageTitle: "Server error",
-            currentPage: 'profile'
-        });
+        return renderServerError(res, err, 'profile');
     }
 };
 
@@ -300,10 +292,7 @@ exports.getUserByUUID = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error fetching user by UUID:', err);
-        res.status(500).render('500', {
-            pageTitle: "Server error",
-            currentPage: 'profile'
-        });
+        return renderServerError(res, err, 'profile');
     }
 };
 
@@ -336,9 +325,6 @@ exports.deleteUser = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error deleting user', err);
-        res.status(500).render('500', {
-            pageTitle: "Server error",
-            currentPage: '/'
-        });
+        return renderServerError(res, err, '/');
     }
 };
