@@ -15,7 +15,7 @@
       if (priority === 'low') priorityColor = 'text-yellow-300';
     %>
       <p class="flex items-center <%= priorityColor %> font-semibold cursor-pointer hover:underline"
-         onclick="loadGoalDetails(<%= goal.uuid %>)">
+         onclick="loadGoalDetails('<%= goal.uuid %>')">
         <span class="w-2 h-2 rounded-full mr-2 bg-current"></span>
         <%= goal.title %>
       </p>
@@ -29,8 +29,8 @@
 </div>
 
 <script>
-  function loadGoalDetails(goalId) {
-    fetch(`/goals/partials/${goalId}`)
+  function loadGoalDetails(goalUuid) {
+    fetch(`/goals/partials/${goalUuid}`)
       .then(res => res.text())
       .then(html => {
         document.getElementById('goalDetails').innerHTML = html;
@@ -74,12 +74,12 @@
 
 <!-- Script for goal deletion confirmation -->
 <script>
-  function confirmDelete(goalId) {
+  function confirmDelete(goalUuid) {
     const modal = document.getElementById('deleteModal');
     const box = document.getElementById('modalBox');
     const form = document.getElementById('deleteForm');
 
-    form.action = `/goals/delete/${goalId}`;
+    form.action = `/goals/delete/${goalUuid}`;
     modal.classList.remove('hidden');
 
     requestAnimationFrame(() => {
