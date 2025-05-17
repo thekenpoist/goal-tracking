@@ -53,9 +53,9 @@ module.exports = (sequelize) => {
             type: DataTypes.BOOLEAN,
             defaultValue: false
         },
-        wasAchieved: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false
+        wasAchievedAt: {
+            type: DataTypes.DATE,
+            allowNull: true
         }
     }, {
         sequelize,
