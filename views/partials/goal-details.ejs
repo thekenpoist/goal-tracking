@@ -1,43 +1,63 @@
+<h2 class="text-2xl font-bold text-gray-800 mb-6">Goal Details</h2>
 
-  <dl class="space-y-4">
-    <div>
-      <dt class="font-semibold">Title</dt>
-      <dd><%= goal.title %></dd>
-    </div>
-    <div>
-      <dt class="font-semibold">Category</dt>
-      <dd><%= goal.category %></dd>
-    </div>
-    <div>
-      <dt class="font-semibold">Priority</dt>
-      <dd><%= goal.priority %></dd>
-    </div>
-    <div>
-      <dt class="font-semibold">Start Date</dt>
-      <dd><%= new Date(goal.startDate).toLocaleDateString('en-US', {
-        year: 'numeric', month: 'long', day: 'numeric' }) %></dd>
-    </div>
-    <div>
-      <dt class="font-semibold">End Date</dt>
-      <dd><%= new Date(goal.endDate).toLocaleDateString('en-US', {
-        year: 'numeric', month: 'long', day: 'numeric' }) %></dd>
-    </div>
-    <div>
-      <dt class="font-semibold">Description</dt>
-      <dd><%= goal.description %></dd>
-    </div>
-  </dl>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+  <!-- Left Column -->
+  <div>
+    <dt class="font-semibold">Title</dt>
+    <dd class="text-gray-700"><%= goal.title %></dd>
 
-  <div class="mt-6 flex justify-center gap-4">
-    <a href="/goals/edit/<%= goal.uuid %>" class="bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
-      Edit Goal
-    </a>
+    <dt class="font-semibold mt-4">Category</dt>
+    <dd class="text-gray-700"><%= goal.category %></dd>
 
-    <button 
-        type="button" 
-        class="bg-red-600 text-white font-semibold px-4 py-2 rounded hover:bg-red-700 transition"
-        onclick="confirmDelete('<%= goal.uuid %>')"
-      >
-        Delete Goal
-      </button>
+    <dt class="font-semibold mt-4">Priority</dt>
+    <dd class="text-gray-700 capitalize"><%= goal.priority %></dd>
+
+    <dt class="font-semibold mt-4">Start Date</dt>
+    <dd class="text-gray-700"><%= new Date(goal.startDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></dd>
+
+    <dt class="font-semibold mt-4">End Date</dt>
+    <dd class="text-gray-700"><%= new Date(goal.endDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></dd>
   </div>
+
+  <!-- Right Column -->
+  <div>
+    <dt class="font-semibold">Frequency</dt>
+    <dd class="text-gray-700"><%= goal.frequency %>x / week</dd>
+
+    <dt class="font-semibold mt-4">Duration</dt>
+    <dd class="text-gray-700"><%= goal.duration %> minutes</dd>
+
+    <dt class="font-semibold mt-4">Status</dt>
+    <dd class="text-green-600 font-semibold">Active</dd>
+
+    <dt class="font-semibold mt-4">Achieved This Week</dt>
+    <dd class="text-gray-700">
+      <% if (goal.achievedThisWeek) { %>
+        ✅ Goal achieved in the last 7-day window on 
+        <%= new Date(goal.wasAchievedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
+      <% } else { %>
+        ❌ Weekly goal not yet achieved
+      <% } %>
+    </dd>
+  </div>
+</div>
+
+<!-- Description Section -->
+<div class="mt-6">
+  <h3 class="font-semibold">Description</h3>
+  <p class="text-gray-700 whitespace-pre-wrap"><%= goal.description %></p>
+</div>
+
+<!-- Buttons -->
+<div class="mt-6 flex justify-center gap-4">
+  <a href="/goals/edit/<%= goal.uuid %>" class="bg-yellow-600 text-white font-semibold px-4 py-2 rounded hover:bg-yellow-700 transition">
+    Edit Goal
+  </a>
+  <button 
+    type="button" 
+    class="bg-red-600 text-white font-semibold px-4 py-2 rounded hover:bg-red-700 transition"
+    onclick="confirmDelete('<%= goal.uuid %>')"
+  >
+    Delete Goal
+  </button>
+</div>
