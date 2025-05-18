@@ -7,8 +7,8 @@ const goalLogController = require('../controllers/goalLogController');
 const router = express.Router();
 
 
-router.get('/partials/calendar', isAuthenticated, goalLogController.getGoalLog);
+router.get('/calendar/:goalUuid', isAuthenticated, goalLogController.getGoalLog);
 
-router.post('/partials/goal-logs:goalLogUuid', isAuthenticated, goalLogController.postGoalLog);
+router.post('/', isAuthenticated, goalLogController.postGoalLog);
 
-router.post('/delete/:goalLogUuid', isAuthenticated, goalLogController.deleteGoalLog);
+router.post('/:goalLogUuid', isAuthenticated, goalLogController.deleteGoalLog);
