@@ -3,12 +3,27 @@ const { Goal } = require('../models');
 const { DATE } = require('sequelize');
 const { renderServerError } = require('../utils/errorHelpers');
 
-exports.getCalendar = async (res, req, next) => {
+
+exports.getCalendarPartial = async (req, res, next) => {
     const userUuid = req.session.userUuid;
     const goalUuid = req.params.goalUuid;
 
     if (!userUuid) {
         return res.render('/auth/login');
+    }
+
+    try {
+        const goal = await Goal.findOne({
+            where: {
+                userUuid,
+                uuid: goalUuid
+            }
+        });
+        if (!goal) {
+            return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
+        }
+        const startDate = goal.startDate;
+        const endDate = goal.endDate
     }
 
     try {
@@ -28,7 +43,7 @@ exports.getCalendar = async (res, req, next) => {
 
 };
 
-exports.postGoalLog = async (res, req, next) => {
+exports.postGoalLog = async (req, res, next) => {
     const userUuid = req.session.userUuid;
     const goalUuid = req.params.goalUuid;
     const goalLogUuid = req.params.goalLogUuid;
