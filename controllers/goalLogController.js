@@ -24,7 +24,25 @@ exports.getCalendarPartial = async (req, res, next) => {
         }
         const startDate = goal.startDate;
         const endDate = goal.endDate
+
+        const calendar = [];
+        let currentDate = new Date(startDate);
+
+        while(currentDate <= endDate) {
+            calendar.push(new Date(currentDate));
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+        
     }
+
+
+
+
+
+
+
+
+
 
     try {
         const goalLog = await GoalLog.findall({
