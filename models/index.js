@@ -22,6 +22,9 @@ db.User = User;
 const Goal = require('./goalModel')(sequelize, Sequelize.DataTypes);
 db.Goal = Goal;
 
+const GoalLog = require('./goaLogModel')(sequelize, Sequelize.DataTypes);
+db.GoalLog = GoalLog;
+
 Object.keys(db).forEach(modelName => {
   if (db[modelName].associate) {
     db[modelName].associate(db);
