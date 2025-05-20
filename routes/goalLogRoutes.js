@@ -12,3 +12,5 @@ router.get('/partials/calendar/:goalUuid', isAuthenticated, goalLogController.ge
 // router.post('/', isAuthenticated, goalLogController.postGoalLog);
 
 // router.post('/:goalLogUuid', isAuthenticated, goalLogController.deleteGoalLog);
+
+module.exports = router;

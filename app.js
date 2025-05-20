@@ -10,6 +10,7 @@ const homeRouter = require('./routes/homeRoutes');
 const userRouter = require('./routes/userRoutes');
 const goalRouter = require('./routes/goalRoutes');
 const authRouter = require('./routes/authRoutes');
+const goalLogRouter = require('./routes/goalLogRoutes');
 
 const { User } = require('./models');
 
@@ -67,6 +68,7 @@ app.use('/profiles', userRouter);
 app.use('/', homeRouter);
 app.use('/goals', goalRouter);
 app.use('/auth', authRouter);
+app.use('/goal-logs', goalLogRouter);
 
 // Swagger docs
 app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));

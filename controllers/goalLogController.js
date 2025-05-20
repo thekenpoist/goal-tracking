@@ -1,5 +1,4 @@
-const { GoalLog } = require('../models');
-const { Goal } = require('../models');
+const { Goal, GoalLog } = require('../models');
 const { DATE } = require('sequelize');
 const { renderServerError } = require('../utils/errorHelpers');
 
@@ -64,7 +63,7 @@ exports.getCalendarPartial = async (req, res, next) => {
             calendarWithStatus.push ({ date: dateStr, status });
         }); 
 
-        res.render('partials/goalLogs/calendar', {
+        res.render('partials/goals/calendar', {
             calendar: calendarWithStatus,
             layout: false,
             pageTitle: 'Goal Calendar'
@@ -72,7 +71,7 @@ exports.getCalendarPartial = async (req, res, next) => {
 
     } catch (err) {
         console.error('Error loading calendar', err);
-        res.status(500).send('<p> classe="text-red-500">Server error - something went wrong.</p>');
+        res.status(500).send('<p> class="text-red-500">Server error - something went wrong.</p>');
     }
 };
 

@@ -30,15 +30,26 @@
 
 <script>
   function loadGoalDetails(goalUuid) {
-    fetch(`/goals/partials/${goalUuid}`)
-      .then(res => res.text())
-      .then(html => {
-        document.getElementById('goalDetails').innerHTML = html;
-      })
-      .catch(err => {
-        document.getElementById('goalDetails').innerHTML = '<p class="text-red-500">Error loading goal details.</p>';
-      });
-  }
+  fetch(`/goals/partials/${goalUuid}`)
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('goalDetails').innerHTML = html;
+
+      // Fetch the calendar partial
+      fetch(`/goal-logs/partials/calendar/${goalUuid}`)
+        .then(res => res.text())
+        .then(calendarHtml => {
+          document.getElementById('goalCalendar').innerHTML = calendarHtml;
+        })
+        .catch(err => {
+          document.getElementById('goalCalendar').innerHTML = '<p class="text-red-500">Error loading calendar.</p>';
+        });
+
+    })
+    .catch(err => {
+      document.getElementById('goalDetails').innerHTML = '<p class="text-red-500">Error loading goal details.</p>';
+    });
+}
 </script>
 
 <!-- Delete Confirmation Modal -->
@@ -98,26 +109,5 @@
     setTimeout(() => {
       modal.classList.add('hidden');
     }, 300);
-  }
-
-  function loadGoalDetails(goalUuid) {
-  fetch(`/goals/partials/${goalUuid}`)
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById('goalDetails').innerHTML = html;
-
-      // Fetch and load calendar
-      fetch(`/goal-logs/partials/calendar/${goalUuid}`)
-        .then(res => res.text())
-        .then(calendarHtml => {
-          document.getElementById('goalCalendar').innerHTML = calendarHtml;
-        })
-        .catch(err => {
-          document.getElementById('goalCalendar').innerHTML = '<p class="text-red-500">Error loading calendar.</p>';
-        });
-    })
-    .catch(err => {
-      document.getElementById('goalDetails').innerHTML = '<p class="text-red-500">Error loading goal details.</p>';
-    });
   }
 </script>
