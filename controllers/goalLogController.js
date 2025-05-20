@@ -19,6 +19,7 @@ exports.getCalendarPartial = async (req, res, next) => {
                 uuid: goalUuid
             }
         });
+
         if (!goal) {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
         }
@@ -35,20 +36,15 @@ exports.getCalendarPartial = async (req, res, next) => {
         }
 
         const goalLog = await GoalLog.findAll({
-            where: {
-                goalUuid
-            }
+            where: { goalUuid }
         });
-
-        if (!goalLog) {
-            return res.status(404).send('<p class="text-red-500">No calendar to display..</p>');
-        }
 
         const logDates = new Set(
             goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
         );
 
         const todayStr = new Date().toISOString().split('T')[0];
+        const calendarWithStatus = [];
 
         calendar.forEach(date => {
             const dateStr = date.toISOString().split('T')[0];
@@ -66,15 +62,18 @@ exports.getCalendarPartial = async (req, res, next) => {
             }
 
             calendarWithStatus.push ({ date: dateStr, status });
+        }); 
+
+        res.render('partials/goalLogs/calendar', {
+            calendar: calendarWithStatus,
+            layout: false,
+            pageTitle: 'Goal Calendar'
         });
-        
 
-
-        
     } catch (err) {
-        console.error('Error', err);
+        console.error('Error loading calendar', err);
         res.status(500).send('<p> classe="text-red-500">Server error - something went wrong.</p>');
-
+    }
 };
 
 exports.toggleGoalLog = async (req, res, next) => {
