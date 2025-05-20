@@ -22,30 +22,24 @@ exports.getCalendarPartial = async (req, res, next) => {
         if (!goal) {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
         }
-        const startDate = goal.startDate;
-        const endDate = goal.endDate
-
-        const calendar = [];
-        let currentDate = new Date(startDate);
-
-        while(currentDate <= endDate) {
-            calendar.push(new Date(currentDate));
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
         
+    } catch (err) {
+        console.error('Error loading goal.', err);
+        res.status(500).send('<p> classe="text-red-500">Server error loading goal</p>');
+
+    const startDate = goal.startDate;
+    const endDate = goal.endDate;
+
+    const calendar = [];
+    let currentDate = new Date(startDate);
+
+    while(currentDate <= endDate) {
+        calendar.push(new Date(currentDate));
+        currentDate.setDate(currentDate.getDate() + 1);
     }
 
-
-
-
-
-
-
-
-
-
     try {
-        const goalLog = await GoalLog.findall({
+        const goalLog = await GoalLog.findAll({
             where: {
                 goalUuid
             }
@@ -54,6 +48,8 @@ exports.getCalendarPartial = async (req, res, next) => {
         if (!goalLog) {
             return res.status(404).send('<p class="text-red-500">No calendar to display..</p>');
         }
+
+        
     } catch (err) {
         console.error('Error loading calendar.', err);
         res.status(500).send('<p> classe="text-red-500">Server error loading calendar</p>');
