@@ -2,7 +2,7 @@ const { Goal, GoalLog } = require('../models');
 const { DATE } = require('sequelize');
 const { renderServerError } = require('../utils/errorHelpers');
 const moment = require('moment');
-
+const { buildCalendarGrid } = require('../utils/calendarBuilder');
 
 exports.getCalendarPartial = async (req, res, next) => {
     const userUuid = req.session.userUuid;
@@ -24,31 +24,6 @@ exports.getCalendarPartial = async (req, res, next) => {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
         }
 
-        const targetMonthString = req.query.month;
-        const targetDate = targetMonthString ? new Date(`${targetMonthString}-01`) : new Date();
-
-        const currentMonth = targetDate.getMonth();
-        const currentYear = targetDate.getFullYear();
-        const currentMonthName = targetDate.toLocaleString('default', { month: 'long' });
-
-        const firstOfMonth = new Date(currentYear, currentMonth, 1);
-        const lastOfMonth = new Date(currentYear, currentMonth + 1, 0);
-
-        const startDate = new Date(firstOfMonth);
-        startDate.setDate(startDate.getDate() - startDate.getDay());
-
-        const endDate = new Date(lastOfMonth);
-        endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
-
-
-        const calendar = [];
-        let currentDate = new Date(startDate);
-
-        while (currentDate <= endDate) {
-            calendar.push(new Date(currentDate));
-            currentDate.setDate(currentDate.getDate() + 1);
-        }
-
         const goalLog = await GoalLog.findAll({
             where: { goalUuid }
         });
@@ -56,6 +31,10 @@ exports.getCalendarPartial = async (req, res, next) => {
         const logDates = new Set(
             goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
         );
+
+        const targetMonthString = req.query.month;
+        const targetDate = targetMonthString ? new Date(`${targetMonthString}-01`) : new Date();
+        const { calendar, currentMonth, currentYear, currentMonthName } = buildCalendarGrid(targetDate)
 
         const goalStartDate = goal.startDate;
         const goalEndDate = goal.endDate;
