@@ -1,6 +1,7 @@
 const { Goal, GoalLog } = require('../models');
 const { DATE } = require('sequelize');
 const { renderServerError } = require('../utils/errorHelpers');
+const moment = require('moment');
 
 
 exports.getCalendarPartial = async (req, res, next) => {
@@ -63,7 +64,13 @@ exports.getCalendarPartial = async (req, res, next) => {
             calendarWithStatus.push ({ date: dateStr, status });
         }); 
 
+        const now = new Date();
+        const currentMonthName = now.toLocaleString('default', { month: 'long' });
+        const currentYear = now.getFullYear();
+
         res.render('partials/goals/calendar', {
+            currentMonthName,
+            currentYear,
             calendar: calendarWithStatus,
             layout: false,
             pageTitle: 'Goal Calendar'
