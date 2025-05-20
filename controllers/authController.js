@@ -30,7 +30,7 @@ exports.postSignup = async (req, res, next) => {
         const existingUser = await User.findOne({ where: { email: email.trim().toLowerCase() } });
 
         if (existingUser) {
-            return res.status(400).render('auth/signip', {
+            return res.status(400).render('auth/signup', {
                 pageTitle: 'Sign Up',
                 currentPage: 'signup',
                 errorMessage: 'Email is already registered',
@@ -38,10 +38,14 @@ exports.postSignup = async (req, res, next) => {
             });
         }
 
+        const baseUsername = email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+        const randomSuffix = Math.floor(1000 + Math.random() * 9000);
+        const username = `${baseUsername}${randomSuffix}`;
+
         const hashedPassword = await argon2.hash(password);
 
         const newUser = await User.create({
-            username: '',
+            username,
             email: email.trim().toLowerCase(),
             password: hashedPassword,
             realName: '',
@@ -59,6 +63,9 @@ exports.postSignup = async (req, res, next) => {
 
     } catch (err) {
         console.error('Error during signup:', err.message);
+        if (err.errors) {
+        err.errors.forEach(e => console.error(`  - ${e.message}`)); //remove later
+        }
         res.status(500).render('auth/signup', {
             pageTitle: 'Sign Up',
             currentPage: 'signup',
