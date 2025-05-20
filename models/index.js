@@ -22,7 +22,7 @@ db.User = User;
 const Goal = require('./goalModel')(sequelize, Sequelize.DataTypes);
 db.Goal = Goal;
 
-const GoalLog = require('./goaLogModel')(sequelize, Sequelize.DataTypes);
+const GoalLog = require('./goalLogModel')(sequelize, Sequelize.DataTypes);
 db.GoalLog = GoalLog;
 
 Object.keys(db).forEach(modelName => {
