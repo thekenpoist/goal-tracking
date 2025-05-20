@@ -29,7 +29,7 @@ exports.getCalendarPartial = async (req, res, next) => {
         const calendar = [];
         let currentDate = new Date(startDate);
 
-        while(currentDate <= endDate) {
+        while (currentDate <= endDate) {
             calendar.push(new Date(currentDate));
             currentDate.setDate(currentDate.getDate() + 1);
         }
@@ -43,6 +43,10 @@ exports.getCalendarPartial = async (req, res, next) => {
         if (!goalLog) {
             return res.status(404).send('<p class="text-red-500">No calendar to display..</p>');
         }
+
+        const logDates = new Set(
+            goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
+        );
 
 
         
