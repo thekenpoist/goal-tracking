@@ -48,6 +48,27 @@ exports.getCalendarPartial = async (req, res, next) => {
             goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
         );
 
+        const todayStr = new Date().toISOString().split('T')[0];
+
+        calendar.forEach(date => {
+            const dateStr = date.toISOString().split('T')[0];
+            const daysAgo = Math.floor((new Date(todayStr) - new Date(dateStr)) / (1000 * 60 * 60 * 24));
+
+            let status;
+            if (logDates.has(dateStr)) {
+                status = 'done';
+            } else if (dateStr > todayStr) {
+                status = 'future';
+            } else if (daysAgo >= 7) {
+                status = 'locked';
+            } else {
+                status = 'missed';
+            }
+
+            calendarWithStatus.push ({ date: dateStr, status });
+        });
+        
+
 
         
     } catch (err) {
@@ -56,7 +77,7 @@ exports.getCalendarPartial = async (req, res, next) => {
 
 };
 
-exports.postGoalLog = async (req, res, next) => {
+exports.toggleGoalLog = async (req, res, next) => {
     const userUuid = req.session.userUuid;
     const goalUuid = req.params.goalUuid;
     const goalLogUuid = req.params.goalLogUuid;
