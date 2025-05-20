@@ -24,8 +24,22 @@ exports.getCalendarPartial = async (req, res, next) => {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
         }
 
-        const startDate = goal.startDate;
-        const endDate = goal.endDate;
+        const targetMonthString = req.query.month;
+        const targetDate = targetMonthString ? new Date(`${targetMonthString}-01`) : new Date();
+
+        const currentMonth = targetDate.getMonth();
+        const currentYear = targetDate.getFullYear();
+        const currentMonthName = targetDate.toLocaleString('default', { month: 'long' });
+
+        const firstOfMonth = new Date(currentYear, currentMonth, 1);
+        const lastOfMonth = new Date(currentYear, currentMonth + 1, 0);
+
+        const startDate = new Date(firstOfMonth);
+        startDate.setDate(startDate.getDate() - startDate.getDay());
+
+        const endDate = new DataTransfer(lastOfMonth);
+        endDated.setDate(endDate.getDate() + (6 - endDate.getDay()));
+
 
         const calendar = [];
         let currentDate = new Date(startDate);
@@ -43,6 +57,9 @@ exports.getCalendarPartial = async (req, res, next) => {
             goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
         );
 
+        const goalStartDate = goal.startDate;
+        const goalEndDate = goal.endDate;
+
         const todayStr = new Date().toISOString().split('T')[0];
         const calendarWithStatus = [];
 
@@ -51,7 +68,9 @@ exports.getCalendarPartial = async (req, res, next) => {
             const daysAgo = Math.floor((new Date(todayStr) - new Date(dateStr)) / (1000 * 60 * 60 * 24));
 
             let status;
-            if (logDates.has(dateStr)) {
+            if (date < goalStartDate || date > goalEndDate) {
+                status = 'disabled';
+            } else if (logDates.has(dateStr)) {
                 status = 'done';
             } else if (dateStr > todayStr) {
                 status = 'future';
@@ -60,19 +79,15 @@ exports.getCalendarPartial = async (req, res, next) => {
             } else {
                 status = 'missed';
             }
-
+            const isCurrentMonth = date.getMonth() === currentMonth;
             calendarWithStatus.push ({ date: dateStr, status });
         }); 
-
-        const now = new Date();
-        const currentMonth = todayStr.getMonth();
-        const currentMonthName = now.toLocaleString('default', { month: 'long' });
-        const currentYear = now.getFullYear();
-
+        
         res.render('partials/goals/calendar', {
             currentMonthName,
             currentYear,
             currentMonth,
+            isCurrentMonth,
             calendar: calendarWithStatus,
             layout: false,
             pageTitle: 'Goal Calendar'
