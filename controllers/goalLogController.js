@@ -37,8 +37,8 @@ exports.getCalendarPartial = async (req, res, next) => {
         const startDate = new Date(firstOfMonth);
         startDate.setDate(startDate.getDate() - startDate.getDay());
 
-        const endDate = new DataTransfer(lastOfMonth);
-        endDated.setDate(endDate.getDate() + (6 - endDate.getDay()));
+        const endDate = new Date(lastOfMonth);
+        endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
 
 
         const calendar = [];
@@ -80,14 +80,13 @@ exports.getCalendarPartial = async (req, res, next) => {
                 status = 'missed';
             }
             const isCurrentMonth = date.getMonth() === currentMonth;
-            calendarWithStatus.push ({ date: dateStr, status });
+            calendarWithStatus.push ({ date: dateStr, status, isCurrentMonth });
         }); 
         
         res.render('partials/goals/calendar', {
             currentMonthName,
             currentYear,
             currentMonth,
-            isCurrentMonth,
             calendar: calendarWithStatus,
             layout: false,
             pageTitle: 'Goal Calendar'
