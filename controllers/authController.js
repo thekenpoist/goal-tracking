@@ -2,6 +2,7 @@ const { validationResult } = require('express-validator');
 const { User } = require('../models');
 const argon2 = require('argon2');
 const { Op } = require('sequelize');
+const { generateUniqueUsername } = require('../utils/generateUsername');
 
 exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
@@ -38,10 +39,7 @@ exports.postSignup = async (req, res, next) => {
             });
         }
 
-        const baseUsername = email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-        const randomSuffix = Math.floor(1000 + Math.random() * 9000);
-        const username = `${baseUsername}${randomSuffix}`;
-
+        const username = await generateUniqueUsername(email);
         const hashedPassword = await argon2.hash(password);
 
         const newUser = await User.create({
