@@ -65,12 +65,14 @@ exports.getCalendarPartial = async (req, res, next) => {
         }); 
 
         const now = new Date();
+        const currentMonth = todayStr.getMonth();
         const currentMonthName = now.toLocaleString('default', { month: 'long' });
         const currentYear = now.getFullYear();
 
         res.render('partials/goals/calendar', {
             currentMonthName,
             currentYear,
+            currentMonth,
             calendar: calendarWithStatus,
             layout: false,
             pageTitle: 'Goal Calendar'

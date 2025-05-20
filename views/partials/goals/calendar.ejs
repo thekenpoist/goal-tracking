@@ -1,5 +1,6 @@
 <div class="mb-4">
     <h3 class="text-lg font-semibold text-gray-700 mb-2">Goal Calendar</h3>
+    <h2><%= currentMonthName %> <%= currentYear %></h2>
     <div class="grid grid-cols-7 gap-2 text-center text-sm">
       <% calendar.forEach(day => { 
            const dayNum = new Date(day.date).getDate(); 
