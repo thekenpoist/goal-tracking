@@ -62,10 +62,10 @@
       <p class="text-gray-600">[Login streak, progress, quote will go here]</p>
     </div>
 
-    <!-- Completed Goals Card -->
-    <div class="bg-white shadow-md rounded-lg p-6">
-      <h2 class="text-xl font-semibold mb-4">Completed Goals</h2>
-      <p class="text-gray-600">[List of completed goals will go here]</p>
+    <!-- Goal Calendar Card -->
+    <div class="bg-white shadow-md rounded-lg p-6 mt-4" id="goalCalendar">
+      <h2 class="text-xl font-semibold mb-4">Goal Calendar</h2>
+      <p class="text-gray-600 italic">Calendar will appear when a goal is selected.</p>
     </div>
 
   </div>
@@ -98,5 +98,26 @@
     setTimeout(() => {
       modal.classList.add('hidden');
     }, 300);
+  }
+
+  function loadGoalDetails(goalUuid) {
+  fetch(`/goals/partials/${goalUuid}`)
+    .then(res => res.text())
+    .then(html => {
+      document.getElementById('goalDetails').innerHTML = html;
+
+      // Fetch and load calendar
+      fetch(`/goal-logs/partials/calendar/${goalUuid}`)
+        .then(res => res.text())
+        .then(calendarHtml => {
+          document.getElementById('goalCalendar').innerHTML = calendarHtml;
+        })
+        .catch(err => {
+          document.getElementById('goalCalendar').innerHTML = '<p class="text-red-500">Error loading calendar.</p>';
+        });
+    })
+    .catch(err => {
+      document.getElementById('goalDetails').innerHTML = '<p class="text-red-500">Error loading goal details.</p>';
+    });
   }
 </script>
