@@ -1,0 +1,20 @@
+<div class="mb-4">
+    <h3 class="text-lg font-semibold text-gray-700 mb-2">Goal Calendar</h3>
+    <div class="grid grid-cols-7 gap-2 text-center text-sm">
+      <% calendar.forEach(day => { 
+           const dayNum = new Date(day.date).getDate(); 
+      %>
+        <div 
+          class="w-8 h-8 flex items-center justify-center rounded-full cursor-pointer 
+                 <% if (day.status === 'done') { %> bg-green-500 text-white 
+                 <% } else if (day.status === 'missed') { %> bg-red-500 text-white 
+                 <% } else if (day.status === 'locked') { %> bg-gray-400 text-white cursor-not-allowed 
+                 <% } else { %> bg-gray-200 text-gray-700 
+                 <% } %>" 
+          title="<%= day.date %> - <%= day.status %>"
+        >
+          <%= dayNum %>
+        </div>
+      <% }) %>
+    </div>
+  </div>
