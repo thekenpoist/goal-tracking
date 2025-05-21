@@ -34,6 +34,18 @@ exports.getCalendarPartial = async (req, res, next) => {
 
         const targetMonthString = req.query.month;
         const targetDate = targetMonthString ? new Date(`${targetMonthString}-01`) : new Date();
+        const formatMonthStr = (date) =>
+            `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+
+        const prevDate = new Date(targetDate);
+        prevDate.setMonth(prevDate.getMonth() - 1);
+
+        const nextDate = new Date(targetDate);
+        nextDate.setMonth(nextDate.getMonth() + 1);
+
+        const prevMonthStr = formatMonthStr(prevDate);
+        const nextMonthStr = formatMonthStr(nextDate);
+
         const { calendar, currentMonth, currentYear, currentMonthName } = buildCalendarGrid(targetDate)
 
         const goalStartDate = goal.startDate;
@@ -67,6 +79,8 @@ exports.getCalendarPartial = async (req, res, next) => {
             currentYear,
             currentMonth,
             calendar: calendarWithStatus,
+            prevMonthStr,
+            nextMonthStr,
             layout: false,
             pageTitle: 'Goal Calendar'
         });
