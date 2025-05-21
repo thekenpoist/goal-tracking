@@ -39,7 +39,11 @@
       fetch(`/goal-logs/partials/calendar/${goalUuid}`)
         .then(res => res.text())
         .then(calendarHtml => {
-          document.getElementById('goalCalendar').innerHTML = calendarHtml;
+          const calendarEl = document.getElementById('goalCalendar');
+          calendarEl.innerHTML = calendarHtml;
+
+          // This is the magic line:
+          attachCalendarNavListeners(goalUuid);
         })
         .catch(err => {
           document.getElementById('goalCalendar').innerHTML = '<p class="text-red-500">Error loading calendar.</p>';
@@ -50,6 +54,29 @@
       document.getElementById('goalDetails').innerHTML = '<p class="text-red-500">Error loading goal details.</p>';
     });
 }
+
+function attachCalendarNavListeners(goalUuid) {
+  console.log('Attaching calendar nav listeners for:', goalUuid); // <-- Add this
+  const buttons = document.querySelectorAll('.calendar-nav');
+  buttons.forEach(button => {
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const month = button.dataset.month;
+
+      try {
+        const res = await fetch(`/goal-logs/partials/calendar/${goalUuid}?month=${month}`);
+        const html = await res.text();
+        document.getElementById('goalCalendar').innerHTML = html;
+
+        // Re-attach listeners because calendar DOM was replaced
+        attachCalendarNavListeners(goalUuid);
+      } catch (err) {
+        console.error('Error loading calendar month:', err);
+      }
+    });
+  });
+}
+
 </script>
 
 <!-- Delete Confirmation Modal -->
@@ -74,12 +101,6 @@
     </div>
 
     <!-- Goal Calendar Card -->
-    <div id="goal-calendar" data-goal-uuid="<%= goal.uuid %>">
-      <%- include('partials/goals/calendar', { calendar, currentMonth, currentYear, currentMonthName }) %>
-    </div>
-
-    <script src="/js/calendar.js" defer></script>
-
     <div class="bg-white shadow-md rounded-lg p-6 mt-4" id="goalCalendar">
       <h2 class="text-xl font-semibold mb-4">Goal Calendar</h2>
       <p class="text-gray-600 italic">Calendar will appear when a goal is selected.</p>
