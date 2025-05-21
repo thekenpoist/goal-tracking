@@ -1,50 +1,52 @@
-<div class="mb-4">
-  <!-- Month Navigation -->
-  <%
-    const prevMonthDate = new Date(currentYear, currentMonth - 1, 1);
-    const nextMonthDate = new Date(currentYear, currentMonth + 1, 1);
-    const pad = n => n.toString().padStart(2, '0');
-    const prevMonthStr = `${prevMonthDate.getFullYear()}-${pad(prevMonthDate.getMonth() + 1)}`;
-    const nextMonthStr = `${nextMonthDate.getFullYear()}-${pad(nextMonthDate.getMonth() + 1)}`;
-  %>
-
-  <div class="flex justify-between items-center mb-2">
-    <a href="?month=<%= prevMonthStr %>" class="text-blue-500 hover:underline">&larr; Prev</a>
-    <h4 class="text-md font-medium text-gray-700"><%= currentMonthName %> <%= currentYear %></h4>
-    <a href="?month=<%= nextMonthStr %>" class="text-blue-500 hover:underline">Next &rarr;</a>
-  </div>
-
-  <!-- Day of Week Labels -->
-  <div class="grid grid-cols-7 gap-2 text-center text-xs text-gray-500 mb-1">
-    <div>Sun</div>
-    <div>Mon</div>
-    <div>Tue</div>
-    <div>Wed</div>
-    <div>Thu</div>
-    <div>Fri</div>
-    <div>Sat</div>
-  </div>
-
-  <!-- Calendar Grid -->
-  <div class="grid grid-cols-7 gap-2 text-center text-sm">
-    <% calendar.forEach(day => {
-         const dateObj = new Date(day.date);
-         const dayNum = dateObj.getDate();
+ <div id="goal-calendar">
+  <div class="mb-4">
+    <!-- Month Navigation -->
+    <%
+      const prevMonthDate = new Date(currentYear, currentMonth - 1, 1);
+      const nextMonthDate = new Date(currentYear, currentMonth + 1, 1);
+      const pad = n => n.toString().padStart(2, '0');
+      const prevMonthStr = `${prevMonthDate.getFullYear()}-${pad(prevMonthDate.getMonth() + 1)}`;
+      const nextMonthStr = `${nextMonthDate.getFullYear()}-${pad(nextMonthDate.getMonth() + 1)}`;
     %>
-      <div 
-        class="w-8 h-8 flex items-center justify-center rounded-full
-               <% if (day.status === 'done') { %> bg-green-500 text-white
-               <% } else if (day.status === 'missed') { %> bg-red-500 text-white
-               <% } else if (day.status === 'locked') { %> bg-gray-400 text-white cursor-not-allowed
-               <% } else if (day.status === 'future') { %> bg-blue-200 text-blue-700
-               <% } else if (day.status === 'disabled') { %> bg-white text-gray-300 border border-gray-200 cursor-not-allowed
-               <% } else { %> 
-                 <%= day.isCurrentMonth ? 'bg-gray-200 text-gray-700' : 'bg-gray-100 text-gray-400' %>
-               <% } %>"
-        title="<%= day.date %> - <%= day.status %>"
-      >
-        <%= dayNum %>
-      </div>
-    <% }) %>
+
+    <div class="flex justify-between items-center mb-2">
+      <a href="?month=<%= prevMonthStr %>" class="text-blue-500 hover:underline">&larr; Prev</a>
+      <h4 class="text-md font-medium text-gray-700"><%= currentMonthName %> <%= currentYear %></h4>
+      <a href="?month=<%= nextMonthStr %>" class="text-blue-500 hover:underline">Next &rarr;</a>
+    </div>
+
+    <!-- Day of Week Labels -->
+    <div class="grid grid-cols-7 gap-2 text-center text-xs text-gray-500 mb-1">
+      <div>Sun</div>
+      <div>Mon</div>
+      <div>Tue</div>
+      <div>Wed</div>
+      <div>Thu</div>
+      <div>Fri</div>
+      <div>Sat</div>
+    </div>
+
+    <!-- Calendar Grid -->
+    <div class="grid grid-cols-7 gap-2 text-center text-sm">
+      <% calendar.forEach(day => {
+          const dateObj = new Date(day.date);
+          const dayNum = dateObj.getDate();
+      %>
+        <div 
+          class="w-8 h-8 flex items-center justify-center rounded-full
+                <% if (day.status === 'done') { %> bg-green-500 text-white
+                <% } else if (day.status === 'missed') { %> bg-red-500 text-white
+                <% } else if (day.status === 'locked') { %> bg-gray-400 text-white cursor-not-allowed
+                <% } else if (day.status === 'future') { %> bg-blue-200 text-blue-700
+                <% } else if (day.status === 'disabled') { %> bg-white text-gray-300 border border-gray-200 cursor-not-allowed
+                <% } else { %> 
+                  <%= day.isCurrentMonth ? 'bg-gray-200 text-gray-700' : 'bg-gray-100 text-gray-400' %>
+                <% } %>"
+          title="<%= day.date %> - <%= day.status %>"
+        >
+          <%= dayNum %>
+        </div>
+      <% }) %>
+    </div>
   </div>
 </div>
