@@ -24,7 +24,8 @@ function buildCalendarGrid(targetDate = new Date()) {
         calendar,
         currentMonth,
         currentYear,
-        currentMonthName
+        currentMonthName,
+        targetDate
     };
 }
 
