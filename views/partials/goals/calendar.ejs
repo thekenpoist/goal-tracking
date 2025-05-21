@@ -10,9 +10,9 @@
     %>
 
     <div class="flex justify-between items-center mb-2">
-      <a href="?month=<%= prevMonthStr %>" class="text-blue-500 hover:underline">&larr; Prev</a>
+      <a href="#" data-month="<%= prevMonthStr %>" class="calendar-nav text-blue-500 hover:underline">&larr; Prev</a>
       <h4 class="text-md font-medium text-gray-700"><%= currentMonthName %> <%= currentYear %></h4>
-      <a href="?month=<%= nextMonthStr %>" class="text-blue-500 hover:underline">Next &rarr;</a>
+      <a href="#" data-month="<%= nextMonthStr %>" class="calendar-nav text-blue-500 hover:underline">Next &rarr;</a>
     </div>
 
     <!-- Day of Week Labels -->
