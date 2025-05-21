@@ -1,23 +1,6 @@
  <div id="goal-calendar">
   <div class="mb-4">
     <!-- Month Navigation -->
-    <%
-      function getMonthString(year, month) {
-        const pad = n => n.toString().padStart(2, '0');
-        return `${year}-${pad(month + 1)}`;
-      }
-
-      const currentDate = new Date(currentYear, currentMonth, 1);
-      const prevDate = new Date(currentDate);
-      const nextDate = new Date(currentDate);
-
-      prevDate.setMonth(currentDate.getMonth() - 1);
-      nextDate.setMonth(currentDate.getMonth() + 1);
-
-      const prevMonthStr = getMonthString(prevDate.getFullYear(), prevDate.getMonth());
-      const nextMonthStr = getMonthString(nextDate.getFullYear(), nextDate.getMonth());
-    %>
-
     <div class="flex justify-between items-center mb-2">
       <a href="#" class="calendar-nav text-blue-500 hover:underline" data-month="<%= prevMonthStr %>">&larr; Prev</a>
       <h4 class="text-md font-medium text-gray-700"><%= currentMonthName %> <%= currentYear %></h4>
