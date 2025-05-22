@@ -33,18 +33,17 @@ exports.getCalendarPartial = async (req, res, next) => {
         );
 
         const targetMonthString = req.query.month;
-        const rawDate = targetMonthString ? new Date(`${targetMonthString}-01`) : new Date();
-        const targetDate = new Date(rawDate); // protect original
+        const targetDate = targetMonthString ? new Date(`${targetMonthString}-01T00:00:00Z`) : new Date();
 
         // Safe formatter
         const formatMonthStr = (date) =>
         `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
 
         // Clone and shift for nav links
-        const prevDate = new Date(targetDate);
+        const prevDate = new Date(targetDate.getTime());
         prevDate.setMonth(prevDate.getMonth() - 1);
 
-        const nextDate = new Date(targetDate);
+        const nextDate = new Date(targetDate.getTime());
         nextDate.setMonth(nextDate.getMonth() + 1);
 
         const prevMonthStr = formatMonthStr(prevDate);
@@ -56,7 +55,7 @@ exports.getCalendarPartial = async (req, res, next) => {
         currentMonth,
         currentYear,
         currentMonthName
-        } = buildCalendarGrid(targetDate);
+        } = buildCalendarGrid(new Date(targetDate));
 
         const goalStartDate = goal.startDate;
         const goalEndDate = goal.endDate;
@@ -80,9 +79,14 @@ exports.getCalendarPartial = async (req, res, next) => {
             } else {
                 status = 'missed';
             }
-            const isCurrentMonth = date.getMonth() === currentMonth;
+            const isCurrentMonth = (date.getMonth() === currentMonth && date.getFullYear() === currentYear);
             calendarWithStatus.push ({ date: dateStr, status, isCurrentMonth });
         }); 
+
+        console.log('Target:', targetDate.toISOString());
+        console.log('Prev:', prevMonthStr, 'Next:', nextMonthStr);
+        console.log('Calendar start:', calendar[0]);
+        console.log('Calendar end:', calendar[calendar.length - 1]);
         
         res.render('partials/goals/calendar', {
             currentMonthName,
