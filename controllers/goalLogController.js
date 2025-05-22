@@ -33,18 +33,17 @@ exports.getCalendarPartial = async (req, res, next) => {
         );
 
         const targetMonthString = req.query.month;
-        const targetDate = targetMonthString ? new Date(`${targetMonthString}-01T00:00:00Z`) : new Date();
 
-        // Safe formatter
+        const [year, month] = targetMonthString?.split('-') ?? [];
+        const targetDate = targetMonthString
+            ? new Date(Date.UTC(parseInt(year), parseInt(month) - 1, 1))
+            : new Date(); // fallback is still safe but slightly local, rarely used
+
+        const prevDate = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth() - 1, 1));
+        const nextDate = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth() + 1, 1));
+
         const formatMonthStr = (date) =>
-        `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
-
-        // Clone and shift for nav links
-        const prevDate = new Date(targetDate.getTime());
-        prevDate.setMonth(prevDate.getMonth() - 1);
-
-        const nextDate = new Date(targetDate.getTime());
-        nextDate.setMonth(nextDate.getMonth() + 1);
+            `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1).toString().padStart(2, '0')}`;
 
         const prevMonthStr = formatMonthStr(prevDate);
         const nextMonthStr = formatMonthStr(nextDate);
@@ -96,6 +95,7 @@ exports.getCalendarPartial = async (req, res, next) => {
             prevMonthStr,
             nextMonthStr,
             layout: false,
+            goalUuid,
             pageTitle: 'Goal Calendar'
         });
 
