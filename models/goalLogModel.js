@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
             allowNull: false
         },
         sessionDate: {
-            type: DataTypes.DATE
+            type: DataTypes.DATEONLY
         },
         edited: {
             type: DataTypes.BOOLEAN,
