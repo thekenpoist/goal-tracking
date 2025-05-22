@@ -55,7 +55,7 @@ exports.viewGoalPartial = async (req, res, next) => {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
         }
 
-        goal.dataValues.achievedThisWeek = isWithinCurrentRollingWindow(goal.startDate, goal.wasAchievedAt);
+        //goal.dataValues.achievedThisWeek = isWithinCurrentRollingWindow(goal.startDate, goal.wasAchievedAt);
         
         res.render('partials/goal-details', {
             goal,

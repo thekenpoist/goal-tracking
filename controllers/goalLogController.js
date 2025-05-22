@@ -37,7 +37,7 @@ exports.getCalendarPartial = async (req, res, next) => {
         const [year, month] = targetMonthString?.split('-') ?? [];
         const targetDate = targetMonthString
             ? new Date(Date.UTC(parseInt(year), parseInt(month) - 1, 1))
-            : new Date(); // fallback is still safe but slightly local, rarely used
+            : new Date(); 
 
         const prevDate = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth() - 1, 1));
         const nextDate = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth() + 1, 1));
@@ -48,7 +48,6 @@ exports.getCalendarPartial = async (req, res, next) => {
         const prevMonthStr = formatMonthStr(prevDate);
         const nextMonthStr = formatMonthStr(nextDate);
 
-        // Now use unmodified targetDate
         const {
         calendar,
         currentMonth,
@@ -82,10 +81,10 @@ exports.getCalendarPartial = async (req, res, next) => {
             calendarWithStatus.push ({ date: dateStr, status, isCurrentMonth });
         }); 
 
-        console.log('Target:', targetDate.toISOString());
-        console.log('Prev:', prevMonthStr, 'Next:', nextMonthStr);
-        console.log('Calendar start:', calendar[0]);
-        console.log('Calendar end:', calendar[calendar.length - 1]);
+        //console.log('Target:', targetDate.toISOString());
+        //console.log('Prev:', prevMonthStr, 'Next:', nextMonthStr);
+        //console.log('Calendar start:', calendar[0]);
+        //console.log('Calendar end:', calendar[calendar.length - 1]);
         
         res.render('partials/goals/calendar', {
             currentMonthName,

@@ -23,8 +23,8 @@ function buildCalendarGrid(targetDate = new Date()) {
         currentDate.setUTCDate(currentDate.getUTCDate() + 1);
     }
 
-    console.log('Grid Month:', currentMonthName, currentYear);
-    console.log('Grid Start:', startDate.toISOString(), '→ End:', endDate.toISOString());
+    //console.log('Grid Month:', currentMonthName, currentYear);
+    //console.log('Grid Start:', startDate.toISOString(), '→ End:', endDate.toISOString());
     return {
         calendar,
         currentMonth,
