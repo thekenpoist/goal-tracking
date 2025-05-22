@@ -81,11 +81,6 @@ exports.getCalendarPartial = async (req, res, next) => {
             calendarWithStatus.push ({ date: dateStr, status, isCurrentMonth });
         }); 
 
-        //console.log('Target:', targetDate.toISOString());
-        //console.log('Prev:', prevMonthStr, 'Next:', nextMonthStr);
-        //console.log('Calendar start:', calendar[0]);
-        //console.log('Calendar end:', calendar[calendar.length - 1]);
-        
         res.render('partials/goals/calendar', {
             currentMonthName,
             currentYear,
@@ -107,10 +102,45 @@ exports.getCalendarPartial = async (req, res, next) => {
 exports.toggleGoalLog = async (req, res, next) => {
     const userUuid = req.session.userUuid;
     const goalUuid = req.params.goalUuid;
-    const goalLogUuid = req.params.goalLogUuid;
+    const sessionDate = req.params.date;
 
     if (!userUuid) {
         return res.render('/auth/login');
     }
 
+    try {
+        const goal = await Goal.findOne({
+            where: {
+                uuid: goalUuid,
+                userUuid: userUuid
+            }
+        });
+        
+        if (!goal) {
+            return res.status(403).json({ error: 'Unauthorized: Goal not found or not owned by user'};)
+        }
+
+        const existingLog = await GoalLog.findOne({
+            where: {
+                userUuid,
+                goalUuid,
+                sessionDate
+            }
+        });
+
+        if (existingLog) {
+            await existingLog.destroy();
+            return res.status(200).json({ toggled: false });
+        } else {
+            await GoalLog.create({
+                userUuid,
+                goalUuid,
+                sessionDate
+            });
+            return res.status(200).json({ toggled: true });
+        }
+    } catch (err) {
+        console.error('Error toggling goal log:', err);
+        return res.status(500).json({ error: 'Server error '};)
+    }
 };
