@@ -115,9 +115,9 @@ exports.toggleGoalLog = async (req, res, next) => {
                 userUuid: userUuid
             }
         });
-        
+
         if (!goal) {
-            return res.status(403).json({ error: 'Unauthorized: Goal not found or not owned by user'};)
+            return res.status(403).json({ error: 'Unauthorized'};)
         }
 
         const existingLog = await GoalLog.findOne({

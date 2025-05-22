@@ -9,8 +9,6 @@ const router = express.Router();
 
 router.get('/partials/calendar/:goalUuid', isAuthenticated, goalLogController.getCalendarPartial);
 
-// router.post('/', isAuthenticated, goalLogController.postGoalLog);
-
-// router.post('/:goalLogUuid', isAuthenticated, goalLogController.deleteGoalLog);
+router.post('/goals/:goalUuid/log/:date/toggle', isAuthenticated, goalLogController.toggleGoalLog);
 
 module.exports = router;
