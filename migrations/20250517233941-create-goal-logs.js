@@ -18,7 +18,8 @@ module.exports = {
         allowNull: false
       },
       sessionDate: {
-        type: Sequelize.DATEONLY
+        type: Sequelize.DATEONLY,
+        allowNull: false
       },
       edited: {
         type: Sequelize.BOOLEAN,
