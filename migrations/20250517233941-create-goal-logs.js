@@ -18,7 +18,7 @@ module.exports = {
         allowNull: false
       },
       sessionDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       edited: {
         type: Sequelize.BOOLEAN,
@@ -33,8 +33,13 @@ module.exports = {
         type: Sequelize.DATE
       }
     });
+
+    await queryInterface.addIndex('goal_logs', ['userUuid', 'goalUuid', 'sessionDate'], {
+      name: 'idx_goal_logs_lookup'
+    });
   },
-  async down(queryInterface, Sequelize) {
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.removeIndex('goal_logs', 'idx_goal_logs_lookup');
     await queryInterface.dropTable('goal_logs');
   }
 };
