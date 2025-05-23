@@ -33,10 +33,10 @@
     <dt class="font-semibold mt-4">Achieved This Week</dt>
     <dd class="text-gray-700">
       <% if (goal.achievedThisWeek) { %>
-        Goal achieved in the last 7-day window on 
+        <p class="text-green-600 font-semibold mt-2">Weekly Goal Achieved! Well Done!</p>
         <%= new Date(goal.wasAchievedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %>
       <% } else { %>
-        Weekly goal not yet achieved
+        <p class="text-red-600 font-semibold mt-2">Weekly goal not yet achieved</p>
       <% } %>
     </dd>
   </div>
