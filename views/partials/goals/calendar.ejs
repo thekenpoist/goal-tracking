@@ -24,13 +24,28 @@
       <% calendar.forEach(day => {
           const dateObj = new Date(day.date);
           const dayNum = dateObj.getDate();
+
+          let bgClass = '';
+          if (day.status === 'done') {
+            bgClass = 'bg-green-500 text-white';
+          } else if (day.status === 'missed') {
+            bgClass = 'bg-red-500 text-white';
+          } else if (day.status === 'locked') {
+            bgClass = 'bg-gray-400 text-white cursor-not-allowed';
+          } else if (day.status === 'future') {
+            bgClass = 'bg-blue-200 text-blue-700';
+          } else if (day.status === 'disabled') {
+            bgClass = 'bg-white text-gray-300 border border-gray-200 cursor-not-allowed';
+          } else {
+            bgClass = day.isCurrentMonth ? 'bg-gray-200 text-gray-700' : 'bg-gray-100 text-gray-400';
+          }
       %>
         <div 
-            class="calendar-cell w-8 h-8 flex items-center justify-center rounded-full cursor-pointer"
-            data-goal-uuid="<%= goalUuid %>"
-            data-date="<%= day.date %>"
-            data-status="<%= day.status %>"
-            role="button"
+          class="calendar-cell w-8 h-8 flex items-center justify-center rounded-full cursor-pointer <%= bgClass %>"
+          data-goal-uuid="<%= goalUuid %>"
+          data-date="<%= day.date %>"
+          data-status="<%= day.status %>"
+          role="button"
           title="<%= day.date %> - <%= day.status %>"
         >
           <%= dayNum %>
