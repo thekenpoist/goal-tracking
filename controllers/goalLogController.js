@@ -117,7 +117,7 @@ exports.toggleGoalLog = async (req, res, next) => {
         });
 
         if (!goal) {
-            return res.status(403).json({ error: 'Unauthorized'};)
+            return res.status(403).json({ error: 'Unauthorized' });
         }
 
         const existingLog = await GoalLog.findOne({
@@ -141,6 +141,6 @@ exports.toggleGoalLog = async (req, res, next) => {
         }
     } catch (err) {
         console.error('Error toggling goal log:', err);
-        return res.status(500).json({ error: 'Server error '};)
+        return res.status(500).json({ error: 'Server error '});
     }
 };
