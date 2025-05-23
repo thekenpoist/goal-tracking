@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 const { Goal, GoalLog } = require('../models');
 const { DATE } = require("sequelize");
 const { renderServerError } = require('../utils/errorHelpers');
-const { isWithinCurrentRollingWindow } = require('../utils/goalHelpers');
+const { isWithinCurrentRollingWindow, countLogsInCurrentRollingWindow } = require('../utils/goalHelpers');
 const { formatInTimeZone } = require('date-fns-tz');
 const { constructFromSymbol } = require("date-fns/constants");
 
@@ -64,9 +64,8 @@ exports.viewGoalPartial = async (req, res, next) => {
             }
         });
 
-        if (goalLogs.length >= goal.frequency) {
-            
-        }
+        const logCount = countLogsInCurrentRollingWindow(goal.startDate, goalLogs);
+        goal.achievedThisWeek = logCount >= goal.frequency
 
         //goal.dataValues.achievedThisWeek = isWithinCurrentRollingWindow(goal.startDate, goal.wasAchievedAt);
         goal.startDateFormatted = formatInTimeZone(goal.startDate, 'UTC', 'MMMM d, yyyy');
