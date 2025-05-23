@@ -13,7 +13,7 @@
     <dd class="text-gray-700 capitalize"><%= goal.priority %></dd>
 
     <dt class="font-semibold mt-4">Start Date</dt>
-    <dd class="text-gray-700"><%= new Date(goal.startDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></dd>
+    <dd class="text-gray-700"><%= goal.startDateFormatted %></dd>
 
     <dt class="font-semibold mt-4">End Date</dt>
     <dd class="text-gray-700"><%= new Date(goal.endDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) %></dd>

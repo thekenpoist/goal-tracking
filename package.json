@@ -20,6 +20,7 @@
   "homepage": "https://github.com/thekenpoist/goal-tracking#readme",
   "dependencies": {
     "argon2": "^0.43.0",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "ejs": "^3.1.10",
     "express": "^4.21.2",

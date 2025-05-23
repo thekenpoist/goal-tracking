@@ -3,6 +3,7 @@ const { Goal } = require('../models');
 const { DATE } = require("sequelize");
 const { renderServerError } = require('../utils/errorHelpers');
 const { isWithinCurrentRollingWindow } = require('../utils/goalHelpers');
+const { format } = require('date-fns');
 
 exports.getShowGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;
@@ -56,7 +57,8 @@ exports.viewGoalPartial = async (req, res, next) => {
         }
 
         //goal.dataValues.achievedThisWeek = isWithinCurrentRollingWindow(goal.startDate, goal.wasAchievedAt);
-        
+        goal.startDateFormatted = format(new Date(goal.startDate), 'MMMM d, yyyy');
+        console.log(goal.startDateFormatted)
         res.render('partials/goal-details', {
             goal,
             pageTitle: `Goal: ${goal.title}`,
