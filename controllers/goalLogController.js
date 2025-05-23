@@ -65,8 +65,6 @@ exports.getCalendarPartial = async (req, res, next) => {
 
         const calendarWithStatus = [];
 
-        console.log('Resolved todayStr:', todayStr); //remove later
-
         calendar.forEach(date => {
             const dateStr = date.toISOString().split('T')[0];
             const daysAgo = Math.floor((new Date(todayStr) - new Date(dateStr)) / (1000 * 60 * 60 * 24));
@@ -83,8 +81,6 @@ exports.getCalendarPartial = async (req, res, next) => {
             } else {
                 status = 'missed';
             }
-
-            console.log(`Date: ${dateStr}, Compared to: ${todayStr}, Status: ${status}`); //remove later
             
             const isCurrentMonth = (date.getMonth() === currentMonth && date.getFullYear() === currentYear);
             calendarWithStatus.push ({ date: dateStr, status, isCurrentMonth });
