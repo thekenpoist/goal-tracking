@@ -22,35 +22,37 @@
     <!-- Calendar Grid -->
     <div class="grid grid-cols-7 gap-2 text-center text-sm">
       <% calendar.forEach(day => {
-          const dateObj = new Date(day.date);
-          const dayNum = dateObj.getDate();
-
+          const dateObj = new Date(day.date || day);
+          const dayNum = dateObj.getUTCDate(); // Important: use UTCDate to match calendarBuilder
+          const status = day.status || 'default';
           let bgClass = '';
-          if (day.status === 'done') {
+
+          if (status === 'done') {
             bgClass = 'bg-green-500 text-white';
-          } else if (day.status === 'missed') {
+          } else if (status === 'missed') {
             bgClass = 'bg-red-500 text-white';
-          } else if (day.status === 'locked') {
+          } else if (status === 'locked') {
             bgClass = 'bg-gray-400 text-white cursor-not-allowed';
-          } else if (day.status === 'future') {
+          } else if (status === 'future') {
             bgClass = 'bg-blue-200 text-blue-700';
-          } else if (day.status === 'disabled') {
+          } else if (status === 'disabled') {
             bgClass = 'bg-white text-gray-300 border border-gray-200 cursor-not-allowed';
           } else {
             bgClass = day.isCurrentMonth ? 'bg-gray-200 text-gray-700' : 'bg-gray-100 text-gray-400';
           }
       %>
-        <div 
+        <div
           class="calendar-cell w-8 h-8 flex items-center justify-center rounded-full cursor-pointer <%= bgClass %>"
           data-goal-uuid="<%= goalUuid %>"
-          data-date="<%= day.date %>"
-          data-status="<%= day.status %>"
+          data-date="<%= dateObj.toISOString().split('T')[0] %>"
+          data-status="<%= status %>"
           role="button"
-          title="<%= day.date %> - <%= day.status %>"
+          title="<%= dateObj.toISOString().split('T')[0] %> - <%= status %>"
         >
           <%= dayNum %>
         </div>
-      <% }) %>
+      <% }); %>
     </div>
+
   </div>
 </div>
