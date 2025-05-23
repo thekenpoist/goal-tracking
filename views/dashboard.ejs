@@ -28,56 +28,6 @@
   <p class="text-gray-600 italic">Select a goal to view details.</p>
 </div>
 
-<script>
-  function loadGoalDetails(goalUuid) {
-  fetch(`/goals/partials/${goalUuid}`)
-    .then(res => res.text())
-    .then(html => {
-      document.getElementById('goalDetails').innerHTML = html;
-
-      // Fetch the calendar partial
-      fetch(`/goal-logs/partials/calendar/${goalUuid}`)
-        .then(res => res.text())
-        .then(calendarHtml => {
-          const calendarEl = document.getElementById('goalCalendar');
-          calendarEl.innerHTML = calendarHtml;
-
-          // This is the magic line:
-          attachCalendarNavListeners(goalUuid);
-        })
-        .catch(err => {
-          document.getElementById('goalCalendar').innerHTML = '<p class="text-red-500">Error loading calendar.</p>';
-        });
-
-    })
-    .catch(err => {
-      document.getElementById('goalDetails').innerHTML = '<p class="text-red-500">Error loading goal details.</p>';
-    });
-}
-
-function attachCalendarNavListeners(goalUuid) {
-  const buttons = document.querySelectorAll('.calendar-nav');
-  buttons.forEach(button => {
-    button.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const month = button.dataset.month;
-
-      try {
-        const res = await fetch(`/goal-logs/partials/calendar/${goalUuid}?month=${month}`);
-        const html = await res.text();
-        document.getElementById('goalCalendar').innerHTML = html;
-
-        // Re-attach listeners because calendar DOM was replaced
-        attachCalendarNavListeners(goalUuid);
-      } catch (err) {
-        console.error('Error loading calendar month:', err);
-      }
-    });
-  });
-}
-
-</script>
-
 <!-- Delete Confirmation Modal -->
 <div id="deleteModal" class="hidden fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
   <div id="modalBox" class="bg-white rounded-lg shadow-xl p-6 max-w-md w-full text-center transform transition-all duration-300 scale-95 opacity-0">
@@ -137,3 +87,5 @@ function attachCalendarNavListeners(goalUuid) {
     }, 300);
   }
 </script>
+
+<script src="/js/calendar.js" defer></script>
