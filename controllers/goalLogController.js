@@ -58,8 +58,14 @@ exports.getCalendarPartial = async (req, res, next) => {
         const goalStartDate = goal.startDate;
         const goalEndDate = goal.endDate;
 
-        const todayStr = new Date().toISOString().split('T')[0];
+        const now = new Date();
+        const timezoneOffset = now.getTimezoneOffset() * 60000; // Offset in milliseconds
+        const localMidnight = new Date(now.getTime() - timezoneOffset);
+        const todayStr = localMidnight.toISOString().split('T')[0];
+
         const calendarWithStatus = [];
+
+        console.log('Resolved todayStr:', todayStr); //remove later
 
         calendar.forEach(date => {
             const dateStr = date.toISOString().split('T')[0];
@@ -77,6 +83,9 @@ exports.getCalendarPartial = async (req, res, next) => {
             } else {
                 status = 'missed';
             }
+
+            console.log(`Date: ${dateStr}, Compared to: ${todayStr}, Status: ${status}`); //remove later
+            
             const isCurrentMonth = (date.getMonth() === currentMonth && date.getFullYear() === currentYear);
             calendarWithStatus.push ({ date: dateStr, status, isCurrentMonth });
         }); 
