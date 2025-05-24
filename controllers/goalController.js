@@ -77,10 +77,19 @@ exports.viewGoalPartial = async (req, res, next) => {
 
         const logsThisWeek = countGoalsThisWeek(goalLogs);
 
-        if (logsThisWeek >= frequency && !goal.wasAchievedAt) {
+        if (logsThisWeek >= goal.frequency && !goal.wasAchievedAt) {
             console.log(`Setting wasAchievedAt for ${goal.title}`);
-            goal.wasAchievedAt = new Date();
-            await goal.save();
+            const sortedLogs = goalLogs.filter(log => {
+                    const date = new Date(log.sessionDate);
+                    return date >= startOfWeek && date <= endOfWeek;
+                }).sort((a,b) => new Date(a.sessionDate) - new Date(b.sessionDate));
+
+            const targetLog = sortedLogs[goal.frequency - 1];
+
+            if (targetLog) {
+                goal.wasAchieved = targetLog.sessionDate;
+                await goal.save();
+            }
         }
         
         goal.achievedThisWeek = logsThisWeek >= goal.frequency;
