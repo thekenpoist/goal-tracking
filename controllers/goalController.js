@@ -59,8 +59,8 @@ exports.viewGoalPartial = async (req, res, next) => {
 
         const { startOfWeek, endOfWeek } = getCurrentCalendarWeek;
 
-        if (goal.wasAchieved) {
-            const achievedAt = new Date(goal.wasAchieved);
+        if (goal.wasAchievedAt) {
+            const achievedAt = new Date(goal.wasAchievedAt);
             if (achievedAt < startOfWeek || achievedAt > endOfWeek) {
                 console.log(`Resetting wasAchieveAt for ${goal.title}`);
                 goal.wasAchieved = null;
@@ -76,8 +76,14 @@ exports.viewGoalPartial = async (req, res, next) => {
         });
 
         const logsThisWeek = countGoalsThisWeek(goalLogs);
-        goal.achievedThisWeek = logsThisWeek >= goal.frequency;
 
+        if (logsThisWeek >= frequency && !goal.wasAchievedAt) {
+            console.log(`Setting wasAchievedAt for ${goal.title}`);
+            goal.wasAchievedAt = new Date();
+            await goal.save();
+        }
+        
+        goal.achievedThisWeek = logsThisWeek >= goal.frequency;
 
         goal.startDateFormatted = formatInTimeZone(goal.startDate, 'UTC', 'MMMM d, yyyy');
         goal.endDateFormatted = formatInTimeZone(goal.endDate, 'UTC', 'MMMM d, yyyy');
