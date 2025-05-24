@@ -76,15 +76,15 @@ exports.viewGoalPartial = async (req, res, next) => {
         });
 
         const logsThisWeek = getGoalLogsThisWeek(goalLogs);
-        console.log(logsThisWeek.length);
-        console.log(goal.frequency);
-        console.log(goal.wasAchievedAt);
+        //console.log(logsThisWeek.length);
+        //console.log(goal.frequency);
+        //console.log(goal.wasAchievedAt);
 
         if (logsThisWeek.length >= goal.frequency) {
             const targetLog = logsThisWeek[goal.frequency - 1];
             if (targetLog) {
                 goal.wasAchievedAt = targetLog.sessionDate;
-                console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
+                //console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         } else {
@@ -92,10 +92,11 @@ exports.viewGoalPartial = async (req, res, next) => {
             await goal.save();
         }
         
-        goal.achievedThisWeek = logsThisWeek >= goal.frequency;
-
         goal.startDateFormatted = formatInTimeZone(goal.startDate, 'UTC', 'MMMM d, yyyy');
         goal.endDateFormatted = formatInTimeZone(goal.endDate, 'UTC', 'MMMM d, yyyy');
+        goal.wasAchievedAtFormatted = goal.wasAchievedAt
+            ? formatInTimeZone(goal.wasAchievedAt, 'UTC', 'MMMM d, yyyy')
+            : null;
 
         res.render('partials/goal-details', {
             goal,
