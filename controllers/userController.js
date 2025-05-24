@@ -300,12 +300,6 @@ exports.deleteUser = async (req, res, next) => {
     const uuid = req.session.userUuid;
 
     try {
-        const deletedGoals = await Goal.destroy({ where: { userUuid: uuid } });
-        console.log(`${deletedGoals} goals deleted for user ${uuid}`);
-        if (deletedGoals == 0) {
-            console.log(`No goals deleted for user ${uuid}`);
-        }
-        
         const deleted = await User.destroy({ where: { uuid } });
 
         if (!deleted) {
