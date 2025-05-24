@@ -4,13 +4,13 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('goal_logs', {
       uuid: {
-        type: Sequelize.UUID,
+        type: Sequelize.CHAR(36),
         defaultValue: Sequelize.UUIDV4,
         allowNull: false,
         primaryKey: true
       },
       goalUuid: {
-        type: Sequelize.UUID,
+        type: Sequelize.CHAR(36),
         allowNull: false,
         references: {
           model: 'goals',
@@ -19,7 +19,7 @@ module.exports = {
         onDelete: 'CASCADE'
       },
       userUuid: {
-        type: Sequelize.UUID,
+        type: Sequelize.CHAR(36),
         allowNull: false,
         references: {
           model: 'users',
