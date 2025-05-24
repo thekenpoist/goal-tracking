@@ -11,11 +11,21 @@ module.exports = {
       },
       goalUuid: {
         type: Sequelize.UUID,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'goals',
+          key: 'uuid'
+        },
+        onDelete: 'CASCADE'
       },
       userUuid: {
         type: Sequelize.UUID,
-        allowNull: false
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'uuid'
+        },
+        onDelete: 'CASCADE'
       },
       sessionDate: {
         type: Sequelize.DATEONLY,
