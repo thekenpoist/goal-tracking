@@ -101,6 +101,7 @@ function attachCalendarCellListeners() {
             cell.classList.add('bg-red-500', 'text-white');
             cell.dataset.status = 'missed';
           }
+          loadGoalDetails(goalUuid);
         } else {
           console.error('Unexpected response:', result);
         }
