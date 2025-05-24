@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 const { Goal, GoalLog } = require('../models');
 const { DATE } = require("sequelize");
 const { renderServerError } = require('../utils/errorHelpers');
-const { countGoalsThisWeek, getCurrentCalendarWeek } = require('../utils/goalHelpers');
+const { getGoalLogsThisWeek, getCurrentCalendarWeek } = require('../utils/goalHelpers');
 const { formatInTimeZone } = require('date-fns-tz');
 const { constructFromSymbol } = require("date-fns/constants");
 
@@ -63,7 +63,7 @@ exports.viewGoalPartial = async (req, res, next) => {
             const achievedAt = new Date(goal.wasAchievedAt);
             if (achievedAt < startOfWeek || achievedAt > endOfWeek) {
                 console.log(`Resetting wasAchieveAt for ${goal.title}`);
-                goal.wasAchieved = null;
+                goal.wasAchievedAt = null;
                 await goal.save();
             }
         }
@@ -75,24 +75,21 @@ exports.viewGoalPartial = async (req, res, next) => {
             }
         });
 
-        const logsThisWeek = countGoalsThisWeek(goalLogs);
-        console.log(logsThisWeek);
+        const logsThisWeek = getGoalLogsThisWeek(goalLogs);
+        console.log(logsThisWeek.length);
         console.log(goal.frequency);
         console.log(goal.wasAchievedAt);
 
-        if (logsThisWeek >= goal.frequency && !goal.wasAchievedAt) {
-            const sortedLogs = goalLogs.filter(log => {
-                    const date = new Date(log.sessionDate);
-                    return date >= startOfWeek && date <= endOfWeek;
-                }).sort((a,b) => new Date(a.sessionDate) - new Date(b.sessionDate));
-
-            const targetLog = sortedLogs[goal.frequency - 1];
-
+        if (logsThisWeek.length >= goal.frequency) {
+            const targetLog = logsThisWeek[goal.frequency - 1];
             if (targetLog) {
-                goal.wasAchieved = targetLog.sessionDate;
-                console.log(`Setting wasAchievedAt for ${goal.title}`);
+                goal.wasAchievedAt = targetLog.sessionDate;
+                console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
                 await goal.save();
             }
+        } else {
+            goal.wasAchievedAt = null;
+            await goal.save();
         }
         
         goal.achievedThisWeek = logsThisWeek >= goal.frequency;
