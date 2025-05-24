@@ -9,18 +9,18 @@ function getCurrentCalendarWeek() {
     return { startOfWeek, endOfWeek };
 }
 
-function countGoalsThisWeek(goalLogs) {
+function getGoalsThisWeek(goalLogs) {
     const { startOfWeek, endOfWeek } = getCurrentCalendarWeek();
 
     return goalLogs.filter(log => {
         const sessionDate = new Date(log.sessionDate);
         return sessionDate >= startOfWeek && sessionDate <= endOfWeek;
-    }).length;
+    }).sort((a,b) => new Date(a.sessionDate) - new Date(b.sessionDate));
 }
 
 
 
 module.exports = {
     getCurrentCalendarWeek,
-    countGoalsThisWeek
+    getGoalsThisWeek
 };
