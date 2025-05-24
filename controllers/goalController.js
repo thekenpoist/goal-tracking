@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 const { Goal, GoalLog } = require('../models');
 const { DATE } = require("sequelize");
 const { renderServerError } = require('../utils/errorHelpers');
-const { countGoalsThisWeek } = require('../utils/goalHelpers');
+const { countGoalsThisWeek, getCurrentCalendarWeek } = require('../utils/goalHelpers');
 const { formatInTimeZone } = require('date-fns-tz');
 const { constructFromSymbol } = require("date-fns/constants");
 
@@ -55,6 +55,17 @@ exports.viewGoalPartial = async (req, res, next) => {
 
         if (!goal) {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
+        }
+
+        const { startOfWeek, endOfWeek } = getCurrentCalendarWeek;
+
+        if (goal.wasAchieved) {
+            const achievedAt = new Date(goal.wasAchieved);
+            if (achievedAt < startOfWeek || achievedAt > endOfWeek) {
+                console.log(`Resetting wasAchieveAt for ${goal.title}`);
+                goal.wasAchieved = null;
+                await goal.save();
+            }
         }
 
         const goalLogs = await GoalLog.findAll({
