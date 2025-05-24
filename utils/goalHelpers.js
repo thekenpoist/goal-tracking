@@ -9,7 +9,7 @@ function getCurrentCalendarWeek() {
     return { startOfWeek, endOfWeek };
 }
 
-function getGoalsThisWeek(goalLogs) {
+function getGoalLogsThisWeek(goalLogs) {
     const { startOfWeek, endOfWeek } = getCurrentCalendarWeek();
 
     return goalLogs.filter(log => {
@@ -22,5 +22,5 @@ function getGoalsThisWeek(goalLogs) {
 
 module.exports = {
     getCurrentCalendarWeek,
-    getGoalsThisWeek
+    getGoalLogsThisWeek
 };
