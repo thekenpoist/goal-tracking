@@ -84,7 +84,7 @@ exports.viewGoalPartial = async (req, res, next) => {
             const targetLog = logsThisWeek[goal.frequency - 1];
             if (targetLog) {
                 goal.wasAchievedAt = targetLog.sessionDate;
-                //console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
+                console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         } else {

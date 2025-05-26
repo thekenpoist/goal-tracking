@@ -8,15 +8,21 @@ function getCurrentCalendarWeek() {
 
     return { startOfWeek, endOfWeek };
 }
-
+/*
 function getGoalLogsThisWeek(goalLogs) {
     const { startOfWeek, endOfWeek } = getCurrentCalendarWeek();
 
-    return goalLogs.filter(log => {
+    const filteredLogs = goalLogs.filter(log => {
         const sessionDate = new Date(log.sessionDate);
         return sessionDate >= startOfWeek && sessionDate <= endOfWeek;
-    }).sort((a,b) => new Date(a.sessionDate) - new Date(b.sessionDate));
+    });
+
+    return filteredLogs.sort((a, b) => new Date(a.sessionDate) - new Date(b.sessionDate));
 }
+*/
+
+
+
 
 
 
