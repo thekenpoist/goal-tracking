@@ -76,9 +76,9 @@ exports.viewGoalPartial = async (req, res, next) => {
         });
 
         const logsThisWeek = getGoalLogsThisWeek(goalLogs);
-        //console.log(logsThisWeek.length);
-        //console.log(goal.frequency);
-        //console.log(goal.wasAchievedAt);
+        console.log(logsThisWeek.length);
+        console.log(goal.frequency);
+        console.log(goal.wasAchievedAt);
 
         if (logsThisWeek.length >= goal.frequency) {
             const targetLog = logsThisWeek[goal.frequency - 1];
