@@ -88,4 +88,22 @@
   }
 </script>
 
+<script>
+  const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  console.log('Detected timezone:', userTimezone);
+
+  // Send it to the server
+  fetch('/set-timezone', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ timezone: userTimezone })
+  }).then(response => {
+      if (!response.ok) {
+          console.error('Failed to set timezone');
+      }
+  }).catch(error => {
+      console.error('Error setting timezone:', error);
+  });
+</script>
+
 <script src="/js/calendar.js" defer></script>
