@@ -75,10 +75,11 @@ exports.viewGoalPartial = async (req, res, next) => {
             }
         });
 
-        const logsThisWeek = getGoalLogsThisWeek(goalLogs);
-        console.log(logsThisWeek.length);
-        console.log(goal.frequency);
-        console.log(goal.wasAchievedAt);
+        const timezone = req.session.timezone || 'UTC';
+        const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone);
+        //console.log(logsThisWeek.length);
+        //console.log(goal.frequency);
+        //console.log(goal.wasAchievedAt);
 
         if (logsThisWeek.length >= goal.frequency) {
             const targetLog = logsThisWeek[goal.frequency - 1];
@@ -92,15 +93,13 @@ exports.viewGoalPartial = async (req, res, next) => {
             await goal.save();
         }
         
-        const timezone = req.session.timezone || 'UTC';
-
         goal.startDateFormatted = formatInTimeZone(goal.startDate, timezone, 'MMMM d, yyyy');
         goal.endDateFormatted = formatInTimeZone(goal.endDate, timezone, 'MMMM d, yyyy');
         goal.wasAchievedAtFormatted = goal.wasAchievedAt
             ? formatInTimeZone(goal.wasAchievedAt, timezone, 'MMMM d, yyyy')
             : null;
         console.log(`Using ${timezone} for goals`);
-        
+
         res.render('partials/goal-details', {
             goal,
             pageTitle: `Goal: ${goal.title}`,
