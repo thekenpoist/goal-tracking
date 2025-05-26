@@ -11,18 +11,6 @@ function getCurrentCalendarWeek() {
 
     return { startOfWeek, endOfWeek };
 }
-/*
-function getGoalLogsThisWeek(goalLogs) {
-    const { startOfWeek, endOfWeek } = getCurrentCalendarWeek();
-
-    const filteredLogs = goalLogs.filter(log => {
-        const sessionDate = new Date(log.sessionDate);
-        return sessionDate >= startOfWeek && sessionDate <= endOfWeek;
-    });
-
-    return filteredLogs.sort((a, b) => new Date(a.sessionDate) - new Date(b.sessionDate));
-}
-*/
 
 function getGoalLogsThisWeek(goalLogs, timezone) {
     const now = new Date();
