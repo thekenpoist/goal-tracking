@@ -2,7 +2,7 @@ const { utcToZonedTime, zonedTimeToUtc } = require('date-fns-tz');
 const { startOfWeek, endOfWeek } = require('date-fns');
 
 function getCurrentCalendarWeek(timezone = 'UTC') {
-    const today = new Date();
+    const now = new Date();
     const localNow = utcToZonedTime(now, timezone);
 
     const weekStart = startOfWeek(localNow, { weekStartsOn: 0 });

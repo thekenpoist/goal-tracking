@@ -93,8 +93,8 @@ exports.viewGoalPartial = async (req, res, next) => {
             await goal.save();
         }
         
-        goal.startDateFormatted = formatInTimeZone(goal.startDate, timezone, 'MMMM d, yyyy');
-        goal.endDateFormatted = formatInTimeZone(goal.endDate, timezone, 'MMMM d, yyyy');
+        goal.startDateFormatted = goal.startDate;
+        goal.endDateFormatted = goal.endDate;
         goal.wasAchievedAtFormatted = goal.wasAchievedAt
             ? formatInTimeZone(goal.wasAchievedAt, timezone, 'MMMM d, yyyy')
             : null;
