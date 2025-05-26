@@ -92,12 +92,15 @@ exports.viewGoalPartial = async (req, res, next) => {
             await goal.save();
         }
         
-        goal.startDateFormatted = formatInTimeZone(goal.startDate, 'UTC', 'MMMM d, yyyy');
-        goal.endDateFormatted = formatInTimeZone(goal.endDate, 'UTC', 'MMMM d, yyyy');
-        goal.wasAchievedAtFormatted = goal.wasAchievedAt
-            ? formatInTimeZone(goal.wasAchievedAt, 'UTC', 'MMMM d, yyyy')
-            : null;
+        const timezone = req.session.timezone || 'UTC';
 
+        goal.startDateFormatted = formatInTimeZone(goal.startDate, timezone, 'MMMM d, yyyy');
+        goal.endDateFormatted = formatInTimeZone(goal.endDate, timezone, 'MMMM d, yyyy');
+        goal.wasAchievedAtFormatted = goal.wasAchievedAt
+            ? formatInTimeZone(goal.wasAchievedAt, timezone, 'MMMM d, yyyy')
+            : null;
+        console.log(`Using ${timezone} for goals`);
+        
         res.render('partials/goal-details', {
             goal,
             pageTitle: `Goal: ${goal.title}`,
