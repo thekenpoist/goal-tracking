@@ -44,6 +44,7 @@ exports.getShowGoal = async (req, res, next) => {
 exports.viewGoalPartial = async (req, res, next) => {
     const userUuid = req.session.userUuid;
     const goalUuid = req.params.goalUuid;
+    const timezone = req.session.timezone || 'UTC';
 
     try {
         const goal = await Goal.findOne({
@@ -57,7 +58,7 @@ exports.viewGoalPartial = async (req, res, next) => {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
         }
 
-        const { startOfWeek, endOfWeek } = getCurrentCalendarWeek;
+        const { startOfWeek, endOfWeek } = getCurrentCalendarWeek(timezone);
 
         if (goal.wasAchievedAt) {
             const achievedAt = new Date(goal.wasAchievedAt);
@@ -75,7 +76,6 @@ exports.viewGoalPartial = async (req, res, next) => {
             }
         });
 
-        const timezone = req.session.timezone || 'UTC';
         const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone);
         //console.log(logsThisWeek.length);
         //console.log(goal.frequency);
