@@ -9,6 +9,7 @@ router.get('/', homeController.getIndex);
 
 router.get('/dashboard', isAuthenticated, homeController.getDashboard);
 
+router.post('/set-timezone', homeController.setTimezone);
 
 
 

@@ -41,3 +41,16 @@ exports.getDashboard = async (req, res, next) => {
         });
     }
 };
+
+exports.setTimezone = (req, res) => {
+    const { timezone } = req.body;
+
+    if (!timezone) {
+        return res.status(400).json({ error: "Unable to retrieve timezone "});
+    }
+
+    req.session.timezone = timezone;
+    console.log(`Timezone set for session: ${timezone}`);
+
+    res.status(200).json({ message: 'TimeZone updataed'});
+}
