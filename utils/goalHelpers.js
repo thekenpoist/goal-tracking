@@ -21,7 +21,15 @@ function getGoalLogsThisWeek(goalLogs) {
 }
 */
 
+function getGoalLogsThisWeek(goalLogs) {
+    const now = new Date();
+    const timezoneOffset = now.getTimezoneOffset() * 60000;
+    const localMidnight = new Date(now.getTime() - timezoneOffset);
+    localMidnight.setHours(0,0,0,0);
 
+    const startOfWeek = new Date(localMidnight);
+    
+}
 
 
 
