@@ -36,26 +36,38 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING
         },
         startDate: {
-            type: DataTypes.DATE
+            type: DataTypes.DATEONLY
         },
         endDate: {
-            type: DataTypes.DATE
+            type: DataTypes.DATEONLY
         },
         frequency: {
             type: DataTypes.INTEGER,
             allowNull: true
         },
         duration: {
-            type: DataTypes.INTEGER, // Hey Steve, be thinking in minutes, but not yet certain
+            type: DataTypes.INTEGER,
             allowNull: true
         },
-        isCompleted: {
-            type: DataTypes.BOOLEAN,
-            defaultValue: false
+        streakCounter: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        longestStreak: {
+            type: DataTypes.INTEGER,
+            allowNull: true
+        },
+        lastLoggedAt: {
+            type: DataTypes.DATEONLY,
+            allowNull: true
         },
         wasAchievedAt: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: true
+        },
+        archived: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
         }
     }, {
         sequelize,
