@@ -1,5 +1,5 @@
 'use strict';
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, DATE } = require('sequelize');
 
 module.exports = (sequelize) => {
   class User extends Model {
@@ -28,10 +28,36 @@ module.exports = (sequelize) => {
       allowNull: false
     },
     realName: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: true
     },
     avatar: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    lastLoggedIn: {
+      type: DATE,
+      allowNull: true
+    },
+    timezone: {
+      type: DataTypes.STRING,
+      defaultValue: 'UTC'
+    },
+    isVerified: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    },
+    verificationToken: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
+    failedLoginAttempts: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    lockoutUntil: {
+      type: DataTypes.DATE,
+      allowNull: true
     }
   }, {
     sequelize,
