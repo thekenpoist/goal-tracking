@@ -36,7 +36,7 @@ module.exports = (sequelize) => {
       allowNull: true
     },
     lastLoggedIn: {
-      type: DATE,
+      type: DataTypes.DATE,
       allowNull: true
     },
     timezone: {
