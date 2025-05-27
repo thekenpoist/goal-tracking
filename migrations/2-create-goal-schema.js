@@ -32,10 +32,10 @@ module.exports = {
         type: Sequelize.STRING
       },
       startDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       endDate: {
-        type: Sequelize.DATE
+        type: Sequelize.DATEONLY
       },
       frequency: {
         type: Sequelize.INTEGER
@@ -43,13 +43,22 @@ module.exports = {
       duration: {
         type: Sequelize.INTEGER
       },
-      isCompleted: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: false
+      streakCounter: {
+        type: Sequelize.INTEGER
+      },
+      longestStreak: {
+        type: Sequelize.INTEGER
+      },
+      lastLoggedAt: {
+        type: Sequelize.DATEONLY
       },
       wasAchievedAt: {
-        type: Sequelize.DATE,
+        type: Sequelize.DATEONLY,
         allowNull: true
+      },
+      archived: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       createdAt: {
         allowNull: false,
