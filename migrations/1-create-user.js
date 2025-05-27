@@ -29,6 +29,24 @@ module.exports = {
       avatar: {
         type: Sequelize.STRING
       },
+      lastLoggedIn: {
+        type: DATE,
+      },
+      timezone: {
+        type: Sequelize.STRING,
+      },
+      isVerified: {
+        type: Sequelize.BOOLEAN,
+      },
+      verificationToken: {
+        type: Sequelize.STRING,
+      },
+      failedLoginAttempts: {
+        type: Sequelize.INTEGER,
+      },
+      lockoutUntil: {
+        type: Sequelize.DATE,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
@@ -40,6 +58,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Users');
+    await queryInterface.dropTable('users');
   }
 };
