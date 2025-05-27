@@ -30,7 +30,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       lastLoggedIn: {
-        type: DATE,
+        type: Sequelize.DATE,
       },
       timezone: {
         type: Sequelize.STRING,
