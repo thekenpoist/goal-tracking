@@ -40,7 +40,7 @@ exports.postSignup = async (req, res, next) => {
         }
 
         const timezone = req.session.timezone;
-        console.log('Timezone at signup:', timezone);
+        const lastLoggedIn = new Date();
 
         const username = await generateUniqueUsername(email);
         const hashedPassword = await argon2.hash(password);
@@ -51,7 +51,8 @@ exports.postSignup = async (req, res, next) => {
             password: hashedPassword,
             realName: '',
             avatar: '',
-            timezone: timezone
+            timezone: timezone,
+            lastLoggedIn: lastLoggedIn
         });
 
         req.session.userUuid = newUser.uuid;
@@ -104,8 +105,10 @@ exports.postLogin = async (req, res, next) => {
                 currentPage: 'login',
                 errorMessage: 'Invalid email, username or password.'
             });
-        }
-
+        } 
+        
+        user.lastLoggedIn = new Date();
+        await user.save();
         req.session.userUuid = user.uuid;
 
         req.session.save(err => {
