@@ -198,6 +198,8 @@ exports.getEditUser = async (req, res, next) => {
 exports.postEditUser = async (req, res, next) => {
     const uuid = req.session.userUuid;
     const errors = validationResult(req);
+    const timezone = req.session.timezone;
+
 
     if (!uuid) {
         return res.redirect('/auth/login');
@@ -255,6 +257,7 @@ exports.postEditUser = async (req, res, next) => {
                 : currentUser.password,
             realName: realName || currentUser.realName,
             avatar: avatar || currentUser.avatar,
+            timezone: timezone || currentUser.timezone,
             updatedAt: new Date()
         };
 
