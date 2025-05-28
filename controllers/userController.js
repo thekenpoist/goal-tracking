@@ -200,7 +200,6 @@ exports.postEditUser = async (req, res, next) => {
     const errors = validationResult(req);
     const timezone = req.session.timezone;
 
-
     if (!uuid) {
         return res.redirect('/auth/login');
     }
