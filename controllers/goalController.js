@@ -1,5 +1,5 @@
 const { validationResult } = require("express-validator");
-const { Goal, GoalLog } = require('../models');
+const { Goal, GoalLog, User } = require('../models');
 const { DATE } = require("sequelize");
 const { renderServerError } = require('../utils/errorHelpers');
 const { getGoalLogsThisWeek, getCurrentCalendarWeek } = require('../utils/goalHelpers');
@@ -44,7 +44,6 @@ exports.getShowGoal = async (req, res, next) => {
 exports.viewGoalPartial = async (req, res, next) => {
     const userUuid = req.session.userUuid;
     const goalUuid = req.params.goalUuid;
-    const timezone = req.session.timezone || 'UTC';
 
     try {
         const goal = await Goal.findOne({
@@ -57,6 +56,9 @@ exports.viewGoalPartial = async (req, res, next) => {
         if (!goal) {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
         }
+
+        const user = await User.findOne({ where: { uuid: userUuid } });
+        const timezone = user?.timezone || 'UTC';
 
         const { startOfWeek, endOfWeek } = getCurrentCalendarWeek(timezone);
 
