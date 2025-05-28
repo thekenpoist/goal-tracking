@@ -255,7 +255,6 @@ exports.postEditUser = async (req, res, next) => {
                 : currentUser.password,
             realName: realName || currentUser.realName,
             avatar: avatar || currentUser.avatar,
-            timezone: timezone || currentUser.timezone,
             updatedAt: new Date()
         };
 

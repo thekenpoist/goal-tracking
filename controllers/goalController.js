@@ -100,7 +100,6 @@ exports.viewGoalPartial = async (req, res, next) => {
         goal.wasAchievedAtFormatted = goal.wasAchievedAt
             ? formatInTimeZone(goal.wasAchievedAt, timezone, 'MMMM d, yyyy')
             : null;
-        console.log(`Using ${timezone} for goals`);
 
         res.render('partials/goal-details', {
             goal,
