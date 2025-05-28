@@ -15,7 +15,7 @@ exports.getSignup = (req, res, next) => {
 
 exports.postSignup = async (req, res, next) => {
     const errors = validationResult(req);
-
+    
     if (!errors.isEmpty()) {
         return res.status(422).render('auth/signup', {
             pageTitle: 'Sign Up',
@@ -39,6 +39,9 @@ exports.postSignup = async (req, res, next) => {
             });
         }
 
+        const timezone = req.session.timezone;
+        console.log('Timezone at signup:', timezone);
+
         const username = await generateUniqueUsername(email);
         const hashedPassword = await argon2.hash(password);
 
@@ -47,7 +50,8 @@ exports.postSignup = async (req, res, next) => {
             email: email.trim().toLowerCase(),
             password: hashedPassword,
             realName: '',
-            avatar: ''
+            avatar: '',
+            timezone: timezone
         });
 
         req.session.userUuid = newUser.uuid;
