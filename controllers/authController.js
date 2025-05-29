@@ -3,6 +3,7 @@ const { User } = require('../models');
 const argon2 = require('argon2');
 const { Op } = require('sequelize');
 const { generateUniqueUsername } = require('../utils/generateUsername');
+const { ResultWithContextImpl } = require('express-validator/lib/chain');
 
 exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
@@ -137,18 +138,13 @@ exports.postLogin = async (req, res, next) => {
                 errorMessage: '5 incorrect password attempts. Please wait 15 minutes before trying again.'
             });
         }
-
-        if (!user || !(await argon2.verify(user.password, password))) {
-            return res.status(401).render('auth/login', {
-                pageTitle: 'Login',
-                currentPage: 'login',
-                errorMessage: 'Invalid email, username or password.'
-            });
-        } 
         
+        user.failedLoginAttempts = 0;
+        user.lockOutUntil = null;
         user.lastLoggedIn = new Date();
         await user.save();
         req.session.userUuid = user.uuid;
+        req.session.save(...);
 
         req.session.save(err => {
             if (err) {
