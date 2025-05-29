@@ -1,4 +1,4 @@
-const { validationResult } = require('express-validator');
+const { validationResult, Result } = require('express-validator');
 const { User } = require('../models');
 const argon2 = require('argon2');
 const { Op } = require('sequelize');
@@ -98,6 +98,24 @@ exports.postLogin = async (req, res, next) => {
                 ]
             }
         });
+
+        if (!user) {
+            return res.status(401).render('auth/login', {
+                pageTitle: 'Login',
+                currentPage: 'login',
+                errorMessage: 'Invalid username'
+            });
+        }
+
+        if (user.lockOutUntil && new Date() < user.lockOutUntil) {
+            const minutesLeft = ...;
+            return res.status(401).render('auth/login', {
+                pageTitle: 'Login',
+                currentPage: 'login',
+                errorMessage: `Account locked. Try again in ${minutesLeft} minutes`
+            });
+
+        }
 
         if (!user.isVerified) {
             return res.status(401).render('auth/login', {
