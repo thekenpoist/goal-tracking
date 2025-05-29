@@ -128,7 +128,7 @@ exports.postLogin = async (req, res, next) => {
 
         if (!(await argon2.verify(user.password, password))) {
             user.failedLoginAttempts += 1
-            if (user.failedLoginAttempts === 5) {
+            if (user.failedLoginAttempts >= 5) {
                 user.lockoutUntil = new Date(Date.now() + 15 * 60 * 1000);
             }
             await user.save()
@@ -137,7 +137,7 @@ exports.postLogin = async (req, res, next) => {
                 currentPage: 'login',
                 errorMessage: user.failedLoginAttempts >= 5
                     ? '5 incorrect password attempts. Please wait 15 minutes before trying again.'
-                    : 'Invalid password!'
+                    : 'Invalid credentials!'
             });
         }
         
