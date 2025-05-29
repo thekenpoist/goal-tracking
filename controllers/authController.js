@@ -125,17 +125,18 @@ exports.postLogin = async (req, res, next) => {
             });
         }
 
-        if (user && !(await argon2.verify(user.password, password))) {
+        if (!(await argon2.verify(user.password, password))) {
+            user.failedLoginAttempts += 1
             if (user.failedLoginAttempts === 5) {
-                return res.status(401).render('auth/login', {
-                    pageTitle: 'Login',
-                    currentPage: 'login',
-                    errorMessage: '5 incorrect password attempts. Please wait 15 minutes before trying again.'
-                });
+                user.lockOutUntil = new Date(Date.now() + 15 * 60 * 1000);
             }
-            user.failedLoginAttempts = user.failedLoginAttempts + user.failedLoginAttempts;
             await user.save()
-            }
+            return res.status(401).render('auth/login', {
+                pageTitle: 'Login',
+                currentPage: 'login',
+                errorMessage: '5 incorrect password attempts. Please wait 15 minutes before trying again.'
+            });
+        }
 
         if (!user || !(await argon2.verify(user.password, password))) {
             return res.status(401).render('auth/login', {
