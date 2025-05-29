@@ -109,7 +109,7 @@ exports.postLogin = async (req, res, next) => {
         }
 
         if (user.lockoutUntil && new Date() < user.lockoutUntil) {
-            const minutesLeft = ...;
+            const minutesLeft = Math.ceil((user.lockoutUntil - new Date() / 60000));
             return res.status(401).render('auth/login', {
                 pageTitle: 'Login',
                 currentPage: 'login',
