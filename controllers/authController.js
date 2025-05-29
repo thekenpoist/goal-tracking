@@ -146,7 +146,6 @@ exports.postLogin = async (req, res, next) => {
         user.lastLoggedIn = new Date();
         await user.save();
         req.session.userUuid = user.uuid;
-        req.session.save(...);
 
         req.session.save(err => {
             if (err) {
