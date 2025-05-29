@@ -108,7 +108,7 @@ exports.postLogin = async (req, res, next) => {
             });
         }
 
-        if (user.lockOutUntil && new Date() < user.lockOutUntil) {
+        if (user.lockoutUntil && new Date() < user.lockoutUntil) {
             const minutesLeft = ...;
             return res.status(401).render('auth/login', {
                 pageTitle: 'Login',
@@ -129,7 +129,7 @@ exports.postLogin = async (req, res, next) => {
         if (!(await argon2.verify(user.password, password))) {
             user.failedLoginAttempts += 1
             if (user.failedLoginAttempts === 5) {
-                user.lockOutUntil = new Date(Date.now() + 15 * 60 * 1000);
+                user.lockoutUntil = new Date(Date.now() + 15 * 60 * 1000);
             }
             await user.save()
             return res.status(401).render('auth/login', {
@@ -140,7 +140,7 @@ exports.postLogin = async (req, res, next) => {
         }
         
         user.failedLoginAttempts = 0;
-        user.lockOutUntil = null;
+        user.lockoutUntil = null;
         user.lastLoggedIn = new Date();
         await user.save();
         req.session.userUuid = user.uuid;
