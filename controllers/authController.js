@@ -135,7 +135,9 @@ exports.postLogin = async (req, res, next) => {
             return res.status(401).render('auth/login', {
                 pageTitle: 'Login',
                 currentPage: 'login',
-                errorMessage: '5 incorrect password attempts. Please wait 15 minutes before trying again.'
+                errorMessage: user.failedLoginAttempts >= 5
+                    ? '5 incorrect password attempts. Please wait 15 minutes before trying again.'
+                    : 'Invalid password!'
             });
         }
         
