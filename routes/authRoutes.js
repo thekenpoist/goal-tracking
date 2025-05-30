@@ -10,6 +10,8 @@ const router = express.Router();
 router.get('/signup', authController.getSignup);
 router.post('/signup', signupRules, authController.postSignup);
 
+router.get('/verify-email', authController.getVerifyEmail);
+
 router.get('/login', authController.getLogin);
 router.post('/login', loginRules, authController.postLogin);
 
