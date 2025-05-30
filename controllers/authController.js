@@ -83,6 +83,16 @@ exports.postSignup = async (req, res, next) => {
     }
 };
 
+exports.getVerifyEmail = async (req, res, next) => {
+    const user = await User.findOne({ where: { verificationToken: req.query.token }});
+    
+    if (user) {
+        user.isVerified = true;
+        user.verificationToken = null;
+        await user.save();
+    }
+}
+
 exports.getLogin = async (req, res, next) => {
     res.render('auth/login', {
         pageTitle: 'Login',
