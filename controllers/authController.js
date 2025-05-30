@@ -1,7 +1,7 @@
 const { validationResult, Result } = require('express-validator');
 const { User } = require('../models');
 const argon2 = require('argon2');
-const { Op } = require('sequelize');
+const { Op, UUIDV4 } = require('sequelize');
 const { generateUniqueUsername } = require('../utils/generateUsername');
 const { ResultWithContextImpl } = require('express-validator/lib/chain');
 
@@ -46,6 +46,8 @@ exports.postSignup = async (req, res, next) => {
         const username = await generateUniqueUsername(email);
         const hashedPassword = await argon2.hash(password);
 
+        const verificationToken = UUIDV4();
+
         const newUser = await User.create({
             username,
             email: email.trim().toLowerCase(),
@@ -53,7 +55,9 @@ exports.postSignup = async (req, res, next) => {
             realName: '',
             avatar: '',
             timezone: timezone,
-            lastLoggedIn: lastLoggedIn
+            lastLoggedIn: lastLoggedIn,
+            verificationToken: verificationToken,
+            isVerified: false
         });
 
         req.session.userUuid = newUser.uuid;
