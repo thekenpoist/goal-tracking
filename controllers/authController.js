@@ -85,11 +85,14 @@ exports.postSignup = async (req, res, next) => {
 
 exports.getVerifyEmail = async (req, res, next) => {
     const user = await User.findOne({ where: { verificationToken: req.query.token }});
-    
+
     if (user) {
         user.isVerified = true;
         user.verificationToken = null;
         await user.save();
+        res.status(400).send('Account verified. Login enabled');
+    } else {
+        res.status(400).send('Invalid or expired token');
     }
 }
 
