@@ -90,9 +90,9 @@ exports.getVerifyEmail = async (req, res, next) => {
         user.isVerified = true;
         user.verificationToken = null;
         await user.save();
-        res.status(400).send('Account verified. Login enabled');
+        res.status(200).send('Account verified. Login enabled');
     } else {
-        res.status(400).send('Invalid or expired token');
+        res.status(200).send('Invalid or expired token');
     }
 }
 
