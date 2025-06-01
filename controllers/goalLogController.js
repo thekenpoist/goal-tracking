@@ -6,6 +6,7 @@ const { buildCalendarGrid } = require('../utils/calendarBuilder');
 const { utcToZonedTime } = require('date-fns-tz');
 const { utcToZonedTimeWithOptions } = require('date-fns-tz/fp');
 
+
 exports.getCalendarPartial = async (req, res, next) => {
     const userUuid = req.session.userUuid;
     const goalUuid = req.params.goalUuid;
@@ -25,32 +26,28 @@ exports.getCalendarPartial = async (req, res, next) => {
         if (!goal) {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
         }
-
-        const goalLog = await GoalLog.findAll({
-            where: { goalUuid }
-        });
-
-        const logDates = new Set(
-            goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
-        );
-
+        
         const user = await User.findOne({ 
             where: { uuid: userUuid }
         });
         const timezone = user?.timezone || 'UTC';
 
-        const targetMonthString = req.query.month;
+        let targetMonthString = req.query.month;
 
-        const [year, month] = targetMonthString?.split('-') ?? [];
-        const targetDate = targetMonthString
-            ? new Date(Date.UTC(parseInt(year), parseInt(month) - 1, 1))
-            : utcToZonedTime(new Date(), timezone);
+        if (!targetMonthString) {
+            const now = utcToZonedTime(new Date(), timezone);
+            targetMonthString = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`;
+        }
         
-        console.log('targetDate (after fallback):', targetDate.toISOString());
+        const [yearStr, monthStr] = targetMonthString?.split('-');
+        const year = parseInt(yearStr);
+        const month = parseInt(monthStr) - 1;
+        const targetDate = new Date(Date.UTC(year, month, 1));
 
+        console.log('Final targetDate:', targetDate.toISOString());
 
-        const prevDate = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth() - 1, 1));
-        const nextDate = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth() + 1, 1));
+        const prevDate = new Date(Date.UTC(year, month -1, 1));
+        const nextDate = new Date(Date.UTC(year, month + 1, 1));
 
         const formatMonthStr = (date) =>
             `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1).toString().padStart(2, '0')}`;
@@ -64,6 +61,13 @@ exports.getCalendarPartial = async (req, res, next) => {
         console.log('prevMonthStr:', prevMonthStr);
         console.log('nextMonthStr:', nextMonthStr);
 
+        const goalLog = await GoalLog.findAll({
+            where: { goalUuid }
+        });
+        const logDates = new Set(
+            goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
+        );
+
         const {
         calendar,
         currentMonth,
@@ -71,22 +75,15 @@ exports.getCalendarPartial = async (req, res, next) => {
         currentMonthName
         } = buildCalendarGrid(new Date(targetDate), timezone);
 
-        const goalStartDate = goal.startDate;
-        const goalEndDate = goal.endDate;
+        const now = utcToZonedTime(new Date(), timezone);
+        const todayStr = now.toISOString().split('T')[0];
 
-        const now = new Date();
-        const timezoneOffset = now.getTimezoneOffset() * 60000; // Offset in milliseconds
-        const localMidnight = new Date(now.getTime() - timezoneOffset);
-        const todayStr = localMidnight.toISOString().split('T')[0];
-
-        const calendarWithStatus = [];
-
-        calendar.forEach(date => {
+        const calendarWithStatus = calendar.map(date => {
             const dateStr = date.toISOString().split('T')[0];
             const daysAgo = Math.floor((new Date(todayStr) - new Date(dateStr)) / (1000 * 60 * 60 * 24));
 
             let status;
-            if (date < goalStartDate || date > goalEndDate) {
+            if (date < goal.startDate || date > goal.endDate) {
                 status = 'disabled';
             } else if (logDates.has(dateStr)) {
                 status = 'done';
@@ -99,7 +96,7 @@ exports.getCalendarPartial = async (req, res, next) => {
             }
             
             const isCurrentMonth = (date.getMonth() === currentMonth && date.getFullYear() === currentYear);
-            calendarWithStatus.push ({ date: dateStr, status, isCurrentMonth });
+            return { date: dateStr, status, isCurrentMonth };
         }); 
 
         res.render('partials/goals/calendar', {
