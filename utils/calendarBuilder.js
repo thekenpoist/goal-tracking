@@ -14,9 +14,8 @@ function buildCalendarGrid(targetDate = new Date(), timezone = 'UTC') {
 
     const currentMonth = localTargetDate.getMonth();
     const currentYear = localTargetDate.getFullYear();
-    const currentMonthName = localTargetDate.toLocaleString('default', { month: 'long', timeZone: timezone });
+    const currentMonthName = localTargetDate.toLocaleString('default', { month: 'long' });
     
-
     return {
         calendar,
         currentMonth,

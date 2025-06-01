@@ -42,9 +42,7 @@ exports.getCalendarPartial = async (req, res, next) => {
         const [yearStr, monthStr] = targetMonthString?.split('-');
         const year = parseInt(yearStr);
         const month = parseInt(monthStr) - 1;
-        const targetDate = new Date(Date.UTC(year, month, 1));
-
-        console.log('Final targetDate:', targetDate.toISOString());
+        const targetDate = new Date(Date.UTC(year, month, 15, 12));
 
         const prevDate = new Date(Date.UTC(year, month -1, 1));
         const nextDate = new Date(Date.UTC(year, month + 1, 1));
@@ -55,11 +53,11 @@ exports.getCalendarPartial = async (req, res, next) => {
         const prevMonthStr = formatMonthStr(prevDate);
         const nextMonthStr = formatMonthStr(nextDate);
 
-        console.log('targetMonthString:', targetMonthString);
-        console.log('Parsed year:', year, 'month:', month);
-        console.log('targetDate:', targetDate.toISOString());
-        console.log('prevMonthStr:', prevMonthStr);
-        console.log('nextMonthStr:', nextMonthStr);
+        //console.log('targetMonthString:', targetMonthString);
+        //console.log('Parsed year:', year, 'month:', month);
+        //console.log('targetDate:', targetDate.toISOString());
+        //console.log('prevMonthStr:', prevMonthStr);
+        //console.log('nextMonthStr:', nextMonthStr);
 
         const goalLog = await GoalLog.findAll({
             where: { goalUuid }

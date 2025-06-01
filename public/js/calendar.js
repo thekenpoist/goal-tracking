@@ -17,20 +17,25 @@ function attachGoalClickHandlers() {
 }
 
 // Load goal details and calendar when a goal is clicked
-function loadGoalDetails(goalUuid) {
+function loadGoalDetails(goalUuid, month = null) {
   fetch(`/goals/partials/${goalUuid}`)
     .then(res => res.text())
     .then(html => {
       document.getElementById('goalDetails').innerHTML = html;
 
-      fetch(`/goal-logs/partials/calendar/${goalUuid}`)
+      if (!month) {
+        const now = new Date();
+        month = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`;
+      }
+
+      fetch(`/goal-logs/partials/calendar/${goalUuid}?month=${month}`)
         .then(res => res.text())
         .then(calendarHtml => {
           const calendarEl = document.getElementById('goalCalendar');
           calendarEl.innerHTML = calendarHtml;
 
-          const month = calendarEl.querySelector('.calendar-nav')?.dataset.month;
-          if (month) calendarEl.dataset.month = month;
+          const newMonth = calendarEl.querySelector('.calendar-nav')?.dataset.month;
+          if (newMonth) calendarEl.dataset.month = newMonth;
 
           attachCalendarNavListeners(goalUuid);
           attachCalendarCellListeners();
@@ -55,8 +60,6 @@ function attachCalendarNavListeners(goalUuid) {
       e.preventDefault();
       const newMonth = button.dataset.month || document.getElementById('goalCalendar').dataset.month;
 
-      console.log('Clicking nav button, month:', newMonth);
-
       try {
         const res = await fetch(`/goal-logs/partials/calendar/${goalUuid}?month=${newMonth}`);
         const html = await res.text();
@@ -76,7 +79,6 @@ function attachCalendarNavListeners(goalUuid) {
 
 // Attach click listeners to each calendar day cell
 function attachCalendarCellListeners() {
-  console.log('Attaching calendar cell listeners...');
   document.querySelectorAll('.calendar-cell').forEach(cell => {
     cell.addEventListener('click', async () => {
       const status = cell.dataset.status;
@@ -84,8 +86,6 @@ function attachCalendarCellListeners() {
 
       const goalUuid = cell.dataset.goalUuid;
       const date = cell.dataset.date;
-
-      console.log('Clicked day cell:', { goalUuid, date, status });
 
       try {
         const res = await fetch(`/goal-logs/goals/${goalUuid}/log/${date}/toggle`, {
@@ -97,7 +97,6 @@ function attachCalendarCellListeners() {
         });
 
         const result = await res.json();
-        console.log('Response from toggle:', result);
 
         if (res.ok && result.toggled !== undefined) {
           cell.classList.remove('bg-green-500', 'bg-red-500', 'text-white', 'text-gray-700');
@@ -109,7 +108,6 @@ function attachCalendarCellListeners() {
             cell.classList.add('bg-red-500', 'text-white');
             cell.dataset.status = 'missed';
           }
-          loadGoalDetails(goalUuid);
         } else {
           console.error('Unexpected response:', result);
         }
