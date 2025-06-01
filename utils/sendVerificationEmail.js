@@ -10,7 +10,8 @@ async function sendVerificationEmail(email, token) {
             subject: 'Verify your email for Trail Tracker',
             html:`
                 <p>Thanks for signing up for Goal Tracker. Please verify your email by clicking the link below:</p>
-                <p><a href="https://goaltracker.thekenpoist.net/verify-email?token=${token}">Verify Email</a></p>
+                <p><a href="http://localhost:3000/verify-email?token=${token}">Verify Email</a></p>
+
                 <p>If you didn’t sign up, you can ignore this email.</p>`
         });
         console.log('Verification email sent:', data);
@@ -20,4 +21,8 @@ async function sendVerificationEmail(email, token) {
     }
 }
 
-module.exports = sendVerificationEmail;
+module.exports = { sendVerificationEmail };
+
+
+// for future deployment, replace localhost with this:
+// <p><a href="https://goaltracker.thekenpoist.net/verify-email?token=${token}">Verify Email</a></p>

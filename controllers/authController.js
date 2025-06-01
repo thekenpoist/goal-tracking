@@ -1,6 +1,7 @@
 const { validationResult, Result } = require('express-validator');
 const { User } = require('../models');
 const argon2 = require('argon2');
+const { Op } = require('sequelize');
 const { generateUniqueUsername } = require('../utils/generateUsername');
 const { sendVerificationEmail } = require('../utils/sendVerificationEmail');
 const { v4: uuidv4 } = require('uuid');
@@ -60,7 +61,7 @@ exports.postSignup = async (req, res, next) => {
             isVerified: false
         });
 
-        req.session.userUuid = newUser.uuid;
+        // req.session.userUuid = newUser.uuid;
 
         await sendVerificationEmail(newUser.email, verificationToken);
 
@@ -87,13 +88,17 @@ exports.postSignup = async (req, res, next) => {
 
 exports.getVerifyEmail = async (req, res, next) => {
     const user = await User.findOne({ where: { verificationToken: req.query.token }});
+    console.log('Verification token received:', req.query.token);
 
     if (user) {
+        console.log('User found for verification:', user.email);
         user.isVerified = true;
         user.verificationToken = null;
         await user.save();
-        res.status(200).send('Account verified. Login enabled');
+        res.render('auth/verified', { pageTitle: 'Email Verified', currentPage: 'verified' });
+        // res.status(200).send('Account verified. Login enabled');
     } else {
+        console.log('No user found for token:', req.query.token);
         res.status(200).send('Invalid or expired token');
     }
 }
