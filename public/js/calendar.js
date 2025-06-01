@@ -50,12 +50,15 @@ function attachCalendarNavListeners(goalUuid) {
   buttons.forEach(button => {
     button.addEventListener('click', async (e) => {
       e.preventDefault();
-      const month = button.dataset.month;
+      const newMonth = button.dataset.month;
 
       try {
-        const res = await fetch(`/goal-logs/partials/calendar/${goalUuid}?month=${month}`);
+        const res = await fetch(`/goal-logs/partials/calendar/${goalUuid}?month=${newMonth}`);
         const html = await res.text();
-        document.getElementById('goalCalendar').innerHTML = html;
+        const calendarEl = document.getElementById('goalCalendar');
+        calendarEl.innerHTML = html;
+
+        calendarEl.dataset.month = newMonth;
 
         attachCalendarNavListeners(goalUuid);
         attachCalendarCellListeners();
