@@ -3,6 +3,8 @@ const { DATE } = require('sequelize');
 const { renderServerError } = require('../utils/errorHelpers');
 const moment = require('moment');
 const { buildCalendarGrid } = require('../utils/calendarBuilder');
+const { utcToZonedTime } = require('date-fns-tz');
+const { utcToZonedTimeWithOptions } = require('date-fns-tz/fp');
 
 exports.getCalendarPartial = async (req, res, next) => {
     const userUuid = req.session.userUuid;
@@ -28,21 +30,24 @@ exports.getCalendarPartial = async (req, res, next) => {
             where: { goalUuid }
         });
 
+        const logDates = new Set(
+            goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
+        );
+
         const user = await User.findOne({ 
             where: { uuid: userUuid }
         });
         const timezone = user?.timezone || 'UTC';
-
-        const logDates = new Set(
-            goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
-        );
 
         const targetMonthString = req.query.month;
 
         const [year, month] = targetMonthString?.split('-') ?? [];
         const targetDate = targetMonthString
             ? new Date(Date.UTC(parseInt(year), parseInt(month) - 1, 1))
-            : new Date(); 
+            : utcToZonedTime(new Date(), timezone);
+        
+        console.log('targetDate (after fallback):', targetDate.toISOString());
+
 
         const prevDate = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth() - 1, 1));
         const nextDate = new Date(Date.UTC(targetDate.getUTCFullYear(), targetDate.getUTCMonth() + 1, 1));
@@ -52,6 +57,12 @@ exports.getCalendarPartial = async (req, res, next) => {
 
         const prevMonthStr = formatMonthStr(prevDate);
         const nextMonthStr = formatMonthStr(nextDate);
+
+        console.log('targetMonthString:', targetMonthString);
+        console.log('Parsed year:', year, 'month:', month);
+        console.log('targetDate:', targetDate.toISOString());
+        console.log('prevMonthStr:', prevMonthStr);
+        console.log('nextMonthStr:', nextMonthStr);
 
         const {
         calendar,
