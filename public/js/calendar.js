@@ -29,6 +29,9 @@ function loadGoalDetails(goalUuid) {
           const calendarEl = document.getElementById('goalCalendar');
           calendarEl.innerHTML = calendarHtml;
 
+          const month = calendarEl.querySelector('.calendar-nav')?.dataset.month;
+          if (month) calendarEl.dataset.month = month;
+
           attachCalendarNavListeners(goalUuid);
           attachCalendarCellListeners();
         })
@@ -50,7 +53,9 @@ function attachCalendarNavListeners(goalUuid) {
   buttons.forEach(button => {
     button.addEventListener('click', async (e) => {
       e.preventDefault();
-      const newMonth = button.dataset.month;
+      const newMonth = button.dataset.month || document.getElementById('goalCalendar').dataset.month;
+
+      console.log('Clicking nav button, month:', newMonth);
 
       try {
         const res = await fetch(`/goal-logs/partials/calendar/${goalUuid}?month=${newMonth}`);
