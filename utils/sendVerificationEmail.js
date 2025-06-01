@@ -13,9 +13,7 @@ async function sendVerificationEmail(email, token) {
                 <p><a href="http://localhost:3000/auth/verify-email?token=${token}">Verify Email</a></p>
                 <p>If you didn’t sign up, you can ignore this email.</p>`
         });
-        console.log('Verification email sent:', data);
     }catch (error) {
-        console.error('Error sending verification email:', error);
         throw error;
     }
 }

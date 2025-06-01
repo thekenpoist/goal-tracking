@@ -1,30 +1,22 @@
-function buildCalendarGrid(targetDate = new Date()) {
-    // Always use UTC to avoid local timezone offset issues
-    const currentYear = targetDate.getUTCFullYear();
-    const currentMonth = targetDate.getUTCMonth();
-    const currentMonthName = targetDate.toLocaleString('default', { month: 'long', timeZone: 'UTC' });
+function buildCalendarGrid(targetDate = new Date(), timezone = 'UTC') {
+    const { utcToZonedTime , startOfWeek, endOfWeek } = require('date-fns-tz');
+    const { startOfMonth, endOfMOnth, eachDayOfInterval } = require('date-fns');
 
-    const firstOfMonth = new Date(Date.UTC(currentYear, currentMonth, 1));
-    const lastOfMonth = new Date(Date.UTC(currentYear, currentMonth + 1, 0));
+    const localTargetDate = utcToZonedTime(targetDate, timezone);
 
-    // Normalize grid start to Sunday of first week
-    const startDate = new Date(firstOfMonth);
-    startDate.setUTCDate(startDate.getUTCDate() - startDate.getUTCDay());
+    const monthStart = startOfMonth(localTargetDate);
+    const monthEnd = endOfMOnth(localTargetDate);
 
-    // Normalize grid end to Saturday of last week
-    const endDate = new Date(lastOfMonth);
-    endDate.setUTCDate(endDate.getUTCDate() + (6 - endDate.getUTCDay()));
+    const weekStart = startOfWeek(monthStart, { weekStartsOn: 0 });
+    const weekEnd = endOfWeek(monthEnd, { weekStartsOn: 0 })
 
-    const calendar = [];
-    let currentDate = new Date(startDate);
+    const calendar = eachDayOfInterval({ start: weekStart, end: weekEnd });
 
-    while (currentDate <= endDate) {
-        calendar.push(new Date(currentDate));
-        currentDate.setUTCDate(currentDate.getUTCDate() + 1);
-    }
+    const currentMonth = localTargetDate.getMonth();
+    const currentYear = localTargetDate.getFullYear();
+    const currentMonthName = localTargetDate.toLocaleString('default', { month: 'long', timeZone: timezone });
+    
 
-    //console.log('Grid Month:', currentMonthName, currentYear);
-    //console.log('Grid Start:', startDate.toISOString(), '→ End:', endDate.toISOString());
     return {
         calendar,
         currentMonth,

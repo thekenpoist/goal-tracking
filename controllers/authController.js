@@ -91,14 +91,12 @@ exports.getVerifyEmail = async (req, res, next) => {
     console.log('Verification token received:', req.query.token);
 
     if (user) {
-        console.log('User found for verification:', user.email);
         user.isVerified = true;
         user.verificationToken = null;
         await user.save();
         res.render('auth/verified', { pageTitle: 'Email Verified', currentPage: 'verified' });
         // res.status(200).send('Account verified. Login enabled');
     } else {
-        console.log('No user found for token:', req.query.token);
         res.status(200).send('Invalid or expired token');
     }
 }
