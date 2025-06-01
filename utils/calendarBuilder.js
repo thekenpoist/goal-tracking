@@ -1,11 +1,11 @@
-function buildCalendarGrid(targetDate = new Date(), timezone = 'UTC') {
-    const { utcToZonedTime , startOfWeek, endOfWeek } = require('date-fns-tz');
-    const { startOfMonth, endOfMOnth, eachDayOfInterval } = require('date-fns');
+const { utcToZonedTime } = require('date-fns-tz');
+const { startOfWeek, endOfWeek, startOfMonth, endOfMonth, eachDayOfInterval } = require('date-fns');
 
+function buildCalendarGrid(targetDate = new Date(), timezone = 'UTC') {
     const localTargetDate = utcToZonedTime(targetDate, timezone);
 
     const monthStart = startOfMonth(localTargetDate);
-    const monthEnd = endOfMOnth(localTargetDate);
+    const monthEnd = endOfMonth(localTargetDate);
 
     const weekStart = startOfWeek(monthStart, { weekStartsOn: 0 });
     const weekEnd = endOfWeek(monthEnd, { weekStartsOn: 0 })
