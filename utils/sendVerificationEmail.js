@@ -5,13 +5,12 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 async function sendVerificationEmail(email, token) {
     try {
         const data = await resend.emails.send({
-            from: 'goaltracker@thekenpoist.net',
+            from: 'trailtracker@thekenpoist.net',
             to: email,
             subject: 'Verify your email for Trail Tracker',
             html:`
-                <p>Thanks for signing up for Goal Tracker. Please verify your email by clicking the link below:</p>
-                <p><a href="http://localhost:3000/verify-email?token=${token}">Verify Email</a></p>
-
+                <p>Thanks for signing up for Trail Tracker. Please verify your email by clicking the link below:</p>
+                <p><a href="http://localhost:3000/auth/verify-email?token=${token}">Verify Email</a></p>
                 <p>If you didn’t sign up, you can ignore this email.</p>`
         });
         console.log('Verification email sent:', data);
