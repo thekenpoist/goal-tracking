@@ -1,4 +1,4 @@
-const { Goal, GoalLog } = require('../models');
+const { Goal, GoalLog, User } = require('../models');
 const { DATE } = require('sequelize');
 const { renderServerError } = require('../utils/errorHelpers');
 const moment = require('moment');
@@ -28,6 +28,11 @@ exports.getCalendarPartial = async (req, res, next) => {
             where: { goalUuid }
         });
 
+        const user = await User.findOne({ 
+            where: { uuid: userUuid }
+        });
+        const timezone = user?.timezone || 'UTC';
+
         const logDates = new Set(
             goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
         );
@@ -53,7 +58,7 @@ exports.getCalendarPartial = async (req, res, next) => {
         currentMonth,
         currentYear,
         currentMonthName
-        } = buildCalendarGrid(new Date(targetDate));
+        } = buildCalendarGrid(new Date(targetDate), timezone);
 
         const goalStartDate = goal.startDate;
         const goalEndDate = goal.endDate;
