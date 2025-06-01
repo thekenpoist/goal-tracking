@@ -28,9 +28,16 @@ function getGoalLogsThisWeek(goalLogs, timezone) {
     console.log('startOfWeek (UTC):', startUTC.toISOString(), 'endOfWeek (UTC):', endUTC.toISOString());
 
     const filteredLogs = goalLogs.filter(log => {
-        const sessionDate = new Date(log.sessionDate);
-        console.log('Comparing', sessionDate.toISOString(), 'to window:', startUTC.toISOString(), '-', endUTC.toISOString());
-        return sessionDate >= startUTC && sessionDate <= endUTC;
+        const logDateStr = log.sessionDate;
+        const logDate = new Date(logDateStr + 'T00:000:000');
+
+        const logDay = logDate.toISOString().split('T')[0];
+        const startDay = startUTC.toISOString().split('T')[0];
+        const endDay = endUTC.toISOString().split('T')[0];
+
+        console.log('Comparing', logDay, 'to window:', startDay, '-', endDay);
+        
+        return logDay >= startDay && logDay <= endDay;
     }).sort((a, b) => new Date(a.sessionDate) - new Date(b.sessionDate));
 
     console.log('Filtered logs:', filteredLogs.map(log => log.sessionDate));
