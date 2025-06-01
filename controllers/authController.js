@@ -4,6 +4,7 @@ const argon2 = require('argon2');
 const { Op, UUIDV4 } = require('sequelize');
 const { generateUniqueUsername } = require('../utils/generateUsername');
 const { ResultWithContextImpl } = require('express-validator/lib/chain');
+const { sendVerificationEmail } = require('../utils/sendVerificationEmail');
 
 exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
@@ -61,6 +62,8 @@ exports.postSignup = async (req, res, next) => {
         });
 
         req.session.userUuid = newUser.uuid;
+
+        await sendVerificationEmail(newUser.email, verificationToken);
 
         req.session.save(err => {
             if (err) {
