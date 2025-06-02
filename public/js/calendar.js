@@ -85,7 +85,7 @@ function attachCalendarCellListeners() {
       if (['locked', 'disabled', 'future'].includes(status)) return;
 
       const goalUuid = cell.dataset.goalUuid;
-      const date = cell.dataset.date;
+      const date = cell.dataset.date; // Format: 'YYYY-MM-DD'
 
       try {
         const res = await fetch(`/goal-logs/goals/${goalUuid}/log/${date}/toggle`, {
@@ -99,15 +99,17 @@ function attachCalendarCellListeners() {
         const result = await res.json();
 
         if (res.ok && result.toggled !== undefined) {
-          cell.classList.remove('bg-green-500', 'bg-red-500', 'text-white', 'text-gray-700');
+          // 🧭 Parse the clicked date into the proper month format (YYYY-MM)
+          const [year, month, day] = date.split('-');
+          const monthString = `${year}-${month}`;
 
-          if (result.toggled) {
-            cell.classList.add('bg-green-500', 'text-white');
-            cell.dataset.status = 'done';
+          // Reload the calendar for the clicked month
+          if (goalUuid && monthString) {
+            loadGoalDetails(goalUuid, monthString);
           } else {
-            cell.classList.add('bg-red-500', 'text-white');
-            cell.dataset.status = 'missed';
+            console.error('Missing goalUuid or monthString for calendar reload.');
           }
+
         } else {
           console.error('Unexpected response:', result);
         }

@@ -78,9 +78,6 @@ exports.getCalendarPartial = async (req, res, next) => {
         const sevenDaysAgo = new Date(today);
         sevenDaysAgo.setDate(today.getDate() - 7);
 
-        console.log('logDates contents:', Array.from(logDates));
-        console.log('todayStr:', todayStr);
-
         const calendarWithStatus = calendar.map(date => {
             const dateStr = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
@@ -96,9 +93,7 @@ exports.getCalendarPartial = async (req, res, next) => {
             } else {
                 status = 'missed';
             }
-            console.log('todayStr:', todayStr);
-            console.log('goal.startDate:', goal.startDate, 'goal.endDate:', goal.endDate);
-            console.log('Processing dateStr:', dateStr);
+
             const isCurrentMonth = (date.getMonth() === currentMonth && date.getFullYear() === currentYear);
 
             return { date: dateStr, status, isCurrentMonth };

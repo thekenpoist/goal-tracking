@@ -23,10 +23,6 @@ function getGoalLogsThisWeek(goalLogs, timezone) {
     const startDay = `${weekStart.getFullYear()}-${(weekStart.getMonth() + 1).toString().padStart(2, '0')}-${weekStart.getDate().toString().padStart(2, '0')}`;
     const endDay = `${weekEnd.getFullYear()}-${(weekEnd.getMonth() + 1).toString().padStart(2, '0')}-${weekEnd.getDate().toString().padStart(2, '0')}`;
 
-
-    console.log('startOfWeek (Local):', weekStart.toLocaleString(), 'endOfWeek (Local):', weekEnd.toLocaleString());
-    console.log('startDay:', startDay, 'endDay:', endDay);
-
     const filteredLogs = goalLogs.filter(log => {
         const logDateStr = log.sessionDate;
 
@@ -35,12 +31,8 @@ function getGoalLogsThisWeek(goalLogs, timezone) {
             return false;
         }
 
-        console.log('Comparing', logDateStr, 'to window:', startDay, '-', endDay);
-
         return logDateStr >= startDay && logDateStr <= endDay;
     });
-
-    console.log('Filtered logs:', filteredLogs.map(log => log.sessionDate));
 
     return filteredLogs;
 }
