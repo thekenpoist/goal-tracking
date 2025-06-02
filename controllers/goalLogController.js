@@ -62,7 +62,7 @@ exports.getCalendarPartial = async (req, res, next) => {
         const goalLog = await GoalLog.findAll({
             where: { goalUuid }
         });
-        
+
         const logDates = new Set(goalLog.map(log => log.sessionDate));
 
         const {
@@ -73,19 +73,24 @@ exports.getCalendarPartial = async (req, res, next) => {
         } = buildCalendarGrid(new Date(targetDate), timezone);
 
         const now = utcToZonedTime(new Date(), timezone);
-        const todayStr = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
+        const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // Clean today at 00:00
+        const todayStr = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
+        const sevenDaysAgo = new Date(today);
+        sevenDaysAgo.setDate(today.getDate() - 7);
 
         console.log('logDates contents:', Array.from(logDates));
         console.log('todayStr:', todayStr);
 
         const calendarWithStatus = calendar.map(date => {
-            const dateStr = date.toISOString().split('T')[0];
+            const dateStr = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
 
             let status;
             if (date < goal.startDate || date > goal.endDate) {
                 status = 'disabled';
             } else if (dateStr > todayStr) {
                 status = 'future'
+            } else if (date < sevenDaysAgo) {
+                status = 'locked';
             } else if (logDates.has(dateStr)) {
                 status = 'done';
             } else {
