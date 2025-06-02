@@ -20,8 +20,9 @@ function getGoalLogsThisWeek(goalLogs, timezone) {
     const weekStart = startOfWeek(now, { weekStartsOn: 0 });
     const weekEnd = endOfWeek(now, { weekStartsOn: 0 });
 
-    const startDay = weekStart.toISOString().split('T')[0];
-    const endDay = weekEnd.toISOString().split('T')[0];
+    const startDay = `${weekStart.getFullYear()}-${(weekStart.getMonth() + 1).toString().padStart(2, '0')}-${weekStart.getDate().toString().padStart(2, '0')}`;
+    const endDay = `${weekEnd.getFullYear()}-${(weekEnd.getMonth() + 1).toString().padStart(2, '0')}-${weekEnd.getDate().toString().padStart(2, '0')}`;
+
 
     console.log('startOfWeek (Local):', weekStart.toLocaleString(), 'endOfWeek (Local):', weekEnd.toLocaleString());
     console.log('startDay:', startDay, 'endDay:', endDay);
