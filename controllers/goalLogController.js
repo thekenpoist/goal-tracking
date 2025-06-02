@@ -42,13 +42,13 @@ exports.getCalendarPartial = async (req, res, next) => {
         const [yearStr, monthStr] = targetMonthString?.split('-');
         const year = parseInt(yearStr);
         const month = parseInt(monthStr) - 1;
-        const targetDate = new Date(Date.UTC(year, month, 15, 12));
+        const targetDate = new Date(year, month, 15, 12);
 
-        const prevDate = new Date(Date.UTC(year, month -1, 1));
-        const nextDate = new Date(Date.UTC(year, month + 1, 1));
+        const prevDate = new Date(year, month -1, 1);
+        const nextDate = new Date(year, month + 1, 1);
 
         const formatMonthStr = (date) =>
-            `${date.getUTCFullYear()}-${(date.getUTCMonth() + 1).toString().padStart(2, '0')}`;
+            `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}`;
 
         const prevMonthStr = formatMonthStr(prevDate);
         const nextMonthStr = formatMonthStr(nextDate);
@@ -62,9 +62,8 @@ exports.getCalendarPartial = async (req, res, next) => {
         const goalLog = await GoalLog.findAll({
             where: { goalUuid }
         });
-        const logDates = new Set(
-            goalLog.map(log => new Date(log.sessionDate).toISOString().split('T')[0])
-        );
+        
+        const logDates = new Set(goalLog.map(log => log.sessionDate));
 
         const {
         calendar,
@@ -74,31 +73,28 @@ exports.getCalendarPartial = async (req, res, next) => {
         } = buildCalendarGrid(new Date(targetDate), timezone);
 
         const now = utcToZonedTime(new Date(), timezone);
-        const todayStr = now.toISOString().split('T')[0];
+        const todayStr = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
 
         console.log('logDates contents:', Array.from(logDates));
         console.log('todayStr:', todayStr);
 
         const calendarWithStatus = calendar.map(date => {
             const dateStr = date.toISOString().split('T')[0];
-            const daysAgo = Math.floor((new Date(todayStr) - new Date(dateStr)) / (1000 * 60 * 60 * 24));
 
             let status;
             if (date < goal.startDate || date > goal.endDate) {
                 status = 'disabled';
             } else if (dateStr > todayStr) {
                 status = 'future'
-            }
-            else if (logDates.has(dateStr)) {
+            } else if (logDates.has(dateStr)) {
                 status = 'done';
-            } else if (daysAgo >= 7) {
-                status = 'locked';
             } else {
                 status = 'missed';
             }
-            
+            console.log('todayStr:', todayStr);
+            console.log('goal.startDate:', goal.startDate, 'goal.endDate:', goal.endDate);
+            console.log('Processing dateStr:', dateStr);
             const isCurrentMonth = (date.getMonth() === currentMonth && date.getFullYear() === currentYear);
-            console.log(`Building calendar for ${dateStr} (daysAgo: ${daysAgo})`);
 
             return { date: dateStr, status, isCurrentMonth };
         }); 
