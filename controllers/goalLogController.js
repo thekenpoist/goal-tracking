@@ -76,6 +76,9 @@ exports.getCalendarPartial = async (req, res, next) => {
         const now = utcToZonedTime(new Date(), timezone);
         const todayStr = now.toISOString().split('T')[0];
 
+        console.log('logDates contents:', Array.from(logDates));
+        console.log('todayStr:', todayStr);
+
         const calendarWithStatus = calendar.map(date => {
             const dateStr = date.toISOString().split('T')[0];
             const daysAgo = Math.floor((new Date(todayStr) - new Date(dateStr)) / (1000 * 60 * 60 * 24));
@@ -83,10 +86,11 @@ exports.getCalendarPartial = async (req, res, next) => {
             let status;
             if (date < goal.startDate || date > goal.endDate) {
                 status = 'disabled';
-            } else if (logDates.has(dateStr)) {
-                status = 'done';
             } else if (dateStr > todayStr) {
-                status = 'future';
+                status = 'future'
+            }
+            else if (logDates.has(dateStr)) {
+                status = 'done';
             } else if (daysAgo >= 7) {
                 status = 'locked';
             } else {
@@ -94,6 +98,8 @@ exports.getCalendarPartial = async (req, res, next) => {
             }
             
             const isCurrentMonth = (date.getMonth() === currentMonth && date.getFullYear() === currentYear);
+            console.log(`Building calendar for ${dateStr} (daysAgo: ${daysAgo})`);
+
             return { date: dateStr, status, isCurrentMonth };
         }); 
 
@@ -118,7 +124,7 @@ exports.getCalendarPartial = async (req, res, next) => {
 exports.toggleGoalLog = async (req, res, next) => {
     const userUuid = req.session.userUuid;
     const goalUuid = req.params.goalUuid;
-    const sessionDate = req.params.date;
+    let sessionDate = req.params.date;
 
     if (!userUuid) {
         return res.render('/auth/login');
