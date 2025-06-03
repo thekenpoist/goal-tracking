@@ -99,7 +99,7 @@ function attachCalendarCellListeners() {
         const result = await res.json();
 
         if (res.ok && result.toggled !== undefined) {
-          // 🧭 Parse the clicked date into the proper month format (YYYY-MM)
+          // Parse the clicked date into the proper month format (YYYY-MM)
           const [year, month, day] = date.split('-');
           const monthString = `${year}-${month}`;
 
