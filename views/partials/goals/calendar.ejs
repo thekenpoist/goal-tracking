@@ -24,7 +24,7 @@
         const dateParts = (day.date || day).split('-'); // '2025-06-01' -> ['2025', '06', '01']
         const dayNum = parseInt(dateParts[2], 10);
         const status = day.status || 'default';
-        const clickable = !(status === 'future' || status === 'locked' || status === 'disabled');
+        const clickable = !(status === 'future' || status === 'locked' || status === 'disabled' || status === 'done-locked' || status === 'missed-locked');
 
         let bgClass = '';
         if (status === 'done') {
