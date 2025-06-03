@@ -23,16 +23,7 @@ function getGoalLogsThisWeek(goalLogs, timezone) {
     const startDay = `${weekStart.getFullYear()}-${(weekStart.getMonth() + 1).toString().padStart(2, '0')}-${weekStart.getDate().toString().padStart(2, '0')}`;
     const endDay = `${weekEnd.getFullYear()}-${(weekEnd.getMonth() + 1).toString().padStart(2, '0')}-${weekEnd.getDate().toString().padStart(2, '0')}`;
 
-    const filteredLogs = goalLogs.filter(log => {
-        const logDateStr = log.sessionDate;
-
-        if (!logDateStr) {
-            console.warn('Skipping log with missing sessionDate:', log);
-            return false;
-        }
-
-        return logDateStr >= startDay && logDateStr <= endDay;
-    });
+    const filteredLogs = goalLogs.map(log => log.sessionDate).filter(date => date >= startDay && date <= endDay);
 
     return filteredLogs;
 }
