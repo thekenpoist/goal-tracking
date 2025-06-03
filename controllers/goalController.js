@@ -79,12 +79,12 @@ exports.viewGoalPartial = async (req, res, next) => {
         });
 
         const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone);
-        console.log('All logs:', goalLogs.map(g => g.sessionDate));
-        console.log('Logs this week:', logsThisWeek);
-        console.log(goalLogs.map(g => g.sessionDate));
-        console.log(logsThisWeek.length);
-        console.log(goal.frequency);
-        console.log(goal.wasAchievedAt);
+        // console.log('All logs:', goalLogs.map(g => g.sessionDate));
+        // console.log('Logs this week:', logsThisWeek);
+        // console.log(goalLogs.map(g => g.sessionDate));
+        // console.log(logsThisWeek.length);
+        // console.log(goal.frequency);
+        // console.log(goal.wasAchievedAt);
 
         if (logsThisWeek.length >= goal.frequency) {
             const sortedLogs = logsThisWeek.sort(); // Dates are in YYYY-MM-DD format
@@ -95,12 +95,12 @@ exports.viewGoalPartial = async (req, res, next) => {
                 earliestDate < goal.wasAchievedAt       // Or we now found an earlier qualifying date
             ) {
                 goal.wasAchievedAt = earliestDate;
-                console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
+                // console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         } else {
             if (goal.wasAchievedAt && !logsThisWeek.includes(goal.wasAchievedAt)) {
-                console.log(`Resetting wasAchievedAt for ${goal.title}`);
+                // console.log(`Resetting wasAchievedAt for ${goal.title}`);
                 goal.wasAchievedAt = null;
                 await goal.save();
             }
