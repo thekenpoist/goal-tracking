@@ -24,7 +24,7 @@
         const dateParts = (day.date || day).split('-'); // '2025-06-01' -> ['2025', '06', '01']
         const dayNum = parseInt(dateParts[2], 10);
         const status = day.status || 'default';
-        const clickable = !(status === 'future' || status === 'locked' || status === 'before-start-date' || status === 'done-locked' || status === 'missed-locked');
+        const clickable = !(status === 'future' || status === 'locked' || status === 'disabled' || status === 'done-locked' || status === 'missed-locked');
 
         let bgClass = '';
         if (status === 'done') {
@@ -39,7 +39,7 @@
           bgClass = 'bg-gray-400 text-white';
         } else if (status === 'future') {
           bgClass = 'bg-blue-200 text-blue-700';
-        } else if (status === 'before-start-date') {
+        } else if (status === 'disabled') {
           bgClass = 'bg-white text-gray-300 border border-gray-200';
         } else {
           bgClass = day.isCurrentMonth ? 'bg-gray-200 text-gray-700' : 'bg-gray-100 text-gray-400';
