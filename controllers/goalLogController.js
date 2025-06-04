@@ -77,21 +77,19 @@ exports.getCalendarPartial = async (req, res, next) => {
         const todayStr = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
         const sevenDaysAgo = new Date(today);
         sevenDaysAgo.setDate(today.getDate() - 7);
+        const sevenDaysAgoStr = `${sevenDaysAgo.getFullYear()}-${(sevenDaysAgo.getMonth() + 1).toString().padStart(2, '0')}-${sevenDaysAgo.getDate().toString().padStart(2, '0')}`;
 
         const calendarWithStatus = calendar.map(date => {
             const dateStr = `${date.getFullYear()}-${(date.getMonth() + 1).toString().padStart(2, '0')}-${date.getDate().toString().padStart(2, '0')}`;
-
+            
             let status;
-            if (date < goal.startDate || date > goal.endDate) {
+            if (dateStr < goal.startDate || dateStr > goal.endDate) {
                 status = 'disabled';
             } else if (dateStr > todayStr) {
                 status = 'future'
-            } else if (date < sevenDaysAgo) {
-                if (logDates.has(dateStr)) {
-                    status = 'done-locked';
-                } else {
-                    status = 'missed-locked';
-                }
+            } else if (dateStr < sevenDaysAgoStr) {
+                console.log(dateStr, sevenDaysAgoStr, goal.startDate);
+                status = logDates.has(dateStr) ? 'done-locked' : 'missed-locked';
             } else if (logDates.has(dateStr)) {
                 status = 'done';
             } else {
