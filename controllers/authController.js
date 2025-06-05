@@ -72,9 +72,9 @@ exports.postSignup = async (req, res, next) => {
         });
 
     } catch (err) {
-        logger.error(`Error during signup:, ${err.message}`);
+        logger.error(`Error during signup: ${err.message}`);
         if (err.errors) {
-        err.errors.forEach(e => logger.error(`  - ${e.message}`)); //remove later
+        err.errors.forEach(e => logger.error(`  - ${e.message}`));
         }
         res.status(500).render('auth/signup', {
             pageTitle: 'Sign Up',
@@ -175,7 +175,10 @@ exports.postLogin = async (req, res, next) => {
         });
 
     } catch (err) {
-        console.error('Login error:', err);
+        logger.error(`Login error: ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
         res.status(500).render('auth/login', {
             pageTitle: 'Login',
             currentPage: 'login',
