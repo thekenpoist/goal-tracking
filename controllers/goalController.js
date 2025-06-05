@@ -62,15 +62,6 @@ exports.viewGoalPartial = async (req, res, next) => {
 
         const { startOfWeek, endOfWeek } = getCurrentCalendarWeek(timezone);
 
-        //if (goal.wasAchievedAt) {
-           // const achievedAt = new Date(goal.wasAchievedAt);
-           // if (achievedAt < startOfWeek || achievedAt > endOfWeek) {
-           //     console.log(`Resetting wasAchievedAt for ${goal.title}`);
-          //      goal.wasAchievedAt = null;
-          //      await goal.save();
-          //  }
-        //}
-
         const goalLogs = await GoalLog.findAll({
             where: {
                 goalUuid: goal.uuid,
@@ -92,18 +83,17 @@ exports.viewGoalPartial = async (req, res, next) => {
         if (logsThisWeek.length >= goal.frequency) {
             if (!goal.wasAchievedAt || goal.wasAchievedAt !== earliestDate) {
                 goal.wasAchievedAt = earliestDate;
-                console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
+                // console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         } else {
             if (goal.wasAchievedAt) {
-                console.log(`Resetting wasAchievedAt for ${goal.title}`);
+                // console.log(`Resetting wasAchievedAt for ${goal.title}`);
                 goal.wasAchievedAt = null;
                 await goal.save();
             }
         }
 
-        
         goal.startDateFormatted = goal.startDate;
         goal.endDateFormatted = goal.endDate;
         goal.wasAchievedAtFormatted = goal.wasAchievedAt
