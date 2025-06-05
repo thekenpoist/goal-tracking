@@ -62,14 +62,14 @@ exports.viewGoalPartial = async (req, res, next) => {
 
         const { startOfWeek, endOfWeek } = getCurrentCalendarWeek(timezone);
 
-        if (goal.wasAchievedAt) {
-            const achievedAt = new Date(goal.wasAchievedAt);
-            if (achievedAt < startOfWeek || achievedAt > endOfWeek) {
-                console.log(`Resetting wasAchievedAt for ${goal.title}`);
-                goal.wasAchievedAt = null;
-                await goal.save();
-            }
-        }
+        //if (goal.wasAchievedAt) {
+           // const achievedAt = new Date(goal.wasAchievedAt);
+           // if (achievedAt < startOfWeek || achievedAt > endOfWeek) {
+           //     console.log(`Resetting wasAchievedAt for ${goal.title}`);
+          //      goal.wasAchievedAt = null;
+          //      await goal.save();
+          //  }
+        //}
 
         const goalLogs = await GoalLog.findAll({
             where: {
@@ -86,21 +86,18 @@ exports.viewGoalPartial = async (req, res, next) => {
         // console.log(goal.frequency);
         // console.log(goal.wasAchievedAt);
 
-        if (logsThisWeek.length >= goal.frequency) {
-            const sortedLogs = logsThisWeek.sort(); // Dates are in YYYY-MM-DD format
-            const earliestDate = sortedLogs[0];
+        const sortedLogs = logsThisWeek.sort(); // Dates are in YYYY-MM-DD format
+        const earliestDate = sortedLogs[0];
 
-            if (
-                !goal.wasAchievedAt ||                  // Was never set
-                earliestDate < goal.wasAchievedAt       // Or we now found an earlier qualifying date
-            ) {
+        if (logsThisWeek.length >= goal.frequency) {
+            if (!goal.wasAchievedAt || goal.wasAchievedAt !== earliestDate) {
                 goal.wasAchievedAt = earliestDate;
-                // console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
+                console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         } else {
-            if (goal.wasAchievedAt && !logsThisWeek.includes(goal.wasAchievedAt)) {
-                // console.log(`Resetting wasAchievedAt for ${goal.title}`);
+            if (goal.wasAchievedAt) {
+                console.log(`Resetting wasAchievedAt for ${goal.title}`);
                 goal.wasAchievedAt = null;
                 await goal.save();
             }
