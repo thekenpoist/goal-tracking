@@ -190,8 +190,18 @@ exports.postLogin = async (req, res, next) => {
 exports.postLogout = (req, res, next) => {
     req.session.destroy(err => {
         if (err) {
-            console.error('Logout session destroy error:', err);
+            logger.error(`Logout session destroy error: ${err.message}`);
+            if (err.stack) {
+                logger.error(err.stack);
+            }
+
+            return res.status(500).render('error/500', {
+                pageTitle: 'Logout Error',
+                currentPage: 'logout',
+                errorMessage: 'Could not log you out. Please try again.'
+            });
         }
+        
         res.redirect('/');
     });
 };
