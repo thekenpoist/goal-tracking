@@ -15,13 +15,15 @@ const logger = createLogger({
     ]
 });
 
-if (process.env.NODE_ENV !== 'production') {
-    logger.add(new transports.Console({
-        format: format.combine(
-            format.colorize(),
-            format.simple()
-        )
-    }));
-}
+logger.add(new transports.Console({
+    format: format.combine(
+        format.colorize(),
+        format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+        format.printf(({ level, message, timestamp }) => {
+            return `[${timestamp}] ${level}: ${message}`;
+        })
+    )
+}));
+
 
 module.exports = logger;
