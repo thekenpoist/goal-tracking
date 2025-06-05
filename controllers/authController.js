@@ -5,6 +5,7 @@ const { Op } = require('sequelize');
 const { generateUniqueUsername } = require('../utils/generateUsername');
 const { sendVerificationEmail } = require('../utils/sendVerificationEmail');
 const { v4: uuidv4 } = require('uuid');
+const logger = require('../utils/logger');
 
 exports.getSignup = (req, res, next) => {
     res.render('auth/signup', {
@@ -71,9 +72,9 @@ exports.postSignup = async (req, res, next) => {
         });
 
     } catch (err) {
-        console.error('Error during signup:', err.message);
+        logger.error(`Error during signup:, ${err.message}`);
         if (err.errors) {
-        err.errors.forEach(e => console.error(`  - ${e.message}`)); //remove later
+        err.errors.forEach(e => logger.error(`  - ${e.message}`)); //remove later
         }
         res.status(500).render('auth/signup', {
             pageTitle: 'Sign Up',
