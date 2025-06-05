@@ -61,8 +61,6 @@ exports.postSignup = async (req, res, next) => {
             isVerified: false
         });
 
-        // req.session.userUuid = newUser.uuid;
-
         await sendVerificationEmail(newUser.email, verificationToken);
 
         req.session.save(err => {
@@ -95,7 +93,6 @@ exports.getVerifyEmail = async (req, res, next) => {
         user.verificationToken = null;
         await user.save();
         res.render('auth/verified', { pageTitle: 'Email Verified', currentPage: 'verified' });
-        // res.status(200).send('Account verified. Login enabled');
     } else {
         res.status(200).send('Invalid or expired token');
     }
