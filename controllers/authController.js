@@ -195,7 +195,7 @@ exports.postLogout = (req, res, next) => {
                 logger.error(err.stack);
             }
 
-            return res.status(500).render('error/500', {
+            return res.status(500).render('500', {
                 pageTitle: 'Logout Error',
                 currentPage: 'logout',
                 errorMessage: 'Could not log you out. Please try again.'
