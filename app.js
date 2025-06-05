@@ -12,11 +12,7 @@ const goalRouter = require('./routes/goalRoutes');
 const authRouter = require('./routes/authRoutes');
 const goalLogRouter = require('./routes/goalLogRoutes');
 
-const logger = require('./utils/logger'); // adjust path if needed
-
-logger.info('Winston logger is working!');
-logger.warn('This is a test warning.');
-logger.error('This is a test error.');
+const logger = require('./utils/logger'); 
 
 const { User } = require('./models');
 
