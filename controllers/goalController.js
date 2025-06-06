@@ -288,7 +288,10 @@ exports.postEditGoal = async (req, res, next) => {
 
         res.redirect('/dashboard');
     } catch (err) {
-        console.error('Error updating goal:', err.message);
+        logger.error(`Error updating goal: ${err.message}`);
+            if (err.stack) {
+                logger.error(err.stack);
+            }
         return renderServerError(res, err, 'dashboard');
     }
 };
