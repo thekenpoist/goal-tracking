@@ -36,7 +36,11 @@ exports.getShowGoal = async (req, res, next) => {
             formData: goal
         });
     } catch (err) {
-        console.error('Error fetching goal:', err);
+        logger.error(`Error fetching goal: ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
+        
         return renderServerError(res, err, 'dashboard');
     }
 };
