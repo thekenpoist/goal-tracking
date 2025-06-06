@@ -317,7 +317,11 @@ exports.deleteGoal = async (req, res, next) => {
 
         res.redirect('/dashboard');
     } catch (err) {
-        console.error('Error deleting goal', err);
+        logger.error(`Error deleting goal ${err.message}`);
+            if (err.stack) {
+                logger.error(err.stack);
+            }
+            
         return renderServerError(res, err, 'dashboard');
     }
 };
