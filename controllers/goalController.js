@@ -40,7 +40,7 @@ exports.getShowGoal = async (req, res, next) => {
         if (err.stack) {
             logger.error(err.stack);
         }
-        
+
         return renderServerError(res, err, 'dashboard');
     }
 };
@@ -110,7 +110,11 @@ exports.viewGoalPartial = async (req, res, next) => {
             layout: false
         });
     } catch (err) {
-        console.error('Error loading goal details.', err);
+        logger.error(`Error loading goal details. ${err.message}`);
+            if (err.stack) {
+                logger.error(err.stack);
+            }
+
         res.status(500).send('<p> classe="text-red-500">Server error loading goal</p>');
     }
 };
