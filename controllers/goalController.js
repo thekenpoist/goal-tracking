@@ -171,7 +171,10 @@ exports.postCreateGoal = async (req, res, next) => {
 
         res.redirect('/dashboard');
     } catch (err) {
-        console.error('Error creating goal:', err);
+        logger.error(`Error creating goal: ${err.message}`);
+            if (err.stack) {
+                logger.error(err.stack);
+            }
         res.status(500).render('goals/new-goal', {
             pageTitle: 'Create Goal',
             currentPage: 'goals',
