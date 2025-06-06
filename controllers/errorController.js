@@ -1,3 +1,5 @@
+const { logger } = require("sequelize/lib/utils/logger");
+
 // Controller for handling 404 errors
 exports.get404 = (req, res, next) => {
     res.status(404).render('404', {
@@ -8,7 +10,11 @@ exports.get404 = (req, res, next) => {
 
 // Controller for handling generic errors
 exports.get500 = (err, req, res, next) => {
-    console.error('Server Error', err.stack);
+    logger.error(`Server Error ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
+
     res.status(500).render('500', {
         pageTitle: 'Server Error',
         statusCode: 500,
