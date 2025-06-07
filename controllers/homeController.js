@@ -1,6 +1,5 @@
 const { Goal } = require('../models');
 const logger = require('../utils/logger');
-logger = require('../utils/logger');
 
 exports.getIndex = (req, res, next) => {
     res.render('index', {
