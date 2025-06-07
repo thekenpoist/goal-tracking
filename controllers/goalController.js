@@ -5,6 +5,7 @@ const { renderServerError } = require('../utils/errorHelpers');
 const { getGoalLogsThisWeek, getCurrentCalendarWeek } = require('../utils/goalHelpers');
 const { formatInTimeZone } = require('date-fns-tz');
 const { constructFromSymbol } = require("date-fns/constants");
+const logger = require('../utils/logger')
 
 exports.getShowGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;

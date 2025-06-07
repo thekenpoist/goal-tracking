@@ -1,4 +1,4 @@
-const { logger } = require("sequelize/lib/utils/logger");
+const logger = require('../utils/logger');
 
 // Controller for handling 404 errors
 exports.get404 = (req, res, next) => {
