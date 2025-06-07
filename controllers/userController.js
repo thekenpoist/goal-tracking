@@ -4,6 +4,7 @@ const { Goal } = require('../models');
 const argon2 = require('argon2');
 const { Op } = require('sequelize');
 const { renderServerError } = require('../utils/errorHelpers');
+const logger = require('../utils/logger');
 
 exports.getSettingsPage = async (req, res, next) => {
     const uuid = req.session.userUuid;
@@ -33,7 +34,10 @@ exports.getSettingsPage = async (req, res, next) => {
             successMessage: null
         });
     } catch (err) {
-        console.error('Error fetching user', err);
+        logger.error(`Error fetching user ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
         return renderServerError(res, err, 'dashboard');
     }
 };
@@ -122,7 +126,10 @@ exports.postUpdateEmailOrPassword = async (req, res, next) => {
             formData: {}
         });
     } catch (err) {
-        console.error('Error updating user settings:', err);
+        logger.error(`Error updating user settings: ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
         res.status(500).render('profiles/settings', {
             pageTitle: 'Settings',
             currentPage: 'settings',
@@ -159,7 +166,10 @@ exports.getShowProfile = async (req, res, next) => {
             formData: user
         });
     } catch (err) {
-        console.error('Error fetching user', err);
+        logger.error(`Error fetching user ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
         return renderServerError(res, err, 'profile');
     }
 };
@@ -190,7 +200,10 @@ exports.getEditUser = async (req, res, next) => {
             formData: user
         });
     } catch (err) {
-        console.error('Error fetching user:', err);
+        logger.error(`Error fetching user: ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
         return renderServerError(res, err, 'profile');
     }
 };
@@ -262,7 +275,10 @@ exports.postEditUser = async (req, res, next) => {
 
         res.redirect(`/profiles/${uuid}`);
     } catch (err) {
-        console.error('Error updating user:', err);
+        logger.error(`Error updating user: ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
         res.status(500).render('profiles/edit-profile', {
             pageTitle: 'Edit Profile',
             currentPage: 'profile',
@@ -291,7 +307,10 @@ exports.getUserByUUID = async (req, res, next) => {
             layout: 'layouts/dashboard-layout'
         });
     } catch (err) {
-        console.error('Error fetching user by UUID:', err);
+        logger.error(`Error fetching user by UUID: ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
         return renderServerError(res, err, 'profile');
     }
 };
@@ -317,7 +336,10 @@ exports.deleteUser = async (req, res, next) => {
             res.redirect('/');
         });
     } catch (err) {
-        console.error('Error deleting user', err);
+        logger.error(`Error deleting user ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
         return renderServerError(res, err, '/');
     }
 };
