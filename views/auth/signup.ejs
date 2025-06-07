@@ -36,7 +36,6 @@
 
 <script>
   const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  console.log('Detected timezone:', userTimezone);
 
   // Send it to the server
   fetch('/set-timezone', {
