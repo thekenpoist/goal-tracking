@@ -5,6 +5,7 @@ const moment = require('moment');
 const { buildCalendarGrid } = require('../utils/calendarBuilder');
 const { utcToZonedTime } = require('date-fns-tz');
 const { utcToZonedTimeWithOptions } = require('date-fns-tz/fp');
+const logger = require('../utils/logger');
 
 
 exports.getCalendarPartial = async (req, res, next) => {
@@ -114,7 +115,11 @@ exports.getCalendarPartial = async (req, res, next) => {
         });
 
     } catch (err) {
-        console.error('Error loading calendar', err);
+        logger.error(`Error loading calendar ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
+
         res.status(500).send('<p> class="text-red-500">Server error - something went wrong.</p>');
     }
 };
@@ -160,7 +165,10 @@ exports.toggleGoalLog = async (req, res, next) => {
             return res.status(200).json({ toggled: true });
         }
     } catch (err) {
-        console.error('Error toggling goal log:', err);
+        logger.error(`Error toggling goal log: ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
         return res.status(500).json({ error: 'Server error '});
     }
 };
