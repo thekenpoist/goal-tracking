@@ -75,12 +75,6 @@ exports.viewGoalPartial = async (req, res, next) => {
         });
 
         const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone);
-        // console.log('All logs:', goalLogs.map(g => g.sessionDate));
-        // console.log('Logs this week:', logsThisWeek);
-        // console.log(goalLogs.map(g => g.sessionDate));
-        // console.log(logsThisWeek.length);
-        // console.log(goal.frequency);
-        // console.log(goal.wasAchievedAt);
 
         const sortedLogs = logsThisWeek.sort(); // Dates are in YYYY-MM-DD format
         const earliestDate = sortedLogs[0];
@@ -88,12 +82,10 @@ exports.viewGoalPartial = async (req, res, next) => {
         if (logsThisWeek.length >= goal.frequency) {
             if (!goal.wasAchievedAt || goal.wasAchievedAt !== earliestDate) {
                 goal.wasAchievedAt = earliestDate;
-                // console.log(`Setting wasAchievedAt for ${goal.title} at ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         } else {
             if (goal.wasAchievedAt) {
-                // console.log(`Resetting wasAchievedAt for ${goal.title}`);
                 goal.wasAchievedAt = null;
                 await goal.save();
             }
