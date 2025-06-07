@@ -83,7 +83,6 @@ exports.getCalendarPartial = async (req, res, next) => {
             } else if (dateStr > todayStr) {
                 status = 'future'
             } else if (dateStr < sevenDaysAgoStr) {
-                console.log(dateStr, sevenDaysAgoStr, goal.startDate);
                 status = logDates.has(dateStr) ? 'done-locked' : 'missed-locked';
             } else if (logDates.has(dateStr)) {
                 status = 'done';
