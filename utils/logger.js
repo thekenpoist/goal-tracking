@@ -22,7 +22,8 @@ logger.add(new transports.Console({
         format.printf(({ level, message, timestamp }) => {
             return `[${timestamp}] ${level}: ${message}`;
         })
-    )
+    ),
+    silent: true
 }));
 
 

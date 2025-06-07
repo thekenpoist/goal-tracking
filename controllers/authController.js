@@ -87,7 +87,7 @@ exports.postSignup = async (req, res, next) => {
 
 exports.getVerifyEmail = async (req, res, next) => {
     const user = await User.findOne({ where: { verificationToken: req.query.token }});
-    console.log('Verification token received:', req.query.token);
+    logger.info(`Received verification token "${req.query.token}" for user: ${user.email}`);
 
     if (user) {
         user.isVerified = true;
