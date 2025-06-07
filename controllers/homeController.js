@@ -1,4 +1,5 @@
 const { Goal } = require('../models');
+const logger = require('../utils/logger');
 logger = require('../utils/logger');
 
 exports.getIndex = (req, res, next) => {
@@ -56,7 +57,7 @@ exports.setTimezone = (req, res) => {
     }
 
     req.session.timezone = timezone;
-    console.log(`Timezone set for session: ${timezone}`);
+    logger.info(`Timezone set for session: ${timezone}`);
 
     res.status(200).json({ message: 'TimeZone updataed'});
 }
