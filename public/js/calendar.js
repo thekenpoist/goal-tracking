@@ -1,3 +1,5 @@
+const logger = require('../utils/logger');
+
 document.addEventListener('DOMContentLoaded', () => {
   attachGoalClickHandlers();
 });
@@ -71,7 +73,10 @@ function attachCalendarNavListeners(goalUuid) {
         attachCalendarNavListeners(goalUuid);
         attachCalendarCellListeners();
       } catch (err) {
-        console.error('Error loading calendar month:', err);
+        logger.error(`Error loading calendar month: ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
       }
     });
   });
@@ -115,7 +120,10 @@ function attachCalendarCellListeners() {
         }
 
       } catch (err) {
-        console.error('Failed to toggle goal log:', err);
+        logger.error(`Failed to toggle goal log: ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
       }
     });
   });
