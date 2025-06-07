@@ -54,12 +54,6 @@ exports.getCalendarPartial = async (req, res, next) => {
         const prevMonthStr = formatMonthStr(prevDate);
         const nextMonthStr = formatMonthStr(nextDate);
 
-        //console.log('targetMonthString:', targetMonthString);
-        //console.log('Parsed year:', year, 'month:', month);
-        //console.log('targetDate:', targetDate.toISOString());
-        //console.log('prevMonthStr:', prevMonthStr);
-        //console.log('nextMonthStr:', nextMonthStr);
-
         const goalLog = await GoalLog.findAll({
             where: { goalUuid }
         });

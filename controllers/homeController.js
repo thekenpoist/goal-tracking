@@ -1,4 +1,5 @@
 const { Goal } = require('../models');
+logger = require('../utils/logger');
 
 exports.getIndex = (req, res, next) => {
     res.render('index', {
@@ -32,7 +33,11 @@ exports.getDashboard = async (req, res, next) => {
             goals: sortedGoals
         });
     } catch (err) {
-        console.error('Error fetching user goals.', err);
+        logger.error(`Error fetching user goals. ${err.message}`);
+        if (err.stack) {
+            logger.error(err.stack);
+        }
+        
         res.status(500).render('500', {
             pageTitle: 'Server Error',
             currentPage: 'dashboard',
@@ -41,6 +46,7 @@ exports.getDashboard = async (req, res, next) => {
         });
     }
 };
+
 
 exports.setTimezone = (req, res) => {
     const { timezone } = req.body;
