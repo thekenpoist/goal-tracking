@@ -80,23 +80,26 @@ exports.viewGoalPartial = async (req, res, next) => {
 
 
         // const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone);
-        console.log(logsThisWeek);
 
-        const sortedLogs = logsThisWeek.sort(); // All dates are in YYYY-MM-DD string format
+        const sortedLogs = logsThisWeek.sort((a, b) => a.localeCompare(b)); // All dates are in YYYY-MM-DD string format
         const achievedDate = sortedLogs[goal.frequency - 1];
 
         if (logsThisWeek.length >= goal.frequency) {
             if (!goal.wasAchievedAt || goal.wasAchievedAt !== achievedDate) {
                 goal.wasAchievedAt = achievedDate;
+                console.log(`Goal frequency per week: ${goal.frequency}`);
+                console.log(`Weekly goal achieved at date: ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         } else {
             if (goal.wasAchievedAt) {
                 goal.wasAchievedAt = null;
+                console.log(`Resetting goal achieved at to null: ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         }
 
+        
         goal.startDateFormatted = goal.startDate;
         goal.endDateFormatted = goal.endDate;
         goal.wasAchievedAtFormatted = goal.wasAchievedAt
