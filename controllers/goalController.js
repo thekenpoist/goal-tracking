@@ -74,14 +74,20 @@ exports.viewGoalPartial = async (req, res, next) => {
             }
         });
 
-        const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone);
+        // Set a fake date (e.g., a Wednesday from last week)
+        const testOverrideDate = '2025-06-05'; // comment out or null in production
+        const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone, testOverrideDate);
 
-        const sortedLogs = logsThisWeek.sort(); // Dates are in YYYY-MM-DD format
-        const earliestDate = sortedLogs[0];
+
+        // const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone);
+        console.log(logsThisWeek);
+
+        const sortedLogs = logsThisWeek.sort(); // All dates are in YYYY-MM-DD string format
+        const achievedDate = sortedLogs[goal.frequency - 1];
 
         if (logsThisWeek.length >= goal.frequency) {
-            if (!goal.wasAchievedAt || goal.wasAchievedAt !== earliestDate) {
-                goal.wasAchievedAt = earliestDate;
+            if (!goal.wasAchievedAt || goal.wasAchievedAt !== achievedDate) {
+                goal.wasAchievedAt = achievedDate;
                 await goal.save();
             }
         } else {
