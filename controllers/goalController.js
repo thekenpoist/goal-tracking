@@ -78,12 +78,21 @@ exports.viewGoalPartial = async (req, res, next) => {
         const testOverrideDate = '2025-06-05'; // comment out or null in production
         const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone, testOverrideDate);
 
-
+        // Uncomment below for production
         // const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone);
 
-        const sortedLogs = logsThisWeek.sort((a, b) => a.localeCompare(b)); // All dates are in YYYY-MM-DD string format
-        const achievedDate = sortedLogs[goal.frequency - 1];
-
+        const sortedLogs = logsThisWeek.sort((a, b) => a.sessionDate.localeCompare(b.sessionDate));
+        // console.log('✅ Sorted Logs This Week:', sortedLogs);
+        const achievedDate = sortedLogs[goal.frequency - 1]?.sessionDate;
+/*
+        // Safety check
+        if (sortedLogs.length >= goal.frequency) {
+            const achievedDate = sortedLogs[goal.frequency - 1].sessionDate;
+            console.log('✅ Sorted Logs This Week:', sortedLogs.map(l => l.sessionDate));
+            console.log('🎯 Goal frequency per week:', goal.frequency);
+            console.log('📅 Weekly goal achieved at date:', achievedDate);
+        }
+*/
         if (logsThisWeek.length >= goal.frequency) {
             if (!goal.wasAchievedAt || goal.wasAchievedAt !== achievedDate) {
                 goal.wasAchievedAt = achievedDate;
