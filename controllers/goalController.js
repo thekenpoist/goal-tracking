@@ -76,7 +76,7 @@ exports.viewGoalPartial = async (req, res, next) => {
 
         // Set a fake date
         // comment out or null in production
-        const testOverrideDate = '2025-06-01'; 
+        const testOverrideDate = '2025-06-09'; 
         const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone, testOverrideDate);
 
         // Uncomment below for production
@@ -116,7 +116,7 @@ exports.viewGoalPartial = async (req, res, next) => {
             ? formatInTimeZone(goal.wasAchievedAt, timezone, 'MMMM d, yyyy')
             : null;
 
-        res.render('partials/goal-details', {
+        res.render('partials/goal/goal-details', {
             goal,
             pageTitle: `Goal: ${goal.title}`,
             layout: false
