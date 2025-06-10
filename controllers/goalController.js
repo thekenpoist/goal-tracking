@@ -116,7 +116,7 @@ exports.viewGoalPartial = async (req, res, next) => {
             ? formatInTimeZone(goal.wasAchievedAt, timezone, 'MMMM d, yyyy')
             : null;
 
-        res.render('partials/goal/goal-details', {
+        res.render('partials/goals/goal-details', {
             goal,
             pageTitle: `Goal: ${goal.title}`,
             layout: false
