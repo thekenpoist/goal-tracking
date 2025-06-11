@@ -6,6 +6,7 @@ const { buildCalendarGrid } = require('../utils/calendarBuilder');
 const { utcToZonedTime } = require('date-fns-tz');
 const { utcToZonedTimeWithOptions } = require('date-fns-tz/fp');
 const logger = require('../utils/logger');
+const { updateLastLoggedAt } = require('../utils/goalStats');
 
 
 exports.getCalendarPartial = async (req, res, next) => {
@@ -148,15 +149,17 @@ exports.toggleGoalLog = async (req, res, next) => {
 
         if (existingLog) {
             await existingLog.destroy();
-            return res.status(200).json({ toggled: false });
         } else {
             await GoalLog.create({
                 userUuid,
                 goalUuid,
                 sessionDate
             });
-            return res.status(200).json({ toggled: true });
         }
+
+        await updateLastLoggedAt(goalUuid, userUuid);
+        return res.status(200).json({ toggled: !existingLog });
+        
     } catch (err) {
         logger.error(`Error toggling goal log: ${err.message}`);
         if (err.stack) {
