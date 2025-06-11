@@ -127,7 +127,7 @@ exports.viewGoalPartial = async (req, res, next) => {
                 logger.error(err.stack);
             }
 
-        res.status(500).send('<p> classe="text-red-500">Server error loading goal</p>');
+        res.status(500).send('<p> class="text-red-500">Server error loading goal</p>');
     }
 };
 
