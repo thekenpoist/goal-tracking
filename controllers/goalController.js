@@ -2,7 +2,7 @@ const { validationResult } = require("express-validator");
 const { Goal, GoalLog, User } = require('../models');
 const { DATE } = require("sequelize");
 const { renderServerError } = require('../utils/errorHelpers');
-const { getGoalLogsThisWeek, getCurrentCalendarWeek } = require('../utils/goalHelpers');
+const { getGoalLogsThisWeek } = require('../utils/goalHelpers');
 const { formatInTimeZone } = require('date-fns-tz');
 const { constructFromSymbol } = require("date-fns/constants");
 const logger = require('../utils/logger')
@@ -64,8 +64,6 @@ exports.viewGoalPartial = async (req, res, next) => {
 
         const user = await User.findOne({ where: { uuid: userUuid } });
         const timezone = user?.timezone || 'UTC';
-
-        // const { startOfWeek, endOfWeek } = getCurrentCalendarWeek(timezone);
 
         const goalLogs = await GoalLog.findAll({
             where: {
