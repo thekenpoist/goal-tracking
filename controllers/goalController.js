@@ -65,7 +65,7 @@ exports.viewGoalPartial = async (req, res, next) => {
         const user = await User.findOne({ where: { uuid: userUuid } });
         const timezone = user?.timezone || 'UTC';
 
-        const { startOfWeek, endOfWeek } = getCurrentCalendarWeek(timezone);
+        // const { startOfWeek, endOfWeek } = getCurrentCalendarWeek(timezone);
 
         const goalLogs = await GoalLog.findAll({
             where: {
