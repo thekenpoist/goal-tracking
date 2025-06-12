@@ -13,4 +13,10 @@ async function updateLastLoggedAt(goalUuid, userUuid) {
     await goal.save();
 }
 
+
+async function evaluateStreak(goalUuid, userUuid, ) {
+    const numberOfLogs = await GoalLog.findAll
+}
 module.exports = { updateLastLoggedAt };
+
+
