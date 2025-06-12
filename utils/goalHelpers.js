@@ -1,18 +1,6 @@
-const { utcToZonedTime, zonedTimeToUtc } = require('date-fns-tz');
+const { utcToZonedTime } = require('date-fns-tz');
 const { startOfWeek, endOfWeek } = require('date-fns');
 
-function getCurrentCalendarWeek(timezone = 'UTC') {
-    const now = new Date();
-    const localNow = utcToZonedTime(now, timezone);
-
-    const weekStart = startOfWeek(localNow, { weekStartsOn: 0 });
-    const weekEnd = endOfWeek(localNow, { weekStartsOn: 0 });
-
-    const startUTC = zonedTimeToUtc(weekStart, timezone);
-    const endUTC = zonedTimeToUtc(weekEnd, timezone);
-
-    return { startOfWeek: startUTC, endOfWeek: endUTC };
-}
 /*
 function getGoalLogsThisWeek(goalLogs, timezone) {
     const now = utcToZonedTime(new Date(), timezone); // Always user's local time
@@ -61,6 +49,5 @@ function getGoalLogsThisWeek(goalLogs, timezone, overrideDate = null) {
 
 
 module.exports = {
-    getCurrentCalendarWeek,
     getGoalLogsThisWeek
 };
