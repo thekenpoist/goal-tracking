@@ -42,7 +42,7 @@ async function evaluateStreak(goal, timezone = 'UTC') {
         goal.streakCounter = 0;
     }
 
-
+    await goal.save();
 }
 
 module.exports = { 
