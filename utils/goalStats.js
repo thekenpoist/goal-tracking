@@ -45,6 +45,9 @@ async function evaluateStreak(goal, timezone = 'UTC') {
 
 }
 
-module.exports = { updateLastLoggedAt };
+module.exports = { 
+    updateLastLoggedAt,
+    evaluateStreak
+ };
 
 
