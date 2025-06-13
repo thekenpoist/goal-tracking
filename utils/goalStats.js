@@ -17,7 +17,7 @@ async function updateLastLoggedAt(goalUuid, userUuid) {
 
 
 async function evaluateStreak(goal, timezone = 'UTC') {
-    const offset = goal.streakCounter + 1;
+    const offset = 1;
     const { weekStart, weekEnd } = getWeekRange(offset, timezone);
     
     const logCount = await GoalLog.count({
