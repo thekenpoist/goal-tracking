@@ -1,7 +1,7 @@
 const { Goal, GoalLog, User } = require('../models');
 const logger = require('../utils/logger');
 const { evaluateStreak } = require('../utils/goalStats');
-const { utcToZoneTime } = require('date-fns-tz');
+const { utcToZonedTime } = require('date-fns-tz');
 const { startOfWeek } = require('date-fns');
 
 
@@ -18,11 +18,13 @@ exports.viewStatsPartial = async (req, res, next) => {
         });
 
         if (!goal) {
-            return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
+            return res.status(404).send('<p> class="text-red-500">Goal Not Found</p>');
         }
 
-        const today = utcToZoneTime(new Date(), goal.timezone);
+        const today = utcToZonedTime(new Date(), goal.timezone);
         const sundayOfThisWeek = startOfWeek(today, { weekStartsOn: 0 });
+
+        // Only evaluate streaks once the week is fully locked (Sunday or later)
         if (today >= sundayOfThisWeek){
             await evaluateStreak(goal, goal.timezone);
         }
