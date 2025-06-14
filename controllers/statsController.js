@@ -1,6 +1,8 @@
 const { Goal, GoalLog, User } = require('../models');
 const logger = require('../utils/logger');
-const { renderServerError } = require('../utils/errorHelpers');
+const { evaluateStreak } = require('../utils/goalStats');
+const { utcToZoneTime } = require('date-fns-tz');
+const { startOfWeek } = require('date-fns');
 
 
 exports.viewStatsPartial = async (req, res, next) => {
@@ -17,6 +19,12 @@ exports.viewStatsPartial = async (req, res, next) => {
 
         if (!goal) {
             return res.status(404).send('<p class="text-red-500">Goal Not Found</p>');
+        }
+
+        const today = utcToZoneTime(new Date(), goal.timezone);
+        const sundayOfThisWeek = startOfWeek(today, { weekStartsOn: 0 });
+        if (today >= sundayOfThisWeek){
+            await evaluateStreak(goal, goal.timezone);
         }
 
         res.render('partials/stats/stats-details', {
