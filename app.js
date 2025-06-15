@@ -11,7 +11,7 @@ const userRouter = require('./routes/userRoutes');
 const goalRouter = require('./routes/goalRoutes');
 const authRouter = require('./routes/authRoutes');
 const goalLogRouter = require('./routes/goalLogRoutes');
-const statsRouter = require('./routes/statsRoutes';)
+const statsRouter = require('./routes/statsRoutes');
 
 const logger = require('./utils/logger'); 
 
