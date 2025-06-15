@@ -18,13 +18,24 @@ function attachGoalClickHandlers() {
   });
 }
 
-// Load goal details and calendar when a goal is clicked
 function loadGoalDetails(goalUuid, month = null) {
   fetch(`/goals/partials/${goalUuid}`)
     .then(res => res.text())
     .then(html => {
       document.getElementById('goalDetails').innerHTML = html;
 
+      // Load stats partial
+      fetch(`/stats/partials/${goalUuid}`)
+        .then(res => res.text())
+        .then(statsHtml => {
+          document.getElementById('goalStats').innerHTML = statsHtml;
+        })
+        .catch(err => {
+          document.getElementById('goalStats').innerHTML =
+            '<p class="text-red-500">Error loading stats.</p>';
+        });
+
+      // Load calendar partial
       if (!month) {
         const now = new Date();
         month = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}`;
@@ -53,6 +64,7 @@ function loadGoalDetails(goalUuid, month = null) {
         '<p class="text-red-500">Error loading goal details.</p>';
     });
 }
+
 
 // Reattach listeners to "Prev/Next" month links
 function attachCalendarNavListeners(goalUuid) {
