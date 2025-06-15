@@ -29,6 +29,15 @@ exports.viewStatsPartial = async (req, res, next) => {
             await evaluateStreak(goal, goal.timezone);
         }
 
+        const logCount = await GoalLog.count({
+            where: {
+                userUuid: userUuid,
+                goalUuid: goal.uuid
+            }
+        });
+
+        goal.totalLogs = logCount;
+
         res.render('partials/stats/stats-details', {
             goal,
             pageTitle: `Stats: ${goal.title}`,
