@@ -11,6 +11,7 @@ const userRouter = require('./routes/userRoutes');
 const goalRouter = require('./routes/goalRoutes');
 const authRouter = require('./routes/authRoutes');
 const goalLogRouter = require('./routes/goalLogRoutes');
+const statsRouter = require('./routes/statsRoutes';)
 
 const logger = require('./utils/logger'); 
 
@@ -73,6 +74,7 @@ app.use('/', homeRouter);
 app.use('/goals', goalRouter);
 app.use('/auth', authRouter);
 app.use('/goal-logs', goalLogRouter);
+app.use('/stats', statsRouter);
 
 // Swagger docs
 app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
