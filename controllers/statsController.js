@@ -23,10 +23,16 @@ exports.viewStatsPartial = async (req, res, next) => {
 
         const today = utcToZonedTime(new Date(), goal.timezone);
         const sundayOfThisWeek = startOfWeek(today, { weekStartsOn: 0 });
+        const sundayString = sundayOfThisWeek.toISOString().slice(0, 10);
 
-        // Only evaluate streaks once the week is fully locked (Sunday or later)
-        if (today >= sundayOfThisWeek){
+        if (
+            (!goal.lastEvaluatedAt || goal.lastEvaluatedAt < sundayString) && 
+            today >= sundayOfThisWeek
+        ) {
             await evaluateStreak(goal, goal.timezone);
+
+            goal.lastEvaluatedAt = sundayString;
+            await goal.save();
         }
 
         const logCount = await GoalLog.count({
