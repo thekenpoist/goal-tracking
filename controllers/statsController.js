@@ -25,11 +25,14 @@ exports.viewStatsPartial = async (req, res, next) => {
         const sundayOfThisWeek = startOfWeek(today, { weekStartsOn: 0 });
         const sundayString = sundayOfThisWeek.toISOString().slice(0, 10);
 
+        console.log(goal.lastEvaluatedAt);
+        console.log(sundaString);
+        console.log(today);
+        console.log(sundayOfThisWeek);
         if (
             (!goal.lastEvaluatedAt || goal.lastEvaluatedAt < sundayString) && 
             today >= sundayOfThisWeek
         ) {
-            console.log('poopoo');
             await evaluateStreak(goal, goal.timezone);
 
             goal.lastEvaluatedAt = sundayString;
