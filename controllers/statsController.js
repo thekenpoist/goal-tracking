@@ -29,6 +29,7 @@ exports.viewStatsPartial = async (req, res, next) => {
             (!goal.lastEvaluatedAt || goal.lastEvaluatedAt < sundayString) && 
             today >= sundayOfThisWeek
         ) {
+            console.log('poopoo');
             await evaluateStreak(goal, goal.timezone);
 
             goal.lastEvaluatedAt = sundayString;

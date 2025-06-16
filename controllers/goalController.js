@@ -87,22 +87,22 @@ exports.viewGoalPartial = async (req, res, next) => {
         // Safety check
         if (sortedLogs.length >= goal.frequency) {
             const achievedDate = sortedLogs[goal.frequency - 1].sessionDate;
-            console.log('✅ Sorted Logs This Week:', sortedLogs.map(l => l.sessionDate));
-            console.log('🎯 Goal frequency per week:', goal.frequency);
-            console.log('📅 Weekly goal achieved at date:', achievedDate);
+            //console.log('✅ Sorted Logs This Week:', sortedLogs.map(l => l.sessionDate));
+            //console.log('🎯 Goal frequency per week:', goal.frequency);
+            //console.log('📅 Weekly goal achieved at date:', achievedDate);
         }
 
         if (logsThisWeek.length >= goal.frequency) {
             if (!goal.wasAchievedAt || goal.wasAchievedAt !== achievedDate) {
                 goal.wasAchievedAt = achievedDate;
-                console.log(`Goal frequency per week: ${goal.frequency}`);
-                console.log(`Weekly goal achieved at date: ${goal.wasAchievedAt}`);
+                //console.log(`Goal frequency per week: ${goal.frequency}`);
+                //console.log(`Weekly goal achieved at date: ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         } else {
             if (goal.wasAchievedAt) {
                 goal.wasAchievedAt = null;
-                console.log(`Resetting goal achieved at to null: ${goal.wasAchievedAt}`);
+                //console.log(`Resetting goal achieved at to null: ${goal.wasAchievedAt}`);
                 await goal.save();
             }
         }
