@@ -61,6 +61,10 @@ module.exports = (sequelize) => {
             type: DataTypes.DATEONLY,
             allowNull: true
         },
+        lastEvaluatedAt: {
+            type: DataTypes.DATEONLY,
+            allowNull: true
+        },
         wasAchievedAt: {
             type: DataTypes.DATEONLY,
             allowNull: true
