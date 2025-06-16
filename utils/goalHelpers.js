@@ -33,9 +33,9 @@ function getGoalLogsThisWeek(goalLogs, timezone, overrideDate = null) {
     const startDay = `${weekStart.getFullYear()}-${(weekStart.getMonth() + 1).toString().padStart(2, '0')}-${weekStart.getDate().toString().padStart(2, '0')}`;
     const endDay = `${weekEnd.getFullYear()}-${(weekEnd.getMonth() + 1).toString().padStart(2, '0')}-${weekEnd.getDate().toString().padStart(2, '0')}`;
 
-    console.log('[📅] Week Start:', startDay);
-    console.log('[📅] Week End:', endDay);
-    console.log('[🧾] All Logs:', goalLogs.map(log => log.sessionDate));
+   // console.log('[📅] Week Start:', startDay);
+    //console.log('[📅] Week End:', endDay);
+    //console.log('[🧾] All Logs:', goalLogs.map(log => log.sessionDate));
 
     const filteredLogs = goalLogs.filter(log => {
         const date = log.sessionDate;
