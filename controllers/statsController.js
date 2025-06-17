@@ -25,10 +25,10 @@ exports.viewStatsPartial = async (req, res, next) => {
         const sundayOfThisWeek = startOfWeek(today, { weekStartsOn: 0 });
         const sundayString = sundayOfThisWeek.toISOString().slice(0, 10);
 
-        console.log(`Todays's date: ${today}`);
-        console.log(`Sunday's string date: ${sundayString}`);
-        console.log(`Sunday of this week: ${sundayOfThisWeek}`);
-        console.log(`Last evaluated date: ${goal.lastEvaluatedAt}`);
+        // console.log(`Todays's date: ${today}`);
+        // console.log(`Sunday's string date: ${sundayString}`);
+        // console.log(`Sunday of this week: ${sundayOfThisWeek}`);
+        // console.log(`Last evaluated date: ${goal.lastEvaluatedAt}`);
         
         if (
             (!goal.lastEvaluatedAt || goal.lastEvaluatedAt < sundayString) && 
