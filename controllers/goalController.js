@@ -74,7 +74,7 @@ exports.viewGoalPartial = async (req, res, next) => {
 
         // Set a fake date
         // comment out or null in production
-        const testOverrideDate = '2025-06-09'; 
+        const testOverrideDate = '2025-06-17'; 
         const logsThisWeek = getGoalLogsThisWeek(goalLogs, timezone, testOverrideDate);
 
         // Uncomment below for production
