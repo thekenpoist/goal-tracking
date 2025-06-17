@@ -36,6 +36,9 @@ async function evaluateStreak(goal, timezone = 'UTC') {
 
     if (logCount >= goal.frequency) {
         goal.streakCounter++;
+        if (goal.streakCounter > goal.longestStreak) {
+            goal.longestStreak = goal.streakCounter;
+        }
     } else {
         if (goal.streakCounter > goal.longestStreak) {
             goal.longestStreak = goal.streakCounter;
