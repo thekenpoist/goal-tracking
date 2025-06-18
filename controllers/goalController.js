@@ -6,6 +6,7 @@ const { getGoalLogsThisWeek } = require('../utils/goalHelpers');
 const { formatInTimeZone } = require('date-fns-tz');
 const { constructFromSymbol } = require("date-fns/constants");
 const logger = require('../utils/logger')
+const { normalizeDate } = require('../utils/timeUtils');
 
 exports.getShowGoal = async (req, res, next) => {
     const userUuid = req.session.userUuid;
@@ -164,7 +165,10 @@ exports.postCreateGoal = async (req, res, next) => {
         endDate,
         frequency,
         duration
-     } = req.body;
+    } = req.body;
+
+    const normalizeStartDate = normalizeDate(startDate);
+    const normalizeEndDate = normalizeDate(endDate);
 
     try {
         const newGoal = await Goal.create({
@@ -173,8 +177,8 @@ exports.postCreateGoal = async (req, res, next) => {
             category,
             description,
             priority,
-            startDate,
-            endDate,
+            startDate: normalizeStartDate,
+            endDate: normalizeEndDate,
             frequency,
             duration
         });
@@ -277,13 +281,16 @@ exports.postEditGoal = async (req, res, next) => {
             wasAchieved
         } = req.body;
 
+        const normalizeStartDate = normalizeDate(startDate);
+        const normalizeEndDate = normalizeDate(endDate);
+
         await Goal.update({
             title,
             category,
             description,
             priority,
-            startDate,
-            endDate,
+            startDate: normalizeStartDate,
+            endDate: normalizeEndDate,
             frequency,
             duration,
             isCompleted: isCompleted === 'on'  || isCompleted === true,
