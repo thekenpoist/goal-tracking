@@ -49,7 +49,7 @@
   <div class="mb-4">
     <label for="startDate" class="block text-gray-700 font-semibold mb-2">Start Date</label>
     <input type="date" id="startDate" name="startDate"
-      value="<%= formData?.startDate || '' %>"
+      value="<%= formData?.startDate?.slice(0, 10) || '' %>"
       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
   </div>
 
@@ -57,7 +57,7 @@
   <div class="mb-4">
     <label for="endDate" class="block text-gray-700 font-semibold mb-2">End Date</label>
     <input type="date" id="endDate" name="endDate"
-      value="<%= formData?.endDate || '' %>"
+      value="<%= formData?.endDate?.slice(0, 10) || '' %>"
       class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-yellow-400">
   </div>
 
