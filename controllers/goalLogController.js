@@ -32,7 +32,7 @@ exports.getCalendarPartial = async (req, res, next) => {
         const user = await User.findOne({ 
             where: { uuid: userUuid }
         });
-        const timezone = user?.timezone || 'UTC';
+        const timezone = user.timezone;
 
         let targetMonthString = req.query.month;
 
