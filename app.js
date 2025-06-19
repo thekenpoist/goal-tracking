@@ -28,7 +28,7 @@ app.set('layout', 'layouts/main-layout');
 app.use(express.json());
 
 app.use(session({
-    secret: '4d3bca5fa3e385395f69bac991078cef4eef4be66f1f816503bdc0a8359639f14a9618efa3efbd3646e5ebab9343c327516c48e195ef8397adaf70077a4de836',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { secure: false }
