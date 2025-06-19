@@ -70,11 +70,17 @@ npm install
 Create a .env file in the root directory:
 
 ```
-DB_NAME=your_db_name
+# Global variables for mariadb access
+DB_HOST=your_local_host
 DB_USER=your_db_user
 DB_PASSWORD=your_db_password
-DB_HOST=localhost
+DB_NAME=your_db_name
+DB_DIALECT=your_database_engine
+
+# Session secret key
 SESSION_SECRET=your_super_secret_key
+# resend API access key
+RESEND_API_KEY=your_email_api_key
 ```
 
 ### Run Migrations (if using Sequelize CLI)
